@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Collaborator } from '../interfaces/sector'
+import { ConfigService } from '../shared/providers/config'
 
 @Injectable({
   providedIn: 'root',
 })
 export class CollaboratorService {
-  public url = 'http://localhost:3000/api/collaborator'
-  constructor(private http: HttpClient) {}
+  public url = this.configService.getApiUrl('collaborator')
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+    ) {}
 
   addCollaborator(collaborator: Partial<Collaborator>, token: string): Observable<any> {
     const httpOptions = {

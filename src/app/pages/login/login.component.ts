@@ -34,8 +34,7 @@ export class LoginComponent {
   }
   submitButton(user: User) {
     this.loginService.login(user).subscribe({
-      next: (response) => {
-        localStorage.setItem("token", response.token);
+      next: () => {
         this.router.navigate([""]);
       },
       error: (error) => {
