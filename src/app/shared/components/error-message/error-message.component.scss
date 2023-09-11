@@ -1,0 +1,16 @@
+.error-message{
+    border: solid 1px crimson;
+    background-color: crimson;
+    color: white;
+
+    border-radius: 10px;
+    font-size: 12px;
+    margin: 0;
+    text-align: center;
+    width: 300px;
+    padding: 5px;
+    position: fixed;
+    top: 0;
+    right: 20px;
+    opacity: 0.9;
+}

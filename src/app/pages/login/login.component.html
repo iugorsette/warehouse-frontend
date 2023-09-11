@@ -1,0 +1,30 @@
+<app-error-message
+  *ngIf="loginError"
+  [errorMessage]="loginErrorMessage"
+></app-error-message>
+<div class="login-container">
+  <img src="../../../assets/logo_contaja.svg" alt="" />
+  <h1>Acessar a plataforma administrativa</h1>
+  <div class="input-container">
+    <label>Email</label>
+    <input class="text" type="email" placeholder="E-mail" #inputEmail />
+  </div>
+  <div class="input-container">
+    <label>Senha</label>
+    <div class="password-input">
+      <input class="text" [type]="type" placeholder="Senha" #inputPassword />
+
+      <mat-icon (click)="setVisibility()">{{
+        showPassword ? "visibility_off" : "visibility"
+      }}</mat-icon>
+    </div>
+  </div>
+  <button
+    class="submit"
+    (click)="
+      submitButton({ email: inputEmail.value, password: inputPassword.value })
+    "
+  >
+    Entrar
+  </button>
+</div>

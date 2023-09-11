@@ -1,0 +1,24 @@
+.mat-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header {
+  padding: 5px 0;
+}
+
+img {
+  cursor: pointer;
+}
+
+.logout {
+  cursor: pointer;
+  border-bottom: solid 2px transparent;
+  padding: 0 5px;
+}
+
+.logout:hover {
+  border-bottom: solid 2px crimson;
+  transition: 1s;
+}

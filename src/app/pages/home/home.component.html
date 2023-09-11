@@ -1,0 +1,30 @@
+<app-header />
+<div class="panel">
+  <div class="header">
+    <h1>Seja bem vindo!</h1>
+  </div>
+  <div class="content" *ngIf="loginService.isLogged">
+    <p>Este é o sistema de controle de estoque da empresa Contajá.</p>
+    <p>Para começar, selecione uma das opções no menu acima.</p>
+    <table>
+      <tr>
+        <th>Colaboradores</th>
+        <td>{{collaboratorsQuantity}}</td>
+      </tr>
+      <tr>
+        <th>Itens</th>
+        <td>{{itensQuantity}}</td>
+      </tr>
+      <tr>
+        <th>Setores</th>
+        <td>{{sectorsQuantity}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="content" *ngIf="!loginService.isLogged">
+    <p>Este é o sistema de controle de estoque da empresa Contajá.</p>
+    <p>
+      Para acessar o sistema,<a routerLink="/login"> faça login</a> no sistema.
+    </p>
+  </div>
+</div>

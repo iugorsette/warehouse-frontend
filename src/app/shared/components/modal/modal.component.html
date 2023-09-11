@@ -1,0 +1,26 @@
+<mat-card *ngIf="modal">
+    <form class="item-form"  (ngSubmit)="handleAction(form.value)" >
+      <mat-form-field class="item-full-width">
+        <mat-label>Item Name</mat-label>
+        <input matInput 
+        placeholder="Ex. laptop" 
+        value="Laptop"
+        name="name" 
+        [value]="form.name"
+        required/>
+      </mat-form-field>
+  
+      <mat-form-field class="item-full-width">
+        <mat-label>Item Description</mat-label>
+        <textarea 
+          matInput
+          placeholder="Ex. Laptop core i5 process 8gb ..."
+        ></textarea>
+      </mat-form-field>
+      <button 
+      type="submit"
+      class="item-button" 
+      mat-flat-button 
+      color="accent">Create</button>
+    </form>
+  </mat-card>

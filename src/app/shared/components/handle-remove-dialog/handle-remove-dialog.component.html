@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Deletando {{ data.item.title }}</h1>
+<div mat-dialog-content>
+  Deseja remover o item {{ data.item.title }} para sempre?
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close (click)="deleteItem()">
+    Sim, Desejo Remover
+  </button>
+  <button mat-button mat-dialog-close cdkFocusInitial>Não</button>
+</div>

@@ -1,0 +1,120 @@
+<app-success-message *ngIf="createSuccess" [successMessage]="createMessage" />
+<app-error-message *ngIf="createError" [errorMessage]="createMessage" />
+
+<mat-toolbar class="flex-between">
+  <span>Transferir item </span>
+
+  <button (click)="handleFilterModal()" mat-icon-button color="primary">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+</mat-toolbar>
+
+<app-modal />
+<mat-card *ngIf="filterModal">
+  <form [formGroup]="filters">
+    <mat-checkbox class="example-margin" formControlName="stock">
+      Mostrar somente em estoque
+    </mat-checkbox>
+    <mat-form-field class="item-full-width">
+      <mat-label>Filtrar por título</mat-label>
+      <input matInput placeholder="Ex. Laptop" formControlName="title" />
+    </mat-form-field>
+    <mat-form-field class="item-full-width">
+      <mat-label>Filtrar por colaborador</mat-label>
+      <mat-select formControlName="collaborator">
+        <mat-option [value]="null"> Informe um Colaborador</mat-option>
+        <mat-option
+          *ngFor="let collaborator of collaborators"
+          [value]="collaborator._id"
+        >
+          {{ collaborator.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="flex-end">
+       <button
+        mat-raised-button
+        color="primary"
+        (click)="handleFilters()"
+        [disabled]="!filters.valid"
+      >
+        Filtrar
+      </button> 
+    </div>
+  </form>
+</mat-card>
+
+<mat-card>
+  <form [formGroup]="reportForm" class="item-form">
+    <div class="flex-evenly-full">
+      <mat-form-field>
+        <mat-label>Item:</mat-label>
+        <mat-select formControlName="item">
+          <mat-option *ngFor="let item of filteredItens" [value]="item._id">
+            {{ item.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Para:</mat-label>
+        <mat-select formControlName="toCollaborator">
+          <mat-option [value]="null"> para estoque</mat-option>
+          <mat-option
+            *ngFor="let collaborator of collaborators"
+            [value]="collaborator._id"
+          >
+            {{ collaborator.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="buttons">
+      <button
+        type="submit"
+        class="item-button"
+        mat-flat-button
+        color="accent"
+        (click)="makeReport()"
+        [disabled]="reportForm.invalid"
+      >
+        Confimar movimentação
+      </button>
+    </div>
+  </form>
+</mat-card>
+
+<mat-card class="item" *ngFor="let report of reports; let i = index">
+  <mat-card-content class="item-full-width">
+    <div class="flex-between">
+      <mat-card-header class="webkit">
+        <div class="report">
+          <div>
+            <p class="item-title">Item: {{ report.item.title }}</p>
+            <p class="date">Em: {{ report.date | date : "dd/MM/yyyy" }}</p>
+            <p>Modificado por : {{ report.changedBy.name }}</p>
+          </div>
+          <div>
+            <p class="collaborator">
+              De:
+              <span>
+                {{
+                  report.byCollaborator ? report.byCollaborator.name : "Estoque"
+                }}
+              </span>
+              Para:
+              <span>
+                {{
+                  report.toCollaborator ? report.toCollaborator.name : "Estoque"
+                }}
+              </span>
+            </p>
+          </div>
+        </div>
+      </mat-card-header>
+    </div>
+    <mat-divider />
+  </mat-card-content>
+</mat-card>
+
+<app-paginator />

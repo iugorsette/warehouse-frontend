@@ -1,0 +1,5 @@
+<div class="nav-bar">
+  <div class="nav-item" *ngFor="let link of links">
+    <a [ngClass]="{'active': router.url === link.path}" [href]="link.path">{{ link.name }}</a>
+  </div>
+</div>
