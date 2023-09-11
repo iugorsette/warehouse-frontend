@@ -23,7 +23,7 @@ export class HandleRemoveDialogComponent {
   deleteItem() {
     console.log(this.data.item._id)
     this.itemService
-      .deleteItem(this.data.item._id, this.loginService.token!)
+      .deleteItem(this.data.item._id)
       .subscribe((response) => {
         console.log(response)
         this.dialogRef.close(true)

@@ -42,11 +42,11 @@
     
   </mat-card>
   
-  <mat-list class="item" *ngFor="let sector of sectors; let i = index">
+  <mat-list class="item" *ngFor="let department of departments; let i = index">
     <mat-list-item>
-      <h3 matListItemTitle class="item-name">{{ sector.title }}</h3>
+      <h3 matListItemTitle class="item-name">{{ department.title }}</h3>
       <p matListItemLine>
-        <span> {{ sector.created_at }}</span>
+        <span> {{ department.created_at }}</span>
       </p>
       <mat-icon matListItemIcon>group</mat-icon>
     </mat-list-item>

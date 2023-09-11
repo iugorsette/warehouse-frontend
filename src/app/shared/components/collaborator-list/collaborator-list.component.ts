@@ -11,7 +11,6 @@ import { SectorService } from 'src/app/services/sector.service'
   styleUrls: ['./collaborator-list.component.scss'],
 })
 export class CollaboratorListComponent {
-  public name: string = 'Lista de itens'
   public collaborators: Collaborator[] = []
   public sectors: Sector[] = []
   public modal: boolean = false
@@ -39,15 +38,13 @@ export class CollaboratorListComponent {
     this.loadSector()
   }
   loadSector() {
-    this.sectorService.getSector(this.loginService.token!).subscribe((response) => {
-      console.log(response.sector)
-      this.sectors = response.sector
+    this.sectorService.getSector().subscribe((response) => {
+      this.sectors = response.data
     })
   }
   loadCollaborator() {
-    this.collaboratorService.getCollaborator(this.loginService.token!).subscribe((response) => {
-      console.log(response)
-      this.collaborators = response.collaborator
+    this.collaboratorService.getCollaborator().subscribe((response) => {
+      this.collaborators = response.data
     })
   }
   handleModal() {

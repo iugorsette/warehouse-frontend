@@ -44,7 +44,7 @@ export class AddItemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.collaboratorService.getCollaborator(this.loginService.token!).subscribe((response) => {
+    this.collaboratorService.getCollaborator().subscribe((response) => {
       this.collaborators = response.collaborator
     })
   }
@@ -63,12 +63,12 @@ export class AddItemComponent implements OnInit {
     itemEdited.attributes = attributes
 
     if (itemEdited._id) {
-      this.itemService.editItem(itemEdited, this.loginService.token!).subscribe((response) => {
+      this.itemService.editItem(itemEdited).subscribe(() => {
         this.dialogRef.close(true)
       })
       return
     }
-    this.itemService.addItem(itemEdited, this.loginService.token!).subscribe((response) => {
+    this.itemService.addItem(itemEdited).subscribe(() => {
       this.dialogRef.close(true)
     })
   }

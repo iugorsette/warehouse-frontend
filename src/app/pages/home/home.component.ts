@@ -21,15 +21,15 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.itemService.getItens(this.loginService.token!).subscribe((res) => {
+    this.itemService.getItens().subscribe((res) => {
       this.itensQuantity = res.count;
     });
     this.collaboratorService
-      .getCollaborator(this.loginService.token!)
+      .getCollaborator()
       .subscribe((res) => {
         this.collaboratorsQuantity = res.collaborator.length;
       });
-    this.sectorService.getSector(this.loginService.token!).subscribe((res) => {
+    this.sectorService.getSector().subscribe((res) => {
       this.sectorsQuantity = res.sector.length;
     })
   }

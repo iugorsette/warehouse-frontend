@@ -2,56 +2,52 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Item } from '../interfaces/item'
+import { ConfigService } from '../shared/providers/config'
+import { LoginService } from './login.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemService {
-  public url = 'http://localhost:3000/api/item'
-  constructor(private http: HttpClient) {}
+  public url = this.configService.getApiUrl('items')
+  public token = this.loginService.token
+  public headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + this.token,
+  })
 
-  addItem(item: Partial<Item>, token: string) {
+  constructor(private http: HttpClient,
+    private configService: ConfigService,
+    private loginService: LoginService
+    ) {}
+
+  addItem(item: Partial<Item>) {
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        token,
-      }),
+      headers: this.headers
     }
-
-    return this.http.post<{ token: string }>(this.url, item, httpOptions)
+    return this.http.post(this.url, item, httpOptions)
   }
 
-  getItens(token: string, query?: any): Observable<any | Item[]> {
-    console.log(new HttpParams({ fromObject: query }))
+  getItens( query?: any): Observable<any | Item[]> {
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        token,
-      }),
+      headers: this.headers,
       params: new HttpParams({ fromObject: query }),
     }
     return this.http.get(this.url, httpOptions)
   }
 
-  editItem(item: Item, token: string) {
+  editItem(item: Item) {
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        token,
-      }),
+      headers: this.headers,
       params: new HttpParams({ fromObject: { id: item._id } }),
     }
 
     return this.http.put(this.url, item, httpOptions)
   }
 
-  deleteItem(itemId: string, token: string) {
-    console.log(`itemId: ${itemId} token: ${token}`)
+  deleteItem(itemId: string) {
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        token,
-      }),
+      headers: this.headers,
       params: new HttpParams({ fromObject: { id: itemId } }),
     }
 

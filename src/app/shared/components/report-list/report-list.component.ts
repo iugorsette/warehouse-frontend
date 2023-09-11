@@ -48,14 +48,14 @@ export class ReportListComponent implements OnInit {
     document.title = "Movimentações - Almoxarifado Contajá";
     this.loadReport()
     this.loadItens()
-    this.collaboratorService.getCollaborator(this.loginService.token!).subscribe((response) => {
+    this.collaboratorService.getCollaborator().subscribe((response) => {
       this.collaborators = response.collaborator
     })
   }
 
   loadItens() {
     this.itemService
-      .getItens(this.loginService.token!, {
+      .getItens({
         title: this.filters.value.title && this.filters.value.title,
         collaboratorId:
           this.filters.value.stock === true ? 'null' : this.filters.value.collaborator,

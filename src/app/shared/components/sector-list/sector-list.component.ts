@@ -10,7 +10,7 @@ import { SectorService } from 'src/app/services/sector.service'
   styleUrls: ['./sector-list.component.scss'],
 })
 export class SectorListComponent {
-  public sectors: Sector[] = []
+  public departments: Sector[] = []
   public modal: boolean = false
   public form: any = {}
 
@@ -24,8 +24,7 @@ export class SectorListComponent {
 
   constructor(
     private sectorService: SectorService,
-    private fb: FormBuilder,
-    private loginService: LoginService
+    private fb: FormBuilder
   ) {}
   ngOnInit(): void {
     document.title = "Setores - Almoxarifado Contajá";
@@ -33,9 +32,9 @@ export class SectorListComponent {
   }
 
   loadSector() {
-    this.sectorService.getSector(this.loginService.token!).subscribe({
+    this.sectorService.getSector().subscribe({
       next: (response) => {
-        this.sectors = response.sector
+        this.departments = response.data
       },
       error: (error) => {
         console.log(error)
@@ -49,7 +48,7 @@ export class SectorListComponent {
   addSector() {
     const newSector: any = {}
     newSector.title = this.sectorForm.value.title
-    this.sectorService.addSector(newSector, this.loginService.token!).subscribe({
+    this.sectorService.addSector(newSector).subscribe({
       next: (response) => {
         this.loadSector()
         this.handleModal()

@@ -13,10 +13,10 @@ import { loginGuard } from './guards/login.guard'
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'Item', component: ItemComponent, canActivate: [loginGuard] },
-  { path: 'Collaborator', component: CollaboratorComponent, canActivate: [loginGuard] },
-  { path: 'Sector', component: SectorComponent, canActivate: [loginGuard] },
-  { path: 'Report', component: ReportComponent, canActivate: [loginGuard] },
+  { path: 'Equipamentos', component: ItemComponent, canActivate: [loginGuard] },
+  { path: 'Colaborador', component: CollaboratorComponent, canActivate: [loginGuard] },
+  { path: 'Departamento', component: SectorComponent, canActivate: [loginGuard] },
+  { path: 'Relatório', component: ReportComponent, canActivate: [loginGuard] },
   { path: '', component: HomeComponent },
   { path: '**', component: ErrorComponent },
 ]
