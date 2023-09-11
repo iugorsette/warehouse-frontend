@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
+import { IDepartment } from 'src/app/interfaces/department'
 import { Sector } from 'src/app/interfaces/sector'
 import { LoginService } from 'src/app/services/login.service'
 import { SectorService } from 'src/app/services/sector.service'
@@ -10,7 +11,7 @@ import { SectorService } from 'src/app/services/sector.service'
   styleUrls: ['./sector-list.component.scss'],
 })
 export class SectorListComponent {
-  public departments: Sector[] = []
+  public departments: IDepartment[] = []
   public modal: boolean = false
   public form: any = {}
 
@@ -27,7 +28,7 @@ export class SectorListComponent {
     private fb: FormBuilder
   ) {}
   ngOnInit(): void {
-    document.title = "Setores - Almoxarifado Contajá";
+    document.title = "Departamentos - Almoxarifado Contajá";
     this.loadSector()
   }
 

@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { ICollaborator } from 'src/app/interfaces/collaborator'
 import { Item } from 'src/app/interfaces/item'
-import { Collaborator } from 'src/app/interfaces/sector'
 import { CollaboratorService } from 'src/app/services/collaborator.service'
 import { ItemService } from 'src/app/services/item.service'
 import { LoginService } from 'src/app/services/login.service'
@@ -17,8 +17,8 @@ interface DialogData {
   styleUrls: ['./add-item.component.scss'],
 })
 export class AddItemComponent implements OnInit {
-  public title: string = this.data.item?._id ? 'Editar item' : 'Adicionar item'
-  public collaborators: Collaborator[] = []
+  public title: string = this.data.item?._id ? 'Editar equipamento' : 'Adicionar equipamento'
+  public collaborators: ICollaborator[] = []
   protected form: FormGroup
   constructor(
     private fb: FormBuilder,
@@ -45,7 +45,7 @@ export class AddItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.collaboratorService.getCollaborator().subscribe((response) => {
-      this.collaborators = response.collaborator
+      this.collaborators = response.data
     })
   }
 

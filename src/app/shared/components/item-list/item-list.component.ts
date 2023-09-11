@@ -8,6 +8,7 @@ import { AddItemComponent } from "../add-item/add-item.component";
 import { HandleRemoveDialogComponent } from "../handle-remove-dialog/handle-remove-dialog.component";
 import { LoginService } from "src/app/services/login.service";
 import { FormBuilder } from "@angular/forms";
+import { ICollaborator } from "src/app/interfaces/collaborator";
 
 @Component({
   selector: "app-item-list",
@@ -20,7 +21,7 @@ export class ItemListComponent implements OnInit {
   public pageIndex: number = 0;
 
   public itens: Item[] = [];
-  public collaborators: Collaborator[] = [];
+  public collaborators: ICollaborator[] = [];
   public filterModal: boolean = false;
   public itemModal: boolean[] = [];
   public form: any = {};
@@ -62,7 +63,7 @@ export class ItemListComponent implements OnInit {
         console.log(response);
         this.itens = response.data;
         this.filteredItens = this.itens;
-        this.totalItens = response.count;
+        this.totalItens = response.total;
         this.pageIndex = event.pageIndex;
         this.pageSize = event.pageSize;
       });
@@ -122,7 +123,7 @@ export class ItemListComponent implements OnInit {
       .subscribe((response) => {
         this.itens = response.data;
         this.filteredItens = this.itens;
-        this.totalItens = response.count;
+        this.totalItens = response.total;
       });
   }
 

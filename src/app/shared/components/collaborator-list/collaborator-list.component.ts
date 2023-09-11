@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { FormArray, FormBuilder } from '@angular/forms'
+import { ICollaborator } from 'src/app/interfaces/collaborator'
 import { Collaborator, Sector } from 'src/app/interfaces/sector'
 import { CollaboratorService } from 'src/app/services/collaborator.service'
 import { LoginService } from 'src/app/services/login.service'
@@ -11,7 +12,7 @@ import { SectorService } from 'src/app/services/sector.service'
   styleUrls: ['./collaborator-list.component.scss'],
 })
 export class CollaboratorListComponent {
-  public collaborators: Collaborator[] = []
+  public collaborators: ICollaborator[] = []
   public sectors: Sector[] = []
   public modal: boolean = false
   public form: any = {}
@@ -45,6 +46,7 @@ export class CollaboratorListComponent {
   loadCollaborator() {
     this.collaboratorService.getCollaborator().subscribe((response) => {
       this.collaborators = response.data
+      console.log(this.collaborators)
     })
   }
   handleModal() {

@@ -21,16 +21,14 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.itemService.getItens().subscribe((res) => {
-      this.itensQuantity = res.count;
+    this.itemService.getItens().subscribe(({ total }) => {
+      this.itensQuantity = total;
     });
-    this.collaboratorService
-      .getCollaborator()
-      .subscribe((res) => {
-        this.collaboratorsQuantity = res.collaborator.length;
-      });
-    this.sectorService.getSector().subscribe((res) => {
-      this.sectorsQuantity = res.sector.length;
-    })
+    this.collaboratorService.getCollaborator().subscribe(({ total }) => {
+      this.collaboratorsQuantity = total;
+    });
+    this.sectorService.getSector().subscribe(({ total }) => {
+      this.sectorsQuantity = total;
+    });
   }
 }

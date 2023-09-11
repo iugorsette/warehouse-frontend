@@ -67,9 +67,10 @@
 
 <mat-list class="item" *ngFor="let collaborator of collaborators; let i = index">
   <mat-list-item>
+  
     <h3 matListItemTitle class="item-name">{{ collaborator.name }}</h3>
     <p matListItemLine>
-      <span> {{ collaborator.sector }}</span>
+      <span> {{collaborator.role}} </span>
     </p>
     <mat-icon matListItemIcon>person</mat-icon>
   </mat-list-item>
