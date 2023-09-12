@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'
 import { Sector } from '../interfaces/sector'
 import { LoginService } from './login.service';
 import { ConfigService } from '../shared/providers/config';
+import { IDepartment } from '../interfaces/department';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class SectorService {
     private loginService: LoginService,
     private configService: ConfigService,){}
 
-  getSector(): Observable<any | Sector[]> {
+  getSector(): Observable<any> {
     const httpOptions = {
       headers: this.headers,
     }

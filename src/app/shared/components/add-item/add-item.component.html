@@ -22,7 +22,7 @@
           ></textarea>
         </mat-form-field>
     
-        <mat-form-field *ngIf="!data.item?._id" class="item-full-width">
+        <mat-form-field *ngIf="!data.equipment?.id" class="item-full-width">
           <mat-label>Colaborador</mat-label>
           <mat-select formControlName="collaborator">
             <mat-option ngDefaultControl [value]="null">no estoque</mat-option>

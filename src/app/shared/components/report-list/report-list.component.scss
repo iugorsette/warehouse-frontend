@@ -5,6 +5,16 @@
 .item-full-width {
   width: 100%;
 }
+.item-middle-width {
+  width: 50%;
+}
+.menu{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
 .buttons {
   display: flex;
   justify-content: space-around;

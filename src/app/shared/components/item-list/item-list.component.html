@@ -46,30 +46,30 @@
 </mat-card>
 
 
-<mat-card class="item" *ngFor="let item of filteredItens; let i = index">
+<mat-card class="item" *ngFor="let equipment of equipments; let i = index">
   <mat-card-content class="item-full-width">
     <div class="showed">
       <mat-card-header>
         <mat-card-title (click)="handleItemModal(i)">{{
-          item.title
+          equipment.title 
         }}</mat-card-title>
-        <mat-card-subtitle>{{ item.description }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ equipment.description }}</mat-card-subtitle>
       </mat-card-header>
       <div class="list-button">
-        <button mat-mini-fab color="primary" (click)="handleAddItem(item)">
+        <button mat-mini-fab color="primary" (click)="handleAddItem(equipment)">
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-mini-fab color="warn" (click)="handleRemoveItem(item)">
+        <button mat-mini-fab color="warn" (click)="handleRemoveItem(equipment)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
     </div>
     <mat-card-content *ngIf="itemModal[i]">
-      {{ item | json }}
-      <p>{{ item.collaborator.name }}</p>
-      <p>{{ item.collaborator.role }}</p>
-      <p>{{ item.collaborator.sector }}</p>
+      {{ equipment | json }}
+      <p>{{ equipment.collaborator.name }}</p>
+      <p>{{ equipment.collaborator.role }}</p>
+      <p>{{ equipment.collaborator.sector }}</p>
     </mat-card-content>
     <mat-divider />
   </mat-card-content>

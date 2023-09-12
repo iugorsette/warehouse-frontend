@@ -1,14 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { Item } from "src/app/interfaces/item";
-import { Collaborator } from "src/app/interfaces/sector";
 import { CollaboratorService } from "src/app/services/collaborator.service";
-import { ItemService } from "src/app/services/item.service";
 import { AddItemComponent } from "../add-item/add-item.component";
 import { HandleRemoveDialogComponent } from "../handle-remove-dialog/handle-remove-dialog.component";
 import { LoginService } from "src/app/services/login.service";
 import { FormBuilder } from "@angular/forms";
 import { ICollaborator } from "src/app/interfaces/collaborator";
+import { IEquipment } from "src/app/interfaces/equipment";
+import { EquipmentService } from "src/app/services/equipment.service";
 
 @Component({
   selector: "app-item-list",
@@ -20,12 +19,12 @@ export class ItemListComponent implements OnInit {
   public pageSize: number = 10;
   public pageIndex: number = 0;
 
-  public itens: Item[] = [];
+  public equipments: IEquipment[] = [];
   public collaborators: ICollaborator[] = [];
   public filterModal: boolean = false;
   public itemModal: boolean[] = [];
   public form: any = {};
-  public filteredItens: Item[] = [];
+  public filteredItens: IEquipment[] = [];
 
   public filters = this.fb.group({
     title: [""],
@@ -34,7 +33,7 @@ export class ItemListComponent implements OnInit {
   });
 
   constructor(
-    private itemService: ItemService,
+    private equipmentService: EquipmentService,
     private collaboratorService: CollaboratorService,
     public dialog: MatDialog,
     protected loginService: LoginService,
@@ -44,7 +43,7 @@ export class ItemListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    document.title = "Itens - Almoxarifado Contajá";
+    document.title = "Equipamentos - Almoxarifado Contajá";
     this.pageChange({ pageIndex: 0, pageSize: 10 });
     this.collaboratorService
       .getCollaborator()
@@ -54,25 +53,25 @@ export class ItemListComponent implements OnInit {
   }
 
   pageChange(event: any) {
-    this.itemService
-      .getItens( {
+    this.equipmentService
+      .getEquipments( {
         offset: event.pageIndex,
         limit: event.pageSize,
       })
       .subscribe((response) => {
         console.log(response);
-        this.itens = response.data;
-        this.filteredItens = this.itens;
+        this.equipments = response.data;
+        this.filteredItens = this.equipments;
         this.totalItens = response.total;
         this.pageIndex = event.pageIndex;
         this.pageSize = event.pageSize;
       });
   }
 
-  handleAddItem(item?: Item) {
+  handleAddItem(equipment?: IEquipment) {
     const dialogRef = this.dialog.open(AddItemComponent, {
       data: {
-        item,
+        equipment,
       },
     });
 
@@ -82,11 +81,10 @@ export class ItemListComponent implements OnInit {
     });
   }
 
-  handleRemoveItem(item: Item) {
-    console.log(item);
+  handleRemoveItem(equipment: IEquipment) {
     const dialogRef = this.dialog.open(HandleRemoveDialogComponent, {
       data: {
-        item,
+        equipment,
       },
     });
 
@@ -104,7 +102,7 @@ export class ItemListComponent implements OnInit {
   }
 
   handleSearch(event: any) {
-    this.filteredItens = this.itens.filter((item) => {
+    this.filteredItens = this.equipments.filter((item) => {
       return item.title
         .toLowerCase()
         .includes(event.target.value.toLowerCase());
@@ -112,8 +110,7 @@ export class ItemListComponent implements OnInit {
   }
 
   handleFilters() {
-    this.itemService
-      .getItens({
+    this.equipmentService.getEquipments({
         title: this.filters.value.title && this.filters.value.title,
         collaboratorId:
           this.filters.value.stock === true
@@ -121,8 +118,8 @@ export class ItemListComponent implements OnInit {
             : this.filters.value.collaborator,
       })
       .subscribe((response) => {
-        this.itens = response.data;
-        this.filteredItens = this.itens;
+        this.equipments = response.data;
+        this.filteredItens = this.equipments;
         this.totalItens = response.total;
       });
   }
