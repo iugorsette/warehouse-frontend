@@ -1,7 +1,7 @@
 import { Collaborator } from "./sector";
 
 export interface Item {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   collaborator: Collaborator;

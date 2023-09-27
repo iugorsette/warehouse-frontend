@@ -39,13 +39,14 @@ export class ItemService {
   editItem(item: Item) {
     const httpOptions = {
       headers: this.headers,
-      params: new HttpParams({ fromObject: { id: item._id } }),
+      params: new HttpParams({ fromObject: { id: item.id } }),
     }
 
     return this.http.put(this.url, item, httpOptions)
   }
 
   deleteItem(itemId: string) {
+    console.log(itemId)
     const httpOptions = {
       headers: this.headers,
       params: new HttpParams({ fromObject: { id: itemId } }),

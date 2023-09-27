@@ -1,10 +1,11 @@
-import { Collaborator } from "./sector";
+import { ICollaborator } from "./collaborator";
+import { IItem } from "./item";
 
 export interface IEquipment {
   id: string;
   title: string;
   description: string;
-  collaborator: Collaborator;
-  attributes: { [key: string]: string | number }[];
+  collaborators: ICollaborator[];
+  items: IItem[];
   created_at: Date;
 }

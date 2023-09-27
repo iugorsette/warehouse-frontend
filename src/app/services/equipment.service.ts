@@ -46,11 +46,11 @@ export class EquipmentService {
   }
 
   deleteEquipment(id: string) {
+    console.log('-->',id)
     const httpOptions = {
       headers: this.headers,
       params: new HttpParams({ fromObject: { id } }),
     }
-
     return this.http.delete(this.url, httpOptions)
   }
 }

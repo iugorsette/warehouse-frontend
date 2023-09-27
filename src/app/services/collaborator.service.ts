@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Collaborator } from "../interfaces/sector";
+import { ICollaborator } from "../interfaces/collaborator";
 import { ConfigService } from "../shared/providers/config";
 import { LoginService } from "./login.service";
 
@@ -23,8 +23,7 @@ export class CollaboratorService {
   ) {}
 
   addCollaborator(
-    collaborator: Partial<Collaborator>,
-    token: string
+    collaborator: Partial<ICollaborator>
   ): Observable<any> {
     const httpOptions = {
       headers: this.headers,
@@ -33,7 +32,7 @@ export class CollaboratorService {
     return this.http.post(this.url, collaborator, httpOptions);
   }
 
-  getCollaborator(): Observable<any | Collaborator[]> {
+  getCollaborator(): Observable<any | ICollaborator[]> {
     const httpOptions = {
       headers: this.headers,
     };
@@ -41,10 +40,10 @@ export class CollaboratorService {
     return this.http.get(this.url, httpOptions);
   }
 
-  editCollaborator(collaborator: Collaborator): Observable<any> {
+  editCollaborator(collaborator: ICollaborator): Observable<any> {
     const httpOptions = {
       headers: this.headers,
-      params: { id: collaborator._id },
+      params: { id: collaborator.id },
     };
 
     return this.http.put(this.url, httpOptions);

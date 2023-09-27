@@ -1,7 +1,7 @@
 import { Item } from "./item";
 
 export interface Sector {
-  _id: string;
+  id: string;
   title: string;
   colaborattors: Collaborator[];
   created_at: Date;
@@ -9,7 +9,7 @@ export interface Sector {
 }
 
 export interface Collaborator {
-  _id?: string;
+  id?: string;
   name: string;
   role: string;
   sector: string;

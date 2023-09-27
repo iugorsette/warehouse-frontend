@@ -36,12 +36,12 @@ export class AddItemComponent implements OnInit {
     this.form = this.fb.group({
       title: [data.equipment?.title],
       description: [data.equipment?.description],
-      collaborator: [data.equipment?.collaborator],
+      collaborators: [data.equipment?.collaborators],
       attributes: this.fb.array(
-        data.equipment?.attributes?.map((attribute) => {
+        data.equipment?.items?.map(({ property, value }) => {
           return this.fb.group({
-            property: [Object.keys(attribute)[0]],
-            value: [attribute[Object.keys(attribute)[0]]],
+            property,
+            value,
           });
         }) || []
       ),

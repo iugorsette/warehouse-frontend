@@ -59,7 +59,7 @@ export class CollaboratorListComponent {
     newCollaborator.role = this.collaboratorForm.value.role
     newCollaborator.sectorId = this.collaboratorForm.value.sector
 
-    this.collaboratorService.addCollaborator(newCollaborator, this.loginService.token!).subscribe({
+    this.collaboratorService.addCollaborator(newCollaborator).subscribe({
       next: (response) => {
         this.loadCollaborator()
         this.createSuccess = true

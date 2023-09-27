@@ -42,7 +42,7 @@
         <mat-option [value]="null"> Informe um Setor</mat-option>
         <mat-option
           *ngFor="let sector of sectors"
-          [value]="sector._id"
+          [value]="sector.id"
         >
           {{ sector.title }}
         </mat-option>

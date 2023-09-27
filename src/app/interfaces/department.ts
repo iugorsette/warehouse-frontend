@@ -1,7 +1,7 @@
 import { ICollaborator } from "./collaborator";
 
 export interface IDepartment {
-  _id: string;
+  id: string;
   name: string;
   colaborattors?: ICollaborator[];
   created_at: Date;

@@ -1,10 +1,32 @@
-<h1 mat-dialog-title>Deletando {{ data.item.title }}</h1>
-<div mat-dialog-content>
-  Deseja remover o item {{ data.item.title }} para sempre?
+<div *ngIf="canDelete">
+  <h1 mat-dialog-title>Deletando {{ data.equipment.title }}</h1>
+  <div mat-dialog-content>
+    Deseja remover o item {{ data.equipment.title }} para sempre?
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close (click)="deleteItem()">
+      Sim, Desejo Remover
+    </button>
+    <button mat-button mat-dialog-close cdkFocusInitial>Não</button>
+  </div>
 </div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close (click)="deleteItem()">
-    Sim, Desejo Remover
-  </button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Não</button>
+
+<div *ngIf="!canDelete">
+  <h1 mat-dialog-title>O item {{ data.equipment.title }} não pode ser deletado</h1>
+  <div mat-dialog-content>
+    O item {{ data.equipment.title }} não pode ser deletado por ter relações relacionados a ele: 
+    
+    <ul *ngIf="haveItensAssociate">
+      item(s):
+      <li *ngFor="let item of data.equipment.items"> {{ item.property }} - {{item.value}}</li>
+    </ul>
+    <ul *ngIf="haveCollaboratorsAssociate">
+      colaborador(es):
+      <li *ngFor="let collaborator of data.equipment.collaborators">{{ collaborator.name }}</li>
+    </ul>
+    
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+  </div>
 </div>

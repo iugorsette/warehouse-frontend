@@ -2,7 +2,7 @@ import { Item } from "./item";
 import { Collaborator } from "./sector";
 
 export interface Movement {
-    _id: string,
+    id: string,
     date: string,
     item: Item,
     byCollaborator: Collaborator,

@@ -3,7 +3,7 @@
     <button (click)="handleAddItem()" mat-icon-button color="accent">
       <mat-icon>add</mat-icon>
     </button>
-    <span>Adicionar item</span>
+    <span>Adicionar Equipamento</span>
   </div>
 
   <button (click)="handleFilterModal()" mat-icon-button color="primary">
@@ -26,7 +26,7 @@
         <mat-option [value]="null"> Informe um Colaborador</mat-option>
         <mat-option
           *ngFor="let collaborator of collaborators"
-          [value]="collaborator._id"
+          [value]="collaborator.id"
         >
           {{ collaborator.name }}
         </mat-option>
@@ -67,17 +67,14 @@
     </div>
     <mat-card-content *ngIf="itemModal[i]">
       {{ equipment | json }}
-      <p>{{ equipment.collaborator.name }}</p>
-      <p>{{ equipment.collaborator.role }}</p>
-      <p>{{ equipment.collaborator.sector }}</p>
+      <ul *ngFor="let collaborator of equipment.collaborators; let i = index">
+        <li>{{ collaborator.name }}</li>
+        <li>{{ collaborator.role }}</li>
+        <li>{{ collaborator.department }}</li>
+      </ul>
     </mat-card-content>
     <mat-divider />
   </mat-card-content>
 </mat-card>
 
 <app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
-<!-- @Output() pageChange = new EventEmitter<number>();
-  @Input() totalItems: number = 100;
-  @Input() itemsPerPage: number = 10;
-  @Input() currentPage: number = 1;
-  @Input() pageSizeOptions: number[] = []; -->

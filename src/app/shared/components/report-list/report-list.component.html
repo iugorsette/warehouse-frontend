@@ -35,7 +35,7 @@
         <mat-option [value]="null"> Informe um Colaborador</mat-option>
         <mat-option
           *ngFor="let collaborator of collaborators"
-          [value]="collaborator._id"
+          [value]="collaborator.id"
         >
           {{ collaborator.name }}
         </mat-option>
@@ -71,7 +71,7 @@
         <mat-select formControlName="toCollaborator">
           <mat-option
             *ngFor="let collaborator of collaborators"
-            [value]="collaborator._id"
+            [value]="collaborator.id"
           >
             {{ collaborator.name }}
           </mat-option>
@@ -100,7 +100,7 @@
           <mat-option [value]="null"> para estoque</mat-option>
           <mat-option
             *ngFor="let collaborator of collaborators"
-            [value]="collaborator._id"
+            [value]="collaborator.id"
           >
             {{ collaborator.name }}
           </mat-option>
@@ -137,7 +137,7 @@
           <mat-option [value]="null"> para estoque</mat-option>
           <mat-option
             *ngFor="let collaborator of collaborators"
-            [value]="collaborator._id"
+            [value]="collaborator.id"
           >
             {{ collaborator.name }}
           </mat-option>
@@ -157,7 +157,7 @@
           <mat-option [value]="null"> para estoque</mat-option>
           <mat-option
             *ngFor="let collaborator of collaborators"
-            [value]="collaborator._id"
+            [value]="collaborator.id"
           >
             {{ collaborator.name }}
           </mat-option>

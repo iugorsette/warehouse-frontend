@@ -28,7 +28,7 @@
             <mat-option ngDefaultControl [value]="null">no estoque</mat-option>
             <mat-option
               *ngFor="let collaborator of collaborators"
-              [value]="collaborator._id"
+              [value]="collaborator.id"
             >
               {{ collaborator.name }}
             </mat-option>
