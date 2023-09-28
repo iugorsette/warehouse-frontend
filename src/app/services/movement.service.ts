@@ -1,15 +1,14 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Movement } from "../interfaces/movement";
+import { Movement, Vinculate } from "../interfaces/movement";
 import { LoginService } from "./login.service";
 
-type Vinculate = { collaboratorId: string; equipmentId: string };
 @Injectable({
   providedIn: "root",
 })
 export class MovementService {
-  public url = "http://localhost:3000/";
+  public url = "http://localhost:3000";
   constructor(private http: HttpClient, private loginService: LoginService) {}
 
   vinculate(vinculate: Vinculate): Observable<any> {

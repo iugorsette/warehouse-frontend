@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
-  FormControl,
-  FormGroup,
   Validators,
 } from "@angular/forms";
 import { ICollaborator } from "src/app/interfaces/collaborator";
@@ -17,17 +15,15 @@ import { MovementService } from "src/app/services/movement.service";
   templateUrl: "./report-list.component.html",
   styleUrls: ["./report-list.component.scss"],
 })
-export class ReportListComponent implements OnInit {
+export class ReportListComponent implements OnInit{
   public collaborators: ICollaborator[] = [];
   public reports: IReport[] = [];
   public equipments: IEquipment[] = [];
   public form: any = {};
   public filterModal: boolean = false;
-  public movementsType: MovementTypes[] = ["Entrada", "Saída", "Transferência"];
 
-  public movement = new FormGroup({
-    type: new FormControl(this.movementsType[0], Validators.required),
-  });
+  public allMovementTypes: MovementTypes[] = ["Entrada", "Saída", "Transferência"];
+  public movement:MovementTypes = this.allMovementTypes[0]
 
   public filteredEquipments: IEquipment[] = [];
 
@@ -42,8 +38,8 @@ export class ReportListComponent implements OnInit {
   public createMessage: string = "";
 
   public reportForm = this.fb.group({
-    item: ["", Validators.required],
-    toCollaborator: ["", Validators.required],
+    equipmentId: ["", Validators.required],
+    collaboratorId: ["", Validators.required],
   });
 
   constructor(
@@ -52,23 +48,28 @@ export class ReportListComponent implements OnInit {
     private equipmentService: EquipmentService,
     private fb: FormBuilder
   ) {}
+
   ngOnInit(): void {
     document.title = "Movimentações - Almoxarifado Contajá";
     this.loadReport();
-    this.loadItens();
+    this.loadEquipments();
+    this.loadCollaborators();
+
+  }
+
+
+  loadCollaborators() {
     this.collaboratorService.getCollaborator().subscribe((response) => {
-      this.collaborators = response.collaborator;
+      this.collaborators = response.data;
     });
   }
 
-  loadItens() {
+  loadEquipments() {
     this.equipmentService
       .getEquipments({
-        title: this.filters.value.title && this.filters.value.title,
-        collaboratorId:
-          this.filters.value.stock === true
-            ? "null"
-            : this.filters.value.collaborator,
+        title: this.filters.value.title,
+        collaboratorId: this.filters.value.collaborator,
+        showStock: this.filters.value.stock,
       })
       .subscribe((response) => {
         this.equipments = response.data;
@@ -79,31 +80,30 @@ export class ReportListComponent implements OnInit {
   loadReport() {
     this.momentService.getReport().subscribe((response) => {
       console.log(response);
-      this.reports = response.report;
+      this.reports = response.data;
     });
   }
 
   makeReport() {
     const vinculate: any = {};
-    vinculate.equipmentId = this.reportForm.value.item;
-    vinculate.collaboratorId = this.reportForm.value.toCollaborator;
+    vinculate.equipmentId = this.reportForm.value.equipmentId;
+    vinculate.collaboratorId = this.reportForm.value.collaboratorId;
 
-    if (this.movement.value.type === "Transferência") {
+    if (this.movement === "Transferência") {
       this.desvinculate(vinculate);
       this.vinculate(vinculate);
     }
 
-    if (this.movement.value.type === "Entrada") {
+    if (this.movement === "Entrada") {
       this.vinculate(vinculate);
     }
 
-    if (this.movement.value.type === "Saída") {
+    if (this.movement === "Saída") {
       this.desvinculate(vinculate);
     }
   }
 
-
-  desvinculate(desvinculate: any){
+  desvinculate(desvinculate: any) {
     this.momentService.removeVinculate(desvinculate).subscribe({
       next: (response) => {
         this.loadReport();
@@ -118,7 +118,7 @@ export class ReportListComponent implements OnInit {
     });
   }
 
-  vinculate(vinculate: any){
+  vinculate(vinculate: any) {
     this.momentService.vinculate(vinculate).subscribe({
       next: (response) => {
         this.loadReport();
@@ -134,7 +134,7 @@ export class ReportListComponent implements OnInit {
   }
 
   handleFilters() {
-    this.loadItens();
+    this.loadEquipments();
     this.handleFilterModal();
   }
 

@@ -8,13 +8,17 @@
     <mat-icon>filter_list</mat-icon>
   </button>
 </mat-toolbar>
+
 <div class="menu">
   <mat-form-field class="item-middle-width">
     <mat-label> Selecione o tipo de movimentação</mat-label>
     <mat-select [(ngModel)]="movement">
-      <mat-option [value]="'Transferência'">Transferência</mat-option>
-      <mat-option [value]="'Entrada'">Entrada</mat-option>
-      <mat-option [value]="'Saída'">Saída</mat-option>
+      <mat-option
+        *ngFor="let movementType of allMovementTypes"
+        [value]="movementType"
+      >
+        {{ movementType }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
@@ -55,12 +59,22 @@
 </mat-card>
 
 <mat-card [ngSwitch]="movement">
-  <form [formGroup]="reportForm" class="item-form" *ngSwitchCase="'Saída'">
-    <div class="flex-evenly-full">
-      
+  <form [formGroup]="reportForm" class="item-form">
+    <div class="flex-evenly-full" *ngSwitchCase="'Transferência'">
+      <mat-form-field>
+        <mat-label>De:</mat-label>
+        <mat-select formControlName="collaboratorId">
+          <mat-option
+            *ngFor="let collaborator of collaborators"
+            [value]="collaborator.id"
+          >
+            {{ collaborator.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field>
         <mat-label>Item:</mat-label>
-        <mat-select formControlName="item">
+        <mat-select formControlName="equipmentId">
           <mat-option *ngFor="let item of filteredEquipments" [value]="item.id">
             {{ item.title }}
           </mat-option>
@@ -68,35 +82,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Para:</mat-label>
-        <mat-select formControlName="toCollaborator">
-          <mat-option
-            *ngFor="let collaborator of collaborators"
-            [value]="collaborator.id"
-          >
-            {{ collaborator.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div class="buttons">
-      <button
-        type="submit"
-        class="item-button"
-        mat-flat-button
-        color="accent"
-        (click)="makeReport()"
-        [disabled]="reportForm.invalid"
-      >
-        Confimar movimentação
-      </button>
-    </div>
-  </form>
-  <form [formGroup]="reportForm" class="item-form" *ngSwitchCase="'Entrada'">
-    <div class="flex-evenly-full">
-      <mat-form-field>
-        <mat-label>De:</mat-label>
-        <mat-select formControlName="byCollaborator">
+        <mat-select formControlName="collaboratorId">
           <mat-option [value]="null"> para estoque</mat-option>
           <mat-option
             *ngFor="let collaborator of collaborators"
@@ -106,35 +92,11 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
-        <mat-label>Item:</mat-label>
-        <mat-select formControlName="item">
-          <mat-option *ngFor="let item of filteredEquipments" [value]="item.id">
-            {{ item.title }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
     </div>
-
-    <div class="buttons">
-      <button
-        type="submit"
-        class="item-button"
-        mat-flat-button
-        color="accent"
-        (click)="makeReport()"
-        [disabled]="reportForm.invalid"
-      >
-        Confimar movimentação
-      </button>
-    </div>
-  </form>
-  <form [formGroup]="reportForm" class="item-form" *ngSwitchCase="'Transferência'">
-    <div class="flex-evenly-full">
+    <div class="flex-evenly-full" *ngSwitchCase="'Entrada'">
       <mat-form-field>
         <mat-label>De:</mat-label>
-        <mat-select formControlName="byCollaborator">
-          <mat-option [value]="null"> para estoque</mat-option>
+        <mat-select formControlName="collaboratorId">
           <mat-option
             *ngFor="let collaborator of collaborators"
             [value]="collaborator.id"
@@ -144,8 +106,21 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
+        <mat-label>Equipamento:</mat-label>
+        <mat-select formControlName="equipmentId">
+          <mat-option
+            *ngFor="let equipment of filteredEquipments"
+            [value]="equipment.id"
+          >
+            {{ equipment.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="flex-evenly-full" *ngSwitchCase="'Saída'">
+      <mat-form-field>
         <mat-label>Item:</mat-label>
-        <mat-select formControlName="item">
+        <mat-select formControlName="equipmentId">
           <mat-option *ngFor="let item of filteredEquipments" [value]="item.id">
             {{ item.title }}
           </mat-option>
@@ -153,8 +128,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Para:</mat-label>
-        <mat-select formControlName="toCollaborator">
-          <mat-option [value]="null"> para estoque</mat-option>
+        <mat-select formControlName="collaboratorId">
           <mat-option
             *ngFor="let collaborator of collaborators"
             [value]="collaborator.id"
@@ -187,13 +161,20 @@
         <div class="report">
           <div>
             <p class="item-title">Item: {{ report.equipment.title }}</p>
-            <p class="date">Em: {{ report.createdAt| date : "dd/MM/yyyy" }}</p>
-            <p>Modificado por : {{ report.changeBy.name }}</p>
+            <p class="date">Em: {{ report.createdAt | date : "dd/MM/yyyy" }}</p>
           </div>
           <div>
             <p class="collaborator">
-              tipo: {{ report.type }} 
-              Colaborador: {{ report.collaborator.name }} 
+              tipo: {{ report.type }} Colaborador:
+              {{
+                report?.collaborator?.name
+                  ? report.collaborator.name
+                  : "Estoque"
+              }}
+            </p>
+            <p>
+              Modificado por :
+              {{ report?.changeBy?.name ? report.changeBy.name : "" }}
             </p>
           </div>
         </div>

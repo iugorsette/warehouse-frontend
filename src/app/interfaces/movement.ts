@@ -27,3 +27,5 @@ export interface IReport {
 }
 
 export type MovementTypes = "Entrada" | "Saída" | "Transferência";
+
+export type Vinculate = { collaboratorId: string; equipmentId: string };
