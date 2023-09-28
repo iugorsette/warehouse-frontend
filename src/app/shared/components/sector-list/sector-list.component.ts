@@ -1,8 +1,6 @@
 import { Component } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { IDepartment } from 'src/app/interfaces/department'
-import { Sector } from 'src/app/interfaces/sector'
-import { LoginService } from 'src/app/services/login.service'
 import { SectorService } from 'src/app/services/sector.service'
 
 @Component({
@@ -48,7 +46,7 @@ export class SectorListComponent {
 
   addSector() {
     const newSector: any = {}
-    newSector.title = this.sectorForm.value.title
+    newSector.name = this.sectorForm.value.title
     this.sectorService.addSector(newSector).subscribe({
       next: (response) => {
         this.loadSector()

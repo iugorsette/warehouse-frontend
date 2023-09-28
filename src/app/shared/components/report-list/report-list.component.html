@@ -12,9 +12,9 @@
   <mat-form-field class="item-middle-width">
     <mat-label> Selecione o tipo de movimentação</mat-label>
     <mat-select [(ngModel)]="movement">
-      <mat-option [value]="'all'">Transferência</mat-option>
-      <mat-option [value]="'in'">Entrada</mat-option>
-      <mat-option [value]="'out'">Saída</mat-option>
+      <mat-option [value]="'Transferência'">Transferência</mat-option>
+      <mat-option [value]="'Entrada'">Entrada</mat-option>
+      <mat-option [value]="'Saída'">Saída</mat-option>
     </mat-select>
   </mat-form-field>
 </div>
@@ -55,7 +55,7 @@
 </mat-card>
 
 <mat-card [ngSwitch]="movement">
-  <form [formGroup]="reportForm" class="item-form" *ngSwitchCase="'out'">
+  <form [formGroup]="reportForm" class="item-form" *ngSwitchCase="'Saída'">
     <div class="flex-evenly-full">
       
       <mat-form-field>
@@ -92,7 +92,7 @@
       </button>
     </div>
   </form>
-  <form [formGroup]="reportForm" class="item-form" *ngSwitchCase="'in'">
+  <form [formGroup]="reportForm" class="item-form" *ngSwitchCase="'Entrada'">
     <div class="flex-evenly-full">
       <mat-form-field>
         <mat-label>De:</mat-label>
@@ -129,7 +129,7 @@
       </button>
     </div>
   </form>
-  <form [formGroup]="reportForm" class="item-form" *ngSwitchCase="'all'">
+  <form [formGroup]="reportForm" class="item-form" *ngSwitchCase="'Transferência'">
     <div class="flex-evenly-full">
       <mat-form-field>
         <mat-label>De:</mat-label>
@@ -186,24 +186,14 @@
       <mat-card-header class="webkit">
         <div class="report">
           <div>
-            <p class="item-title">Item: {{ report.item.title }}</p>
-            <p class="date">Em: {{ report.date | date : "dd/MM/yyyy" }}</p>
-            <p>Modificado por : {{ report.changedBy.name }}</p>
+            <p class="item-title">Item: {{ report.equipment.title }}</p>
+            <p class="date">Em: {{ report.createdAt| date : "dd/MM/yyyy" }}</p>
+            <p>Modificado por : {{ report.changeBy.name }}</p>
           </div>
           <div>
             <p class="collaborator">
-              De:
-              <span>
-                {{
-                  report.byCollaborator ? report.byCollaborator.name : "Estoque"
-                }}
-              </span>
-              Para:
-              <span>
-                {{
-                  report.toCollaborator ? report.toCollaborator.name : "Estoque"
-                }}
-              </span>
+              tipo: {{ report.type }} 
+              Colaborador: {{ report.collaborator.name }} 
             </p>
           </div>
         </div>

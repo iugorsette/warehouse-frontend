@@ -112,10 +112,8 @@ export class ItemListComponent implements OnInit {
   handleFilters() {
     this.equipmentService.getEquipments({
         title: this.filters.value.title && this.filters.value.title,
-        collaboratorId:
-          this.filters.value.stock === true
-            ? "null"
-            : this.filters.value.collaborator,
+        collaboratorId: this.filters.value.collaborator && this.filters.value.collaborator,
+        showStock : this.filters.value.stock
       })
       .subscribe((response) => {
         this.equipments = response.data;
