@@ -3,7 +3,7 @@
     <button (click)="handleAddItem()" mat-icon-button color="accent">
       <mat-icon>add</mat-icon>
     </button>
-    <span>Adicionar Equipamento</span>
+    <span>Adicionar Item</span>
   </div>
 
   <button (click)="handleFilterModal()" mat-icon-button color="primary">
@@ -17,20 +17,12 @@
       Mostrar somente em estoque
     </mat-checkbox>
     <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por título</mat-label>
-      <input matInput placeholder="Ex. Laptop" formControlName="title" />
+      <mat-label>Filtrar por propriedade</mat-label>
+      <input matInput placeholder="Ex. processador" formControlName="property" />
     </mat-form-field>
     <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por colaborador</mat-label>
-      <mat-select formControlName="collaborator">
-        <mat-option [value]="null"> Informe um Colaborador</mat-option>
-        <mat-option
-          *ngFor="let collaborator of collaborators"
-          [value]="collaborator.id"
-        >
-          {{ collaborator.name }}
-        </mat-option>
-      </mat-select>
+      <mat-label>Filtrar por valor</mat-label>
+      <input matInput placeholder="Ex. core i5" formControlName="value" />
     </mat-form-field>
     <div class="flex-end">
       <button
@@ -45,34 +37,25 @@
   </form>
 </mat-card>
 
-
-<mat-card class="item" *ngFor="let equipment of equipments; let i = index">
+<mat-card class="item" *ngFor="let item of items; let i = index">
   <mat-card-content class="item-full-width">
     <div class="showed">
       <mat-card-header>
-        <mat-card-title (click)="handleItemModal(i)">{{
-          equipment.title 
-        }}</mat-card-title>
-        <mat-card-subtitle>{{ equipment.description }}</mat-card-subtitle>
+        <mat-card-title>{{ item.property }} - {{ item.value }}</mat-card-title>
+        <mat-card-subtitle>{{
+          item.equipment?.title ? item.equipment?.title : "em estoque"
+        }}</mat-card-subtitle>
       </mat-card-header>
       <div class="list-button">
-        <button mat-mini-fab color="primary" (click)="handleAddItem(equipment)">
+        <button mat-mini-fab color="primary" (click)="handleAddItem(item)">
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-mini-fab color="warn" (click)="handleRemoveItem(equipment)">
+        <button mat-mini-fab color="warn" (click)="handleRemoveItem(item)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
     </div>
-    <mat-card-content *ngIf="itemModal[i]">
-      {{ equipment | json }}
-      <ul *ngFor="let collaborator of equipment.collaborators; let i = index">
-        <li>{{ collaborator.name }}</li>
-        <li>{{ collaborator.role }}</li>
-        <li>{{ collaborator.department }}</li>
-      </ul>
-    </mat-card-content>
     <mat-divider />
   </mat-card-content>
 </mat-card>

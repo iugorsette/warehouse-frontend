@@ -28,7 +28,7 @@ export class DepartmentModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
     this.form = this.fb.group({
-      title: [data?.department?.name]
+      name: [data?.department?.name]
     });
   }
 

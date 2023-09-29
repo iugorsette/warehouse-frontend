@@ -30,9 +30,9 @@ export class CollaboratorModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
     this.form = this.fb.group({
-      title: [data?.collaborator?.name],
-      description: [data?.collaborator?.role],
-      collaborators: [data?.collaborator?.department],
+      name: [data?.collaborator?.name],
+      role: [data?.collaborator?.role],
+      department: [data?.collaborator?.department],
     });
   }
 
@@ -46,8 +46,11 @@ export class CollaboratorModalComponent implements OnInit {
   submit() {
     const collaboratorEditted: any = {};
     collaboratorEditted.id = this.data.collaborator?.id;
+    collaboratorEditted.name = this.form.get("name")?.value;
+    collaboratorEditted.role = this.form.get("role")?.value;
 
 
+    console.log(collaboratorEditted);
     if (collaboratorEditted.id) {
       this.collaboratorService.editCollaborator(collaboratorEditted).subscribe(() => {
         this.dialogRef.close(true);

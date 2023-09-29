@@ -13,6 +13,7 @@ export class NavbarComponent {
     { name: 'Movimentação', path: '/Relatório' },
     { name: 'Colaborador', path: '/Colaborador' },
     { name: 'Departamento', path: '/Departamento' },
+    { name: 'Itens', path: '/Itens'}
   ]
 
   constructor(protected router: Router) {}

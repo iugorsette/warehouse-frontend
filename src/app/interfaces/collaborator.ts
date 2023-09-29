@@ -2,7 +2,7 @@ import { IDepartment } from "./department";
 import { IEquipment } from "./equipment";
 
 export interface ICollaborator {
-  id?: string;
+  id: string;
   name: string;
   role: string;
   department: IDepartment ;

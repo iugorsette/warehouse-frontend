@@ -32,6 +32,8 @@ import { CreateModalComponent } from './components/create-modal/create-modal.com
 import { CollaboratorModalComponent } from './components/collaborator-modal/collaborator-modal.component';
 import { DepartmentModalComponent } from './components/department-modal/department-modal.component';
 import { DepartmentListComponent } from './components/department-list/department-list.component';
+import { EquipmentListComponent } from './components/equipment-list/equipment-list.component';
+import { EquipmentModalComponent } from './components/equipment-modal/equipment-modal.component';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -50,6 +52,8 @@ import { DepartmentListComponent } from './components/department-list/department
     CollaboratorModalComponent,
     DepartmentModalComponent,
     DepartmentListComponent,
+    EquipmentListComponent,
+    EquipmentModalComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +80,7 @@ import { DepartmentListComponent } from './components/department-list/department
     CollaboratorListComponent,
     PaginatorComponent,
     ReportListComponent,
+    EquipmentListComponent,
     DepartmentListComponent,
     ErrorMessageComponent,
     SuccessMessageComponent,

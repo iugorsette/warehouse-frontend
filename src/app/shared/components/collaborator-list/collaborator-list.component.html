@@ -8,6 +8,8 @@
     </button>
     <span>Adicionar Colaborador</span>
   </div>
+
+  
 </mat-toolbar>
 
 
@@ -21,6 +23,20 @@
     <mat-icon matListItemIcon>person</mat-icon>
   </mat-list-item>
   <mat-divider />
+
+  <div class="list-button">
+    <button
+      mat-mini-fab
+      color="primary"
+      (click)="handleAddCollaborator(collaborator)"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+
+    <button mat-mini-fab color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
 </mat-list>
 
 <app-paginator />

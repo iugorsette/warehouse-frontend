@@ -21,7 +21,8 @@ import { CollaboratorComponent } from './pages/collaborator/collaborator.compone
 import { MatCardModule } from '@angular/material/card'
 
 import { LoginService } from './services/login.service';
-import { DepartmentComponent } from './pages/department/department.component'
+import { DepartmentComponent } from './pages/department/department.component';
+import { EquipmentComponent } from './pages/equipment/equipment.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +33,7 @@ import { DepartmentComponent } from './pages/department/department.component'
     ReportComponent,
     CollaboratorComponent,
     DepartmentComponent,
+    EquipmentComponent,
   ],
   imports: [
     BrowserModule,

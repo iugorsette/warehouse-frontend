@@ -6,68 +6,71 @@ import { HandleRemoveDialogComponent } from "../handle-remove-dialog/handle-remo
 import { LoginService } from "src/app/services/login.service";
 import { FormBuilder } from "@angular/forms";
 import { ICollaborator } from "src/app/interfaces/collaborator";
-import { ItemService } from "src/app/services/item.service";
-import { IItem } from "src/app/interfaces/item";
+import { IEquipment } from "src/app/interfaces/equipment";
+import { EquipmentService } from "src/app/services/equipment.service";
+import { EquipmentModalComponent } from "../equipment-modal/equipment-modal.component";
 
 @Component({
-  selector: "app-item-list",
-  templateUrl: "./item-list.component.html",
-  styleUrls: ["./item-list.component.scss"],
+  selector: "app-equipment-list",
+  templateUrl: "./equipment-list.component.html",
+  styleUrls: ["./equipment-list.component.scss"],
 })
-export class ItemListComponent implements OnInit {
+export class EquipmentListComponent implements OnInit {
   public totalItens: number = 0;
   public pageSize: number = 10;
   public pageIndex: number = 0;
 
-  public items: IItem[] = [];
+  public equipments: IEquipment[] = [];
   public collaborators: ICollaborator[] = [];
   public filterModal: boolean = false;
   public itemModal: boolean[] = [];
   public form: any = {};
+  public filteredItens: IEquipment[] = [];
 
   public filters = this.fb.group({
-    property: [""],
-    value: [""],
+    title: [""],
+    collaborator: [""],
     stock: [false],
   });
 
   constructor(
+    private equipmentService: EquipmentService,
     private collaboratorService: CollaboratorService,
     public dialog: MatDialog,
-    private itemService: ItemService,
     protected loginService: LoginService,
     private fb: FormBuilder
   ) {
-    this.items.forEach(() => this.itemModal.push(false));
+    this.filteredItens.forEach(() => this.itemModal.push(false));
   }
 
   ngOnInit(): void {
     document.title = "Equipamentos - Almoxarifado Contajá";
     this.pageChange({ pageIndex: 0, pageSize: 10 });
-    this.collaboratorService
-      .getCollaborator()
-      .subscribe((response) => {
-        this.collaborators = response.data;
-      });
+    this.collaboratorService.getCollaborator().subscribe((response) => {
+      this.collaborators = response.data;
+    });
   }
 
   pageChange(event: any) {
-    this.itemService.getItens({
+    this.equipmentService
+      .getEquipments({
         offset: event.pageIndex,
         limit: event.pageSize,
       })
       .subscribe((response) => {
-        this.items = response.data;
+        console.log(response);
+        this.equipments = response.data;
+        this.filteredItens = this.equipments;
         this.totalItens = response.total;
         this.pageIndex = event.pageIndex;
         this.pageSize = event.pageSize;
       });
   }
 
-  handleAddItem(item?: IItem) {
-    const dialogRef = this.dialog.open(AddItemComponent, {
+  handleAddEquipment(equipment?: IEquipment) {
+    const dialogRef = this.dialog.open(EquipmentModalComponent, {
       data: {
-        item,
+        equipment,
       },
     });
 
@@ -77,10 +80,10 @@ export class ItemListComponent implements OnInit {
     });
   }
 
-  handleRemoveItem(item: IItem) {
+  handleRemoveItem(equipment: IEquipment) {
     const dialogRef = this.dialog.open(HandleRemoveDialogComponent, {
       data: {
-        item,
+        equipment,
       },
     });
 
@@ -97,14 +100,25 @@ export class ItemListComponent implements OnInit {
     this.filterModal = !this.filterModal;
   }
 
+  handleSearch(event: any) {
+    this.filteredItens = this.equipments.filter((item) => {
+      return item.title
+        .toLowerCase()
+        .includes(event.target.value.toLowerCase());
+    });
+  }
 
   handleFilters() {
-    this.itemService.getItens({
-        property: this.filters.value.property ,
-        value: this.filters.value.value 
+    this.equipmentService
+      .getEquipments({
+        title: this.filters.value.title && this.filters.value.title,
+        collaboratorId:
+          this.filters.value.collaborator && this.filters.value.collaborator,
+        showStock: this.filters.value.stock,
       })
       .subscribe((response) => {
-        this.items = response.data;
+        this.equipments = response.data;
+        this.filteredItens = this.equipments;
         this.totalItens = response.total;
       });
   }

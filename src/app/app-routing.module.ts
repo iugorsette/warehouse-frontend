@@ -10,13 +10,15 @@ import { ReportComponent } from './pages/report/report.component'
 
 import { loginGuard } from './guards/login.guard'
 import { DepartmentComponent } from './pages/department/department.component'
+import { EquipmentComponent } from './pages/equipment/equipment.component'
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'Equipamentos', component: ItemComponent, canActivate: [loginGuard] },
+  { path: 'Equipamentos', component: EquipmentComponent, canActivate: [loginGuard] },
   { path: 'Colaborador', component: CollaboratorComponent, canActivate: [loginGuard] },
   { path: 'Departamento', component: DepartmentComponent, canActivate: [loginGuard] },
   { path: 'Relatório', component: ReportComponent, canActivate: [loginGuard] },
+  { path: 'Itens', component: ItemComponent, canActivate: [loginGuard] },
   { path: '', component: HomeComponent },
   { path: '**', component: ErrorComponent },
 ]

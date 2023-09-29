@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ICollaborator } from "../interfaces/collaborator";
 import { ConfigService } from "../shared/providers/config";
@@ -22,9 +22,7 @@ export class CollaboratorService {
     private configService: ConfigService
   ) {}
 
-  addCollaborator(
-    collaborator: Partial<ICollaborator>
-  ): Observable<any> {
+  addCollaborator(collaborator: Partial<ICollaborator>): Observable<any> {
     const httpOptions = {
       headers: this.headers,
     };
@@ -43,10 +41,10 @@ export class CollaboratorService {
   editCollaborator(collaborator: ICollaborator): Observable<any> {
     const httpOptions = {
       headers: this.headers,
-      params: { id: collaborator.id },
+      params: new HttpParams({ fromObject: { id: collaborator.id } }),
     };
 
-    return this.http.put(this.url, httpOptions);
+    return this.http.put(this.url, collaborator, httpOptions);
   }
 
   deleteCollaboratorm(collaboratorId: string): Observable<any> {
