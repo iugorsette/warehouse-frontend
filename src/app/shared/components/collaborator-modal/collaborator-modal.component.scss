@@ -1,0 +1,14 @@
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    min-width: 600px;
+}
+
+.item-form{
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+}

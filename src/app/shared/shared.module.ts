@@ -27,7 +27,10 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { AddItemComponent } from './components/add-item/add-item.component'
 import { HandleRemoveDialogComponent } from './components/handle-remove-dialog/handle-remove-dialog.component'
 import { ErrorMessageComponent } from './components/error-message/error-message.component'
-import { SuccessMessageComponent } from './components/success-message/success-message.component'
+import { SuccessMessageComponent } from './components/success-message/success-message.component';
+import { CreateMovementComponent } from './components/create-movement/create-movement.component';
+import { CreateModalComponent } from './components/create-modal/create-modal.component';
+import { CollaboratorModalComponent } from './components/collaborator-modal/collaborator-modal.component';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -42,6 +45,9 @@ import { SuccessMessageComponent } from './components/success-message/success-me
     HandleRemoveDialogComponent,
     ErrorMessageComponent,
     SuccessMessageComponent,
+    CreateMovementComponent,
+    CreateModalComponent,
+    CollaboratorModalComponent,
   ],
   imports: [
     CommonModule,

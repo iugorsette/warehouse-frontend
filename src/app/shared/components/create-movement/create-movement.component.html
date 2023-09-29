@@ -1,0 +1,156 @@
+<div class="header">
+  <h2 mat-dialog-title>Transferir Equipamento</h2>
+
+  <button (click)="handleFilterModal()" mat-icon-button color="primary">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <div class="filter_content">
+    <mat-card *ngIf="filterModal">
+      <form [formGroup]="filters">
+        <mat-checkbox class="example-margin" formControlName="stock">
+          Mostrar somente em estoque
+        </mat-checkbox>
+        <mat-form-field class="item-full-width">
+          <mat-label>Filtrar por título</mat-label>
+          <input matInput placeholder="Ex. Laptop" formControlName="title" />
+        </mat-form-field>
+        <mat-form-field class="item-full-width">
+          <mat-label>Filtrar por colaborador</mat-label>
+          <mat-select formControlName="collaborator">
+            <mat-option [value]="null"> Informe um Colaborador</mat-option>
+            <mat-option
+              *ngFor="let collaborator of collaborators"
+              [value]="collaborator.id"
+            >
+              {{ collaborator.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="flex-end">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="handleFilters()"
+            [disabled]="!filters.valid"
+          >
+            Filtrar
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+  <div class="movement_content">
+    <mat-card [ngSwitch]="movement">
+        <mat-form-field class="item-full-width" >
+          <mat-label> Selecione o tipo de movimentação</mat-label>
+          <mat-select [(ngModel)]="movement">
+            <mat-option
+              *ngFor="let movementType of allMovementTypes"
+              [value]="movementType"
+            >
+              {{ movementType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      <form [formGroup]="movementForm">
+        <div class="item-form" *ngSwitchCase="'Transferência'">
+          <mat-form-field >
+            <mat-label>De:</mat-label>
+            <mat-select formControlName="collaboratorId">
+              <mat-option
+                *ngFor="let collaborator of collaborators"
+                [value]="collaborator.id"
+              >
+                {{ collaborator.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Item:</mat-label>
+            <mat-select formControlName="equipmentId">
+              <mat-option *ngFor="let item of equipments" [value]="item.id">
+                {{ item.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Para:</mat-label>
+            <mat-select formControlName="collaboratorId">
+              <mat-option [value]="null"> para estoque</mat-option>
+              <mat-option
+                *ngFor="let collaborator of collaborators"
+                [value]="collaborator.id"
+              >
+                {{ collaborator.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="item-form" *ngSwitchCase="'Entrada'">
+          <mat-form-field>
+            <mat-label>De:</mat-label>
+            <mat-select formControlName="collaboratorId">
+              <mat-option
+                *ngFor="let collaborator of collaborators"
+                [value]="collaborator.id"
+              >
+                {{ collaborator.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Equipamento:</mat-label>
+            <mat-select formControlName="equipmentId">
+              <mat-option
+                *ngFor="let equipment of equipments"
+                [value]="equipment.id"
+              >
+                {{ equipment.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="item-form" *ngSwitchCase="'Saída'">
+          <mat-form-field>
+            <mat-label>Item:</mat-label>
+            <mat-select formControlName="equipmentId">
+              <mat-option
+                *ngFor="let equipment of equipments"
+                [value]="equipment.id"
+              >
+                {{ equipment.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Para:</mat-label>
+            <mat-select formControlName="collaboratorId">
+              <mat-option
+                *ngFor="let collaborator of collaborators"
+                [value]="collaborator.id"
+              >
+                {{ collaborator.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close color="warn">Cancel</button>
+  <button
+    mat-dialog-close
+    type="submit"
+    class="item-button"
+    mat-flat-button
+    color="accent"
+    (click)="makeReport()"
+    [disabled]="movementForm.invalid"
+  >
+    Confirmar
+  </button>
+</mat-dialog-actions>

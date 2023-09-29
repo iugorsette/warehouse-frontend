@@ -1,29 +1,26 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  Validators,
-} from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { ICollaborator } from "src/app/interfaces/collaborator";
 import { IEquipment } from "src/app/interfaces/equipment";
-import { IReport, MovementTypes } from "src/app/interfaces/movement";
+import { IReport } from "src/app/interfaces/movement";
 import { CollaboratorService } from "src/app/services/collaborator.service";
 import { EquipmentService } from "src/app/services/equipment.service";
 import { MovementService } from "src/app/services/movement.service";
+import { CreateMovementComponent } from "../create-movement/create-movement.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: "app-report-list",
   templateUrl: "./report-list.component.html",
   styleUrls: ["./report-list.component.scss"],
 })
-export class ReportListComponent implements OnInit{
+
+export class ReportListComponent implements OnInit {
   public collaborators: ICollaborator[] = [];
   public reports: IReport[] = [];
   public equipments: IEquipment[] = [];
   public form: any = {};
   public filterModal: boolean = false;
-
-  public allMovementTypes: MovementTypes[] = ["Entrada", "Saída", "Transferência"];
-  public movement:MovementTypes = this.allMovementTypes[0]
 
   public filteredEquipments: IEquipment[] = [];
 
@@ -37,16 +34,12 @@ export class ReportListComponent implements OnInit{
   public createError: boolean = false;
   public createMessage: string = "";
 
-  public reportForm = this.fb.group({
-    equipmentId: ["", Validators.required],
-    collaboratorId: ["", Validators.required],
-  });
-
   constructor(
     private momentService: MovementService,
     private collaboratorService: CollaboratorService,
     private equipmentService: EquipmentService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -54,9 +47,7 @@ export class ReportListComponent implements OnInit{
     this.loadReport();
     this.loadEquipments();
     this.loadCollaborators();
-
   }
-
 
   loadCollaborators() {
     this.collaboratorService.getCollaborator().subscribe((response) => {
@@ -84,55 +75,6 @@ export class ReportListComponent implements OnInit{
     });
   }
 
-  makeReport() {
-    const vinculate: any = {};
-    vinculate.equipmentId = this.reportForm.value.equipmentId;
-    vinculate.collaboratorId = this.reportForm.value.collaboratorId;
-
-    if (this.movement === "Transferência") {
-      this.desvinculate(vinculate);
-      this.vinculate(vinculate);
-    }
-
-    if (this.movement === "Entrada") {
-      this.vinculate(vinculate);
-    }
-
-    if (this.movement === "Saída") {
-      this.desvinculate(vinculate);
-    }
-  }
-
-  desvinculate(desvinculate: any) {
-    this.momentService.removeVinculate(desvinculate).subscribe({
-      next: (response) => {
-        this.loadReport();
-        this.createSuccess = true;
-        this.createMessage = response.message;
-      },
-      error: (error) => {
-        this.createSuccess = false;
-        this.createError = true;
-        this.createMessage = error.error.message;
-      },
-    });
-  }
-
-  vinculate(vinculate: any) {
-    this.momentService.vinculate(vinculate).subscribe({
-      next: (response) => {
-        this.loadReport();
-        this.createSuccess = true;
-        this.createMessage = response.message;
-      },
-      error: (error) => {
-        this.createSuccess = false;
-        this.createError = true;
-        this.createMessage = error.error.message;
-      },
-    });
-  }
-
   handleFilters() {
     this.loadEquipments();
     this.handleFilterModal();
@@ -140,5 +82,15 @@ export class ReportListComponent implements OnInit{
 
   handleFilterModal() {
     this.filterModal = !this.filterModal;
+  }
+
+  handleAddItem() {
+    const dialogRef = this.dialog.open(CreateMovementComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadReport();
+      }
+    });
   }
 }

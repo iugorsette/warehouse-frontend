@@ -2,68 +2,14 @@
 <app-error-message *ngIf="createError" [errorMessage]="createMessage"/>
 
 <mat-toolbar>
-  <button
-    (click)="handleModal()"
-    mat-icon-button
-    color="accent"
-    aria-label="Example icon button with a heart icon"
-  >
-    <mat-icon *ngIf="!modal">add</mat-icon>
-    <mat-icon *ngIf="modal">remove</mat-icon>
-  </button>
-  <span>Adicionar Colaborador</span>
+  <div>
+    <button (click)="handleAddCollaborator()" mat-icon-button color="accent">
+      <mat-icon>add</mat-icon>
+    </button>
+    <span>Adicionar Colaborador</span>
+  </div>
 </mat-toolbar>
 
-<app-modal />
-<mat-card *ngIf="modal">
-  <form [formGroup]="collaboratorForm" class="item-form">
-    <mat-form-field class="item-full-width">
-      <mat-label>Nome do Colaborador</mat-label>
-      <input
-        matInput
-        placeholder="João"
-        formControlName="name"
-        required
-      />
-    </mat-form-field>
-
-    <mat-form-field class="item-full-width">
-      <mat-label>Função exercida</mat-label>
-      <input
-        matInput
-        placeholder="Desenvolvedor"
-        formControlName="role"
-      />
-    </mat-form-field>
-
-    <mat-form-field class="item-full-width">
-      <mat-label>Setor</mat-label>
-      <mat-select formControlName="sector">
-        <mat-option [value]="null"> Informe um Setor</mat-option>
-        <mat-option
-          *ngFor="let sector of sectors"
-          [value]="sector.id"
-        >
-          {{ sector.title }}
-        </mat-option>
-      </mat-select>
-      
-    </mat-form-field>
-    <div class="buttons">
-      <button
-        type="submit"
-        class="item-button"
-        mat-flat-button
-        color="accent"
-        (click)="addCollaborator()"
-        [disabled] = "collaboratorForm.invalid"
-      >
-        Adicionar 
-      </button>
-    </div>
-  </form>
-  
-</mat-card>
 
 <mat-list class="item" *ngFor="let collaborator of collaborators; let i = index">
   <mat-list-item>

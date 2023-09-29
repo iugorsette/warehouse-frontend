@@ -2,26 +2,18 @@
 <app-error-message *ngIf="createError" [errorMessage]="createMessage" />
 
 <mat-toolbar class="flex-between">
-  <span>Transferir item </span>
+  <div>
+    <button (click)="handleAddItem()" mat-icon-button color="accent">
+      <mat-icon>add</mat-icon>
+    </button>
+    <span>Transferir Equipamento</span>
+  </div>
 
   <button (click)="handleFilterModal()" mat-icon-button color="primary">
     <mat-icon>filter_list</mat-icon>
   </button>
 </mat-toolbar>
 
-<div class="menu">
-  <mat-form-field class="item-middle-width">
-    <mat-label> Selecione o tipo de movimentação</mat-label>
-    <mat-select [(ngModel)]="movement">
-      <mat-option
-        *ngFor="let movementType of allMovementTypes"
-        [value]="movementType"
-      >
-        {{ movementType }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
 <app-modal />
 
 <mat-card *ngIf="filterModal">
@@ -58,101 +50,6 @@
   </form>
 </mat-card>
 
-<mat-card [ngSwitch]="movement">
-  <form [formGroup]="reportForm" class="item-form">
-    <div class="flex-evenly-full" *ngSwitchCase="'Transferência'">
-      <mat-form-field>
-        <mat-label>De:</mat-label>
-        <mat-select formControlName="collaboratorId">
-          <mat-option
-            *ngFor="let collaborator of collaborators"
-            [value]="collaborator.id"
-          >
-            {{ collaborator.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Item:</mat-label>
-        <mat-select formControlName="equipmentId">
-          <mat-option *ngFor="let item of filteredEquipments" [value]="item.id">
-            {{ item.title }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Para:</mat-label>
-        <mat-select formControlName="collaboratorId">
-          <mat-option [value]="null"> para estoque</mat-option>
-          <mat-option
-            *ngFor="let collaborator of collaborators"
-            [value]="collaborator.id"
-          >
-            {{ collaborator.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="flex-evenly-full" *ngSwitchCase="'Entrada'">
-      <mat-form-field>
-        <mat-label>De:</mat-label>
-        <mat-select formControlName="collaboratorId">
-          <mat-option
-            *ngFor="let collaborator of collaborators"
-            [value]="collaborator.id"
-          >
-            {{ collaborator.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Equipamento:</mat-label>
-        <mat-select formControlName="equipmentId">
-          <mat-option
-            *ngFor="let equipment of filteredEquipments"
-            [value]="equipment.id"
-          >
-            {{ equipment.title }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="flex-evenly-full" *ngSwitchCase="'Saída'">
-      <mat-form-field>
-        <mat-label>Item:</mat-label>
-        <mat-select formControlName="equipmentId">
-          <mat-option *ngFor="let item of filteredEquipments" [value]="item.id">
-            {{ item.title }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Para:</mat-label>
-        <mat-select formControlName="collaboratorId">
-          <mat-option
-            *ngFor="let collaborator of collaborators"
-            [value]="collaborator.id"
-          >
-            {{ collaborator.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div class="buttons">
-      <button
-        type="submit"
-        class="item-button"
-        mat-flat-button
-        color="accent"
-        (click)="makeReport()"
-        [disabled]="reportForm.invalid"
-      >
-        Confimar movimentação
-      </button>
-    </div>
-  </form>
-</mat-card>
 
 <mat-card class="item" *ngFor="let report of reports; let i = index">
   <mat-card-content class="item-full-width">

@@ -1,76 +1,48 @@
-import { Component } from '@angular/core'
-import { FormArray, FormBuilder } from '@angular/forms'
-import { ICollaborator } from 'src/app/interfaces/collaborator'
-import { Collaborator, Sector } from 'src/app/interfaces/sector'
-import { CollaboratorService } from 'src/app/services/collaborator.service'
-import { LoginService } from 'src/app/services/login.service'
-import { SectorService } from 'src/app/services/sector.service'
-
+import { Component, Inject } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
+import { ICollaborator } from "src/app/interfaces/collaborator";
+import { CollaboratorService } from "src/app/services/collaborator.service";
+import { CollaboratorModalComponent } from "../collaborator-modal/collaborator-modal.component";
 @Component({
-  selector: 'app-collaborator-list',
-  templateUrl: './collaborator-list.component.html',
-  styleUrls: ['./collaborator-list.component.scss'],
+  selector: "app-collaborator-list",
+  templateUrl: "./collaborator-list.component.html",
+  styleUrls: ["./collaborator-list.component.scss"],
 })
 export class CollaboratorListComponent {
-  public collaborators: ICollaborator[] = []
-  public sectors: Sector[] = []
-  public modal: boolean = false
-  public form: any = {}
+  public collaborators: ICollaborator[] = [];
 
-  public createSuccess: boolean = false
-  public createError: boolean = false
-  public createMessage: string = ''
-
-  public collaboratorForm = this.fb.group({
-    name: [''],
-    role: [''],
-    sector: [''],
-  })
+  public createSuccess: boolean = false;
+  public createError: boolean = false;
+  public createMessage: string = "";
 
   constructor(
     private collaboratorService: CollaboratorService,
-    private sectorService: SectorService,
-    private fb: FormBuilder,
-    private loginService: LoginService
+    private dialog: MatDialog
   ) {}
+
   ngOnInit(): void {
     document.title = "Colaboradores - Almoxarifado Contajá";
-    this.loadCollaborator()
-    this.loadSector()
+    this.loadCollaborator();
   }
-  loadSector() {
-    this.sectorService.getSector().subscribe((response) => {
-      this.sectors = response.data
-    })
-  }
+
   loadCollaborator() {
     this.collaboratorService.getCollaborator().subscribe((response) => {
-      this.collaborators = response.data
-      console.log(this.collaborators)
-    })
-  }
-  handleModal() {
-    this.modal = !this.modal
+      this.collaborators = response.data;
+      console.log(this.collaborators);
+    });
   }
 
-  addCollaborator() {
-    const newCollaborator: any = {}
-    newCollaborator.name = this.collaboratorForm.value.name
-    newCollaborator.role = this.collaboratorForm.value.role
-    newCollaborator.sectorId = this.collaboratorForm.value.sector
+  handleAddCollaborator(collaborator?: ICollaborator) {
+    const dialogRef = this.dialog.open(CollaboratorModalComponent, {
+      data: {
+        collaborator,
+      },
+    });
 
-    this.collaboratorService.addCollaborator(newCollaborator).subscribe({
-      next: (response) => {
-        this.loadCollaborator()
-        this.createSuccess = true
-        this.createMessage = response.message
-        this.handleModal()
-      },
-      error: (error) => {
-        this.createSuccess = false
-        this.createError = true
-        this.createMessage = error.error.message
-      },
-    })
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadCollaborator();
+      }
+    });
   }
 }
