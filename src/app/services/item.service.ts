@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { Item } from '../interfaces/item'
 import { ConfigService } from '../shared/providers/config'
 import { LoginService } from './login.service'
+import { IItem } from '../interfaces/item'
 
 @Injectable({
   providedIn: 'root',
@@ -21,14 +21,14 @@ export class ItemService {
     private loginService: LoginService
     ) {}
 
-  addItem(item: Partial<Item>) {
+  addItem(item: Partial<IItem>) {
     const httpOptions = {
       headers: this.headers
     }
     return this.http.post(this.url, item, httpOptions)
   }
 
-  getItens( query?: any): Observable<any | Item[]> {
+  getItens( query?: any): Observable<any | IItem[]> {
     const httpOptions = {
       headers: this.headers,
       params: new HttpParams({ fromObject: query }),
@@ -36,7 +36,7 @@ export class ItemService {
     return this.http.get(this.url, httpOptions)
   }
 
-  editItem(item: Item) {
+  editItem(item: IItem) {
     const httpOptions = {
       headers: this.headers,
       params: new HttpParams({ fromObject: { id: item.id } }),

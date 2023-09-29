@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { ICollaborator } from "src/app/interfaces/collaborator";
 import { IEquipment } from "src/app/interfaces/equipment";
-import { IItem, Item } from "src/app/interfaces/item";
+import { IItem } from "src/app/interfaces/item";
 import { CollaboratorService } from "src/app/services/collaborator.service";
 import { EquipmentService } from "src/app/services/equipment.service";
 import { ItemService } from "src/app/services/item.service";

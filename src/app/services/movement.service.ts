@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Movement, Vinculate } from "../interfaces/movement";
+import { IReport, Vinculate } from "../interfaces/movement";
 import { LoginService } from "./login.service";
 import { ConfigService } from "../shared/providers/config";
 
@@ -40,7 +40,7 @@ export class MovementService {
     return this.http.post(`${this.url}/removeCollaborator`,'', httpOptions);
   }
 
-  getReport(): Observable<any | Movement[]> {
+  getReport(): Observable<any | IReport[]> {
     const httpOptions = {
       headers: this.headers,
     };

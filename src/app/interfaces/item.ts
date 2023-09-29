@@ -1,14 +1,3 @@
-import { Collaborator } from "./sector";
-
-export interface Item {
-  id: string;
-  title: string;
-  description: string;
-  collaborator: Collaborator;
-  attributes: { [key: string]: string | number }[];
-  created_at: Date;
-}
-
 export interface IItem {
   id: string;
   property: string;
