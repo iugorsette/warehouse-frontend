@@ -17,11 +17,11 @@ import { ErrorComponent } from './pages/error/error.component'
 import { ItemComponent } from './pages/item/item.component'
 import { ReportComponent } from './pages/report/report.component'
 import { CollaboratorComponent } from './pages/collaborator/collaborator.component'
-import { SectorComponent } from './pages/sector/sector.component'
 
 import { MatCardModule } from '@angular/material/card'
 
-import { LoginService } from './services/login.service'
+import { LoginService } from './services/login.service';
+import { DepartmentComponent } from './pages/department/department.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +31,7 @@ import { LoginService } from './services/login.service'
     ItemComponent,
     ReportComponent,
     CollaboratorComponent,
-    SectorComponent,
+    DepartmentComponent,
   ],
   imports: [
     BrowserModule,
