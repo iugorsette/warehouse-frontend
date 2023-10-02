@@ -24,20 +24,18 @@ export class MovementService {
 
   vinculate(vinculate: Vinculate): Observable<any> {
     const httpOptions = {
-      headers: this.headers,
-      params: new HttpParams({ fromObject: vinculate }),
+      headers: this.headers
     };
 
-    return this.http.post(`${this.url}/vinculateCollaborator`,'', httpOptions);
+    return this.http.post(`${this.url}/vinculateCollaborator`,vinculate, httpOptions);
   }
 
   removeVinculate(desvinculate: Vinculate): Observable<any> {
     const httpOptions = {
       headers: this.headers,
-      params: new HttpParams({ fromObject: desvinculate }),
     };
 
-    return this.http.post(`${this.url}/removeCollaborator`,'', httpOptions);
+    return this.http.post(`${this.url}/removeCollaborator`,desvinculate, httpOptions);
   }
 
   getReport(): Observable<any | IReport[]> {
