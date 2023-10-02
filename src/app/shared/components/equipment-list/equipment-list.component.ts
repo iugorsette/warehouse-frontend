@@ -1,14 +1,16 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { CollaboratorService } from "src/app/services/collaborator.service";
-import { AddItemComponent } from "../add-item/add-item.component";
 import { HandleRemoveDialogComponent } from "../handle-remove-dialog/handle-remove-dialog.component";
 import { LoginService } from "src/app/services/login.service";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, FormControl } from "@angular/forms";
 import { ICollaborator } from "src/app/interfaces/collaborator";
 import { IEquipment } from "src/app/interfaces/equipment";
 import { EquipmentService } from "src/app/services/equipment.service";
 import { EquipmentModalComponent } from "../equipment-modal/equipment-modal.component";
+
+import { ReplaySubject, Subject } from "rxjs";
+import { take, takeUntil } from "rxjs/operators";
 
 @Component({
   selector: "app-equipment-list",
@@ -21,7 +23,6 @@ export class EquipmentListComponent implements OnInit {
   public pageIndex: number = 0;
 
   public equipments: IEquipment[] = [];
-  public collaborators: ICollaborator[] = [];
   public filterModal: boolean = false;
   public itemModal: boolean[] = [];
   public form: any = {};
@@ -32,6 +33,17 @@ export class EquipmentListComponent implements OnInit {
     collaborator: [""],
     stock: [false],
   });
+
+  protected collaborators: ICollaborator[] = [];
+
+  public collaboratorCtrl: FormControl = new FormControl();
+
+  public collaboratorFilterCtrl: FormControl = new FormControl("");
+
+  public filteredCollaborators: ReplaySubject<ICollaborator[]> =
+    new ReplaySubject<ICollaborator[]>(1);
+
+  protected _onDestroy = new Subject<void>();
 
   constructor(
     private equipmentService: EquipmentService,
@@ -49,6 +61,48 @@ export class EquipmentListComponent implements OnInit {
     this.collaboratorService.getCollaborator().subscribe((response) => {
       this.collaborators = response.data;
     });
+
+    this.filteredCollaborators.next(this.collaborators.slice());
+
+    this.collaboratorFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterCollaborators();
+      });
+  }
+
+  ngAfterViewInit() {
+    this.setInitialValue();
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+  protected setInitialValue() {
+    this.filteredCollaborators.pipe(take(1), takeUntil(this._onDestroy));
+
+  }
+
+  protected filterCollaborators() {
+    if (!this.collaborators) {
+      return;
+    }
+    let search = this.collaboratorFilterCtrl.value;
+    if (!search) {
+      this.filteredCollaborators.next(this.collaborators.slice());
+      return;
+
+    } else {
+      search = search.toLowerCase();
+    }
+
+    this.filteredCollaborators.next(
+      this.collaborators.filter(
+        (collaborator) => collaborator.name.toLowerCase().indexOf(search) > -1
+      )
+    );
   }
 
   pageChange(event: any) {
@@ -111,9 +165,8 @@ export class EquipmentListComponent implements OnInit {
   handleFilters() {
     this.equipmentService
       .getEquipments({
-        title: this.filters.value.title && this.filters.value.title,
-        collaboratorId:
-          this.filters.value.collaborator && this.filters.value.collaborator,
+        title: this.filters.value.title,
+        collaboratorId: this.filters.value.collaborator,
         showStock: this.filters.value.stock,
       })
       .subscribe((response) => {

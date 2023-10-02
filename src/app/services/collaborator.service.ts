@@ -30,12 +30,21 @@ export class CollaboratorService {
     return this.http.post(this.url, collaborator, httpOptions);
   }
 
-  getCollaborator(): Observable<any | ICollaborator[]> {
+  getCollaborator(query?: any): Observable<any | ICollaborator[]> {
     const httpOptions = {
       headers: this.headers,
+      params: new HttpParams({ fromObject: query }),
     };
 
     return this.http.get(this.url, httpOptions);
+  }
+
+  searchCollaborators(searchTerm: string): Observable<any|ICollaborator> {
+    const httpOptions = {
+      headers: this.headers,
+      params: new HttpParams({ fromObject: { title: searchTerm } }),
+    };
+    return this.http.get<ICollaborator>(this.url, httpOptions);
   }
 
   editCollaborator(collaborator: ICollaborator): Observable<any> {

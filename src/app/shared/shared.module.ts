@@ -34,6 +34,11 @@ import { DepartmentModalComponent } from './components/department-modal/departme
 import { DepartmentListComponent } from './components/department-list/department-list.component';
 import { EquipmentListComponent } from './components/equipment-list/equipment-list.component';
 import { EquipmentModalComponent } from './components/equipment-modal/equipment-modal.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search'
+
+import { MAT_SELECTSEARCH_DEFAULT_OPTIONS, MatSelectSearchOptions } from 'ngx-mat-select-search';
+
+
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -71,6 +76,7 @@ import { EquipmentModalComponent } from './components/equipment-modal/equipment-
     MatSelectModule,
     MatDialogModule,
     MatCheckboxModule,
+    NgxMatSelectSearchModule
   ],
   exports: [
     HeaderComponent,
@@ -84,6 +90,16 @@ import { EquipmentModalComponent } from './components/equipment-modal/equipment-
     DepartmentListComponent,
     ErrorMessageComponent,
     SuccessMessageComponent,
+  ],
+  providers: [
+      {
+        provide: MAT_SELECTSEARCH_DEFAULT_OPTIONS,
+        useValue: <MatSelectSearchOptions>{
+          closeIcon: 'delete',
+          noEntriesFoundLabel: 'Não há dados para exibir',
+          placeholderLabel: 'Pesquisar',
+        }
+      }
   ],
 })
 export class SharedModule {}
