@@ -3,7 +3,10 @@ import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { ICollaborator } from "src/app/interfaces/collaborator";
 import { CollaboratorService } from "src/app/services/collaborator.service";
 import { CollaboratorModalComponent } from "../collaborator-modal/collaborator-modal.component";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, FormControl } from "@angular/forms";
+import { IDepartment } from "src/app/interfaces/department";
+import { ReplaySubject, Subject, takeUntil } from "rxjs";
+import { DeparmentService } from "src/app/services/department.service";
 @Component({
   selector: "app-collaborator-list",
   templateUrl: "./collaborator-list.component.html",
@@ -28,8 +31,22 @@ export class CollaboratorListComponent {
   public createError: boolean = false;
   public createMessage: string = "";
 
+
+  protected departments: IDepartment[] = [];
+
+  public departmentCtrl: FormControl = new FormControl();
+
+  public departmentFilterCtrl: FormControl = new FormControl("");
+
+  public filteredDepartments: ReplaySubject<IDepartment[]> =
+    new ReplaySubject<IDepartment[]>(1);
+
+  protected _onDestroy = new Subject<void>();
+
+
   constructor(
     private collaboratorService: CollaboratorService,
+    private departmentService: DeparmentService,
     private dialog: MatDialog,
     private fb : FormBuilder
   ) {}
@@ -37,8 +54,41 @@ export class CollaboratorListComponent {
   ngOnInit(): void {
     document.title = "Colaboradores - Almoxarifado Contajá";
     this.loadCollaborator();
+
+    this.departmentService.getDepartment().subscribe((response) => {
+      this.departments = response.data;
+    });
+
+    this.filteredDepartments.next(this.departments.slice());
+
+    this.departmentFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterDepartments();
+      });
+
+
   }
 
+  filterDepartments() {
+    if (!this.departments) {
+      return;
+    }
+    let search = this.departmentFilterCtrl.value;
+    if (!search) {
+      this.filteredDepartments.next(this.departments.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.filteredDepartments.next(
+      this.departments.filter((department) => {
+        return department.name.toLowerCase().indexOf(search) > -1;
+      })
+    );
+  }
+
+  
   loadCollaborator() {
     this.collaboratorService.getCollaborator().subscribe((response) => {
       this.collaborators = response.data;
@@ -80,7 +130,7 @@ export class CollaboratorListComponent {
       .getCollaborator({
         name: this.filters.value.name ? this.filters.value.name : "",
         role: this.filters.value.role ? this.filters.value.role : "",
-        department: this.filters.value.department ? this.filters.value.department : false,
+        department: this.filters.value.department ? this.filters.value.department : "",
         
       })
       .subscribe((response) => {

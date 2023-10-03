@@ -30,9 +30,27 @@
       <mat-label>Filtrar por cargo</mat-label>
       <input matInput placeholder="Ex. Desenvolvedor" formControlName="role" />
     </mat-form-field>
-    <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por setor</mat-label>
-      <input matInput placeholder="Ex. Informática" formControlName="department" />
+    
+
+      <mat-form-field class="item-full-width">
+        <mat-label>Colaborador</mat-label>
+        <mat-select
+          placeholder="department"
+          #singleSelect
+          formControlName="department"
+        >
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="departmentFilterCtrl"
+            ></ngx-mat-select-search>
+          </mat-option>
+          <mat-option
+            *ngFor="let department of filteredDepartments | async"
+            [value]="department.id"
+          >
+            {{ department.name }}
+          </mat-option>
+        </mat-select>
     </mat-form-field>
     <div class="flex-end">
       <button
