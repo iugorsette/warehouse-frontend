@@ -16,6 +16,10 @@ import { MatDialog } from "@angular/material/dialog";
 })
 
 export class ReportListComponent implements OnInit {
+  public totalItens: number = 0;
+  public pageSize: number = 10;
+  public pageIndex: number = 0;
+
   public collaborators: ICollaborator[] = [];
   public reports: IReport[] = [];
   public equipments: IEquipment[] = [];
@@ -35,7 +39,7 @@ export class ReportListComponent implements OnInit {
   public createMessage: string = "";
 
   constructor(
-    private momentService: MovementService,
+    private movementService: MovementService,
     private collaboratorService: CollaboratorService,
     private equipmentService: EquipmentService,
     private fb: FormBuilder,
@@ -69,7 +73,7 @@ export class ReportListComponent implements OnInit {
   }
 
   loadReport() {
-    this.momentService.getReport().subscribe((response) => {
+    this.movementService.getReport().subscribe((response) => {
       console.log(response);
       this.reports = response.data;
     });
@@ -92,5 +96,18 @@ export class ReportListComponent implements OnInit {
         this.loadReport();
       }
     });
+  }
+
+  pageChange(event: any) {
+    this.movementService.getReport({
+        offset: event.pageIndex,
+        limit: event.pageSize,
+      })
+      .subscribe((response) => {
+        this.reports = response.data;
+        this.totalItens = response.total;
+        this.pageIndex = event.pageIndex;
+        this.pageSize = event.pageSize;
+      });
   }
 }

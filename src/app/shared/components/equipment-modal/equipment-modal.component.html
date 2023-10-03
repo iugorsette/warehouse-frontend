@@ -1,102 +1,109 @@
-<h2 mat-dialog-title>{{title}}</h2>
+<h2 mat-dialog-title>{{ title }}</h2>
 <mat-dialog-content>
-    <form [formGroup]="form" class="item-form">
-        <mat-form-field class="item-full-width">
-          <mat-label>Nome do equipamento</mat-label>
-          <input
-            matInput
-            placeholder="Ex. laptop"
-            value="Laptop"
-            formControlName="title"
-            required
-          />
-        </mat-form-field>
-    
-        <mat-form-field class="item-full-width">
-          <mat-label>Descrição do equipamento</mat-label>
-          <textarea
-            matInput
-            placeholder="Ex. Laptop core i5 process 8gb ..."
-            formControlName="description"
-            required
-          ></textarea>
-        </mat-form-field>
-    
-        <mat-form-field *ngIf="!data.equipment?.id" class="item-full-width">
-          <mat-label>Colaborador</mat-label>
-          <mat-select formControlName="collaborator">
-            <mat-option ngDefaultControl [value]="null">no estoque</mat-option>
-            <mat-option
-              *ngFor="let collaborator of collaborators"
-              [value]="collaborator.id"
-            >
-              {{ collaborator.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-    
-        <div formArrayName="attributes">
-          <div
-            *ngFor="let attribute of attributes.controls; let i = index"
-            [formGroupName]="i"
-            class="atributo-row"
-          >
-            <div class="item">
-              <mat-form-field appearance="fill">
-                <mat-label>Atributo</mat-label>
-                <input
-                  matInput
-                  id="attribute-property-{{ i }}"
-                  type="text"
-                  formControlName="property"
-                />
-              </mat-form-field>
-    
-              <mat-form-field appearance="fill">
-                <mat-label>Value</mat-label>
-                <input
-                  matInput
-                  id="attribute-value-{{ i }}"
-                  type="text"
-                  formControlName="value"
-                />
-              </mat-form-field>
-              <button
-                mat-mini-fab
-                color="warn"
-                type="button"
-                (click)="removeAttributes(i)"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </div>
-        </div>
-    
-        <div class="add">
+  <form [formGroup]="form" class="item-form">
+    <mat-form-field class="item-full-width">
+      <mat-label>Nome do equipamento</mat-label>
+      <input
+        matInput
+        placeholder="Ex. laptop"
+        value="Laptop"
+        formControlName="title"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field class="item-full-width">
+      <mat-label>Descrição do equipamento</mat-label>
+      <textarea
+        matInput
+        placeholder="Ex. Laptop core i5 process 8gb ..."
+        formControlName="description"
+        required
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="!data.equipment?.id" class="item-full-width">
+      <mat-label>Colaborador</mat-label>
+      <mat-select
+        placeholder="collaborator"
+        #singleSelect
+        formControlName="collaborators"
+      >
+        <mat-option>
+          <ngx-mat-select-search
+            [formControl]="collaboratorFilterCtrl"
+          ></ngx-mat-select-search>
+        </mat-option>
+        <mat-option
+          *ngFor="let collaborator of filteredCollaborators | async"
+          [value]="collaborator"
+        >
+          {{ collaborator.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div formArrayName="attributes">
+      <div
+        *ngFor="let attribute of attributes.controls; let i = index"
+        [formGroupName]="i"
+        class="atributo-row"
+      >
+        <div class="item">
+          <mat-form-field appearance="fill">
+            <mat-label>Atributo</mat-label>
+            <input
+              matInput
+              id="attribute-property-{{ i }}"
+              type="text"
+              formControlName="property"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Value</mat-label>
+            <input
+              matInput
+              id="attribute-value-{{ i }}"
+              type="text"
+              formControlName="value"
+            />
+          </mat-form-field>
           <button
+            mat-mini-fab
+            color="warn"
             type="button"
-            mat-flat-button
-            color="primary"
-            (click)="addAttributes()"
+            (click)="removeAttributes(i)"
           >
-            Adicionar atributo
+            <mat-icon>delete</mat-icon>
           </button>
         </div>
-      </form>
-  
+      </div>
+    </div>
+
+    <div class="add">
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        (click)="addAttributes()"
+      >
+        Adicionar atributo
+      </button>
+    </div>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-flat-button mat-dialog-close 
-  color="warn">Cancel</button>
-  <button mat-dialog-close 
-  type="submit"
-  class="item-button"
-  mat-flat-button
-  color="accent"
-  (click)="submit()"
-  [disabled]="form.invalid"
->
-  Confirmar
-</button>
+  <button mat-flat-button mat-dialog-close color="warn">Cancel</button>
+  <button
+    mat-dialog-close
+    type="submit"
+    class="item-button"
+    mat-flat-button
+    color="accent"
+    (click)="submit()"
+    [disabled]="form.invalid"
+  >
+    Confirmar
+  </button>
 </mat-dialog-actions>

@@ -3,7 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { CollaboratorService } from "src/app/services/collaborator.service";
 import { HandleRemoveDialogComponent } from "../handle-remove-dialog/handle-remove-dialog.component";
 import { LoginService } from "src/app/services/login.service";
-import { FormBuilder, FormControl } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ICollaborator } from "src/app/interfaces/collaborator";
 import { IEquipment } from "src/app/interfaces/equipment";
 import { EquipmentService } from "src/app/services/equipment.service";
@@ -27,8 +27,8 @@ export class EquipmentListComponent implements OnInit {
   public itemModal: boolean[] = [];
   public form: any = {};
   public filteredItens: IEquipment[] = [];
-
-  public filters = this.fb.group({
+  public filters: FormGroup = this.fb.group({
+    id: [""],
     title: [""],
     collaborator: [""],
     stock: [false],
@@ -82,27 +82,30 @@ export class EquipmentListComponent implements OnInit {
 
   protected setInitialValue() {
     this.filteredCollaborators.pipe(take(1), takeUntil(this._onDestroy));
-
   }
 
   protected filterCollaborators() {
     if (!this.collaborators) {
       return;
     }
-    let search = this.collaboratorFilterCtrl.value;
-    if (!search) {
+
+    let title = this.collaboratorFilterCtrl.value;
+    if (!title) {
       this.filteredCollaborators.next(this.collaborators.slice());
       return;
-
     } else {
-      search = search.toLowerCase();
+      title = title.toLowerCase();
     }
 
     this.filteredCollaborators.next(
       this.collaborators.filter(
-        (collaborator) => collaborator.name.toLowerCase().indexOf(search) > -1
+        (collaborator) => collaborator.name.toLowerCase().indexOf(title) > -1
       )
     );
+
+    this.collaboratorService.getCollaborator(title).subscribe((response) => {
+      this.collaborators = response.data;
+    });
   }
 
   pageChange(event: any) {
@@ -112,7 +115,6 @@ export class EquipmentListComponent implements OnInit {
         limit: event.pageSize,
       })
       .subscribe((response) => {
-        console.log(response);
         this.equipments = response.data;
         this.filteredItens = this.equipments;
         this.totalItens = response.total;

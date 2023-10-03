@@ -39,4 +39,5 @@
   </div>
 </mat-list>
 
-<app-paginator />
+<app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
+

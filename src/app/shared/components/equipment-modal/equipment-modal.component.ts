@@ -1,34 +1,40 @@
-
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { ReplaySubject, Subject, take, takeUntil } from "rxjs";
 import { ICollaborator } from "src/app/interfaces/collaborator";
 import { IEquipment } from "src/app/interfaces/equipment";
 import { IItem } from "src/app/interfaces/item";
 import { CollaboratorService } from "src/app/services/collaborator.service";
 import { EquipmentService } from "src/app/services/equipment.service";
-import { ItemService } from "src/app/services/item.service";
 import { LoginService } from "src/app/services/login.service";
-
 
 interface DialogData {
   equipment?: IEquipment;
 }
 
 @Component({
-  selector: 'app-equipment-modal',
-  templateUrl: './equipment-modal.component.html',
-  styleUrls: ['./equipment-modal.component.scss']
+  selector: "app-equipment-modal",
+  templateUrl: "./equipment-modal.component.html",
+  styleUrls: ["./equipment-modal.component.scss"],
 })
-export class EquipmentModalComponent  implements OnInit {
+export class EquipmentModalComponent implements OnInit {
   public title: string = this.data.equipment?.id
     ? "Editar Equipamento"
     : "Adicionar Equipamento";
-  public collaborators: ICollaborator[] = [];
   protected form: FormGroup;
+
+  protected collaborators: ICollaborator[] = [];
+
+  public collaboratorFilterCtrl: FormControl = new FormControl("");
+
+  public filteredCollaborators: ReplaySubject<ICollaborator[]> =
+    new ReplaySubject<ICollaborator[]>(1);
+
+  protected _onDestroy = new Subject<void>();
+
   constructor(
     private fb: FormBuilder,
-    private itemService: ItemService,
     private equipmentService: EquipmentService,
     private collaboratorService: CollaboratorService,
     protected loginService: LoginService,
@@ -54,33 +60,77 @@ export class EquipmentModalComponent  implements OnInit {
     this.collaboratorService.getCollaborator().subscribe((response) => {
       this.collaborators = response.data;
     });
+    this.filteredCollaborators.next(this.collaborators.slice());
+
+    this.collaboratorFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.handleGetCollaborators();
+      });
+  }
+
+  ngAfterViewInit() {
+    this.setInitialValue();
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+  protected setInitialValue() {
+    this.filteredCollaborators.pipe(take(1), takeUntil(this._onDestroy));
+  }
+
+  handleGetCollaborators() {
+    if (!this.collaborators) {
+      return;
+    }
+
+    let title = this.collaboratorFilterCtrl.value;
+    if (!title) {
+      this.filteredCollaborators.next(this.collaborators.slice());
+      return;
+    } else {
+      title = title.toLowerCase();
+    }
+
+    this.filteredCollaborators.next(
+      this.collaborators.filter(
+        (collaborator) => collaborator.name.toLowerCase().indexOf(title) > -1
+      )
+    );
+
+    this.collaboratorService.getCollaborator(title).subscribe((response) => {
+      this.collaborators = response.data;
+    });
   }
 
   submit() {
-    const equipmentEdited: any = {};
-    equipmentEdited.id = this.data.equipment?.id;
-    equipmentEdited.title = this.form.value.title;
-    equipmentEdited.description = this.form.value.description;
+    const equipment: any = {};
+    console.log(this.form.value);
+    equipment.id = this.data.equipment?.id;
+    equipment.title = this.form.value.title;
+    equipment.description = this.form.value.description;
+
     let itens: Partial<IItem>[] = [];
     for (let attribute of this.form.value.attributes!) {
       itens.push({
+        id: attribute.id,
         property: attribute.property,
         value: attribute.value,
-        equipmentId: this.data.equipment?.id,
       });
     }
-    itens.map((item) => {
-      this.itemService.addItem(item).subscribe(() => {});
-    });
+    equipment.items = itens;
 
-    if (equipmentEdited.id) {
-      this.equipmentService.editEquipment(equipmentEdited).subscribe(() => {
+    if (equipment.id) {
+      this.equipmentService.editEquipment(equipment).subscribe(() => {
         this.dialogRef.close(true);
       });
       return;
     }
-
-    this.equipmentService.addEquipment(equipmentEdited).subscribe(() => {
+    equipment.collaborators = [this.form.value.collaborators];
+    this.equipmentService.addEquipment(equipment).subscribe(() => {
       this.dialogRef.close(true);
     });
   }

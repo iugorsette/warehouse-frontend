@@ -9,6 +9,10 @@ import { CollaboratorModalComponent } from "../collaborator-modal/collaborator-m
   styleUrls: ["./collaborator-list.component.scss"],
 })
 export class CollaboratorListComponent {
+  public totalItens: number = 0;
+  public pageSize: number = 10;
+  public pageIndex: number = 0;
+
   public collaborators: ICollaborator[] = [];
 
   public createSuccess: boolean = false;
@@ -44,5 +48,20 @@ export class CollaboratorListComponent {
         this.loadCollaborator();
       }
     });
+  }
+
+  pageChange(event: any) {
+    this.collaboratorService
+      .getCollaborator({
+        offset: event.pageIndex,
+        limit: event.pageSize,
+      })
+      .subscribe((response) => {
+        console.log(response);
+        this.collaborators = response.data;
+        this.totalItens = response.total;
+        this.pageIndex = event.pageIndex;
+        this.pageSize = event.pageSize;
+      });
   }
 }

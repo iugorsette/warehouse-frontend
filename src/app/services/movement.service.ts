@@ -38,9 +38,10 @@ export class MovementService {
     return this.http.post(`${this.url}/removeCollaborator`,desvinculate, httpOptions);
   }
 
-  getReport(): Observable<any | IReport[]> {
+  getReport(query?:any): Observable<any | IReport[]> {
     const httpOptions = {
       headers: this.headers,
+      params: new HttpParams({ fromObject: query }),
     };
 
     console.log("httpOptions", httpOptions);

@@ -81,4 +81,4 @@
   </mat-card-content>
 </mat-card>
 
-<app-paginator />
+<app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
