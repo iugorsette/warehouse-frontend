@@ -1,7 +1,7 @@
 <app-success-message *ngIf="createSuccess" [successMessage]="createMessage"/>
 <app-error-message *ngIf="createError" [errorMessage]="createMessage"/>
 
-<mat-toolbar>
+<mat-toolbar class="flex-between">
   <div>
     <button (click)="handleAddCollaborator()" mat-icon-button color="accent">
       <mat-icon>add</mat-icon>
@@ -9,8 +9,52 @@
     <span>Adicionar Colaborador</span>
   </div>
 
+  <button (click)="handleFilterModal()" mat-icon-button color="primary">
+    <mat-icon>filter_list</mat-icon>
+  </button>
   
 </mat-toolbar>
+
+
+<mat-card *ngIf="filterModal">
+  <form [formGroup]="filters">
+    <mat-form-field class="item-full-width">
+      <mat-label>Buscar por ID</mat-label>
+      <input matInput  formControlName="id" />
+    </mat-form-field>
+    <mat-form-field class="item-full-width">
+      <mat-label>Filtrar por nome</mat-label>
+      <input matInput placeholder="Ex. John Doe" formControlName="name" />
+    </mat-form-field>
+    <mat-form-field class="item-full-width">
+      <mat-label>Filtrar por cargo</mat-label>
+      <input matInput placeholder="Ex. Desenvolvedor" formControlName="role" />
+    </mat-form-field>
+    <mat-form-field class="item-full-width">
+      <mat-label>Filtrar por setor</mat-label>
+      <input matInput placeholder="Ex. Informática" formControlName="department" />
+    </mat-form-field>
+    <div class="flex-end">
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="handleClearFilters()"
+      >
+        Limpar
+      </button>
+      <button
+        mat-flat-button
+        mat-raised-button
+        class="item-button"
+        color="primary"
+        type="submit"
+        (click)="handleFilters()"
+      >
+        Filtrar
+      </button>
+    </div>
+  </form>
+</mat-card>
 
 
 <mat-list class="item" *ngFor="let collaborator of collaborators; let i = index">

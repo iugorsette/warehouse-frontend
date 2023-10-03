@@ -46,6 +46,13 @@
     </mat-form-field>
     <div class="flex-end">
       <button
+        mat-raised-button
+        color="warn"
+        (click)="handleClearFilters()"
+      >
+        Limpar
+      </button>
+      <button
         mat-flat-button
         mat-raised-button
         class="item-button"

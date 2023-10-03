@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { ICollaborator } from "src/app/interfaces/collaborator";
 import { CollaboratorService } from "src/app/services/collaborator.service";
 import { CollaboratorModalComponent } from "../collaborator-modal/collaborator-modal.component";
+import { FormBuilder } from "@angular/forms";
 @Component({
   selector: "app-collaborator-list",
   templateUrl: "./collaborator-list.component.html",
@@ -13,6 +14,14 @@ export class CollaboratorListComponent {
   public pageSize: number = 10;
   public pageIndex: number = 0;
 
+  public filterModal: boolean = false;
+  public filters = this.fb.group({
+    id: [""],
+    name: [""],
+    role: [""],
+    department: [""],
+  });
+
   public collaborators: ICollaborator[] = [];
 
   public createSuccess: boolean = false;
@@ -21,7 +30,8 @@ export class CollaboratorListComponent {
 
   constructor(
     private collaboratorService: CollaboratorService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fb : FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -63,5 +73,28 @@ export class CollaboratorListComponent {
         this.pageIndex = event.pageIndex;
         this.pageSize = event.pageSize;
       });
+  }
+
+  handleFilters() {
+    this.collaboratorService
+      .getCollaborator({
+        name: this.filters.value.name ? this.filters.value.name : "",
+        role: this.filters.value.role ? this.filters.value.role : "",
+        department: this.filters.value.department ? this.filters.value.department : false,
+        
+      })
+      .subscribe((response) => {
+        this.collaborators = response.data;
+        this.totalItens = response.total;
+      });
+  }
+
+  handleFilterModal() {
+    this.filterModal = !this.filterModal;
+  }
+
+  handleClearFilters() {
+    this.filters.reset();
+    this.handleFilters();
   }
 }

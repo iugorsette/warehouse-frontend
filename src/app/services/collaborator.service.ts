@@ -31,10 +31,6 @@ export class CollaboratorService {
   }
 
   getCollaborator(query?: any): Observable<any | ICollaborator[]> {
-    if (query === undefined) {
-      query = { limit: 2, offset: 0 };
-      console.log(query);
-    }
     const httpOptions = {
       headers: this.headers,
       params: new HttpParams({ fromObject: query }),

@@ -156,6 +156,11 @@ export class EquipmentListComponent implements OnInit {
     this.filterModal = !this.filterModal;
   }
 
+  handleClearFilters() {
+    this.filters.reset();
+    this.handleFilters();
+  }
+
   handleSearch(event: any) {
     this.filteredItens = this.equipments.filter((item) => {
       return item.title
@@ -167,18 +172,15 @@ export class EquipmentListComponent implements OnInit {
   handleFilters() {
     this.equipmentService
       .getEquipments({
-        title: this.filters.value.title,
-        collaboratorId: this.filters.value.collaborator,
-        showStock: this.filters.value.stock,
+        title: this.filters.value.title ? this.filters.value.title : "",
+        collaboratorId: this.filters.value.collaborator ? this.filters.value.collaborator.id : "",
+        showStock: this.filters.value.stock ? this.filters.value.stock : false,
+        
       })
       .subscribe((response) => {
         this.equipments = response.data;
         this.filteredItens = this.equipments;
         this.totalItens = response.total;
       });
-  }
-
-  handleModal() {
-    this.filterModal = !this.filterModal;
   }
 }

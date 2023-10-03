@@ -21,3 +21,17 @@
   display: flex;
   gap: 10px;
 }
+
+.flex-between{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.flex-end{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
