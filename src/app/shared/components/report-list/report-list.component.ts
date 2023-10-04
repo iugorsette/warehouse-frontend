@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ICollaborator } from "src/app/interfaces/collaborator";
 import { IEquipment } from "src/app/interfaces/equipment";
 import { IReport } from "src/app/interfaces/movement";
@@ -8,31 +8,38 @@ import { EquipmentService } from "src/app/services/equipment.service";
 import { MovementService } from "src/app/services/movement.service";
 import { CreateMovementComponent } from "../create-movement/create-movement.component";
 import { MatDialog } from "@angular/material/dialog";
+import { ReplaySubject, Subject, takeUntil } from "rxjs";
 
 @Component({
   selector: "app-report-list",
   templateUrl: "./report-list.component.html",
   styleUrls: ["./report-list.component.scss"],
 })
-
 export class ReportListComponent implements OnInit {
   public totalItens: number = 0;
   public pageSize: number = 10;
   public pageIndex: number = 0;
 
-  public collaborators: ICollaborator[] = [];
+  protected collaborators: ICollaborator[] = [];
+  public collaboratorFilterCtrl: FormControl = new FormControl("");
+  public filteredCollaborators: ReplaySubject<ICollaborator[]> =
+    new ReplaySubject<ICollaborator[]>(1);
+
+  protected equipments: IEquipment[] = [];
+  public equipmentFilterCtrl: FormControl = new FormControl("");
+  public filteredEquipments: ReplaySubject<IEquipment[]> = new ReplaySubject<
+    IEquipment[]
+  >(1);
+
+  protected _onDestroy = new Subject<void>();
+
   public reports: IReport[] = [];
-  public equipments: IEquipment[] = [];
-  public form: any = {};
+
   public filterModal: boolean = false;
-
-  public filteredEquipments: IEquipment[] = [];
-
   public filters = this.fb.group({
     type: [""],
     equipmentId: [""],
-    collaboratorId: [""],
-    changeById: [""],
+    collaboratorId: [""]
   });
 
   public createSuccess: boolean = false;
@@ -52,36 +59,58 @@ export class ReportListComponent implements OnInit {
     this.loadReport();
     this.loadEquipments();
     this.loadCollaborators();
+
+    this.filteredCollaborators.next(this.collaborators.slice());
+    this.filteredEquipments.next(this.equipments.slice());
+
+    this.equipmentFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.handleGetEquipments();
+      });
+    this.collaboratorFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.handleGetCollaborators();
+      });
   }
 
-  loadCollaborators() {
-    this.collaboratorService.getCollaborator().subscribe((response) => {
+  loadCollaborators(params?: any) {
+    this.collaboratorService.getCollaborator(params).subscribe((response) => {
       this.collaborators = response.data;
     });
   }
 
-  loadEquipments() {
-    this.equipmentService
-      .getEquipments()
-      .subscribe((response) => {
-        this.equipments = response.data;
-        this.filteredEquipments = this.equipments;
-      });
-  }
-
-  loadReport() {
-    this.movementService.getReport({
-      type: this.filters.value.type ? this.filters.value.type : "",
-      equipmentId: this.filters.value.equipmentId? this.filters.value.equipmentId : "",
-      collaboratorId: this.filters.value.collaboratorId ? this.filters.value.collaboratorId : "",
-      changeById: this.filters.value.changeById ? this.filters.value.changeById : "",
-    }).subscribe((response) => {
-      console.log(response);
-      this.reports = response.data;
+  loadEquipments(params?: any) {
+    this.equipmentService.getEquipments(params).subscribe((response) => {
+      this.equipments = response.data;
     });
   }
 
+  loadReport() {
+    this.movementService
+      .getReport({
+        type: this.filters.value.type ? this.filters.value.type : "",
+        equipmentId: this.filters.value.equipmentId
+          ? this.filters.value.equipmentId
+          : "",
+        collaboratorId: this.filters.value.collaboratorId
+          ? this.filters.value.collaboratorId
+          : ""
+      })
+      .subscribe((response) => {
+        console.log(response);
+        this.reports = response.data;
+      });
+  }
+
+  handleClearFilters() {
+    this.filters.reset();
+    this.handleFilters();
+  }
+  
   handleFilters() {
+    console.log(this.filters.value);
     this.loadReport();
   }
 
@@ -100,7 +129,8 @@ export class ReportListComponent implements OnInit {
   }
 
   pageChange(event: any) {
-    this.movementService.getReport({
+    this.movementService
+      .getReport({
         offset: event.pageIndex,
         limit: event.pageSize,
       })
@@ -110,5 +140,49 @@ export class ReportListComponent implements OnInit {
         this.pageIndex = event.pageIndex;
         this.pageSize = event.pageSize;
       });
+  }
+
+  handleGetCollaborators() {
+    if (!this.collaborators) {
+      return;
+    }
+
+    let title = this.collaboratorFilterCtrl.value;
+    if (!title) {
+      this.filteredCollaborators.next(this.collaborators.slice());
+      return;
+    } else {
+      title = title.toLowerCase();
+    }
+
+    this.filteredCollaborators.next(
+      this.collaborators.filter(
+        (collaborator) => collaborator.name.toLowerCase().indexOf(title) > -1
+      )
+    );
+
+    this.loadCollaborators(title);
+  }
+
+  handleGetEquipments() {
+    if (!this.equipments) {
+      return;
+    }
+
+    let title = this.equipmentFilterCtrl.value;
+    if (!title) {
+      this.filteredEquipments.next(this.equipments.slice());
+      return;
+    } else {
+      title = title.toLowerCase();
+    }
+
+    this.filteredEquipments.next(
+      this.equipments.filter(
+        (equipment) => equipment.title.toLowerCase().indexOf(title) > -1
+      )
+    );
+
+    this.loadEquipments(title);
   }
 }

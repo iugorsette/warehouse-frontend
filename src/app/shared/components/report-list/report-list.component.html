@@ -22,37 +22,53 @@
       <mat-label>Filtrar por tipo</mat-label>
       <input matInput placeholder="Ex. Laptop" formControlName="type" />
     </mat-form-field>
+
     <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por colaborador</mat-label>
-      <mat-select formControlName="collaboratorId">
-        <mat-option [value]="null"> Informe um Colaborador</mat-option>
+      <mat-label>Filtrar por Colaborador</mat-label>
+      <mat-select
+        placeholder="collaborator"
+        #singleSelect
+        formControlName="collaboratorId"
+      >
+        <mat-option>
+          <ngx-mat-select-search
+            [formControl]="collaboratorFilterCtrl"
+          ></ngx-mat-select-search>
+        </mat-option>
         <mat-option
-          *ngFor="let collaborator of collaborators"
+          *ngFor="let collaborator of filteredCollaborators | async"
           [value]="collaborator.id"
         >
           {{ collaborator.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>
+
     <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por equipamento</mat-label>
-      <mat-select formControlName="equipmentId">
-        <mat-option [value]="null"> Informe um equipamento</mat-option>
-        <mat-option *ngFor="let equipment of equipments" [value]="equipment.id">
+      <mat-label>Filtrar por Equipamento</mat-label>
+      <mat-select
+        placeholder="equipment"
+        #singleSelect
+        formControlName="equipmentId"
+      >
+        <mat-option>
+          <ngx-mat-select-search
+            [formControl]="equipmentFilterCtrl"
+          ></ngx-mat-select-search>
+        </mat-option>
+        <mat-option
+          *ngFor="let equipment of filteredEquipments | async"
+          [value]="equipment.id"
+        >
           {{ equipment.title }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por responsável</mat-label>
-      <mat-select formControlName="changeById">
-        <mat-option [value]="null"> Informe um usuário</mat-option>
-        <mat-option *ngFor="let equipment of equipments" [value]="equipment.id">
-          {{ equipment.title }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+
     <div class="flex-end">
+      <button mat-raised-button color="warn" (click)="handleClearFilters()">
+        Limpar
+      </button>
       <button
         mat-raised-button
         color="primary"
