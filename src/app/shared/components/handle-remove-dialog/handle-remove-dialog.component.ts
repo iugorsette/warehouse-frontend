@@ -29,7 +29,6 @@ export class HandleRemoveDialogComponent {
     this.equipmentSevice
       .deleteEquipment(this.data.equipment.id)
       .subscribe((response) => {
-        console.log(response);
         this.dialogRef.close(true);
       });
   }

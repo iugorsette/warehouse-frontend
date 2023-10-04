@@ -44,7 +44,6 @@ export class MovementService {
       params: new HttpParams({ fromObject: query }),
     };
 
-    console.log("httpOptions", httpOptions);
     return this.http.get(this.urlReport, httpOptions);
   }
 }

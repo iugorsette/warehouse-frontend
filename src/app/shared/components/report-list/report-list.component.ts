@@ -29,9 +29,10 @@ export class ReportListComponent implements OnInit {
   public filteredEquipments: IEquipment[] = [];
 
   public filters = this.fb.group({
-    title: [""],
-    collaborator: [""],
-    stock: [false],
+    type: [""],
+    equipmentId: [""],
+    collaboratorId: [""],
+    changeById: [""],
   });
 
   public createSuccess: boolean = false;
@@ -61,11 +62,7 @@ export class ReportListComponent implements OnInit {
 
   loadEquipments() {
     this.equipmentService
-      .getEquipments({
-        title: this.filters.value.title,
-        collaboratorId: this.filters.value.collaborator,
-        showStock: this.filters.value.stock,
-      })
+      .getEquipments()
       .subscribe((response) => {
         this.equipments = response.data;
         this.filteredEquipments = this.equipments;
@@ -73,15 +70,19 @@ export class ReportListComponent implements OnInit {
   }
 
   loadReport() {
-    this.movementService.getReport().subscribe((response) => {
+    this.movementService.getReport({
+      type: this.filters.value.type ? this.filters.value.type : "",
+      equipmentId: this.filters.value.equipmentId? this.filters.value.equipmentId : "",
+      collaboratorId: this.filters.value.collaboratorId ? this.filters.value.collaboratorId : "",
+      changeById: this.filters.value.changeById ? this.filters.value.changeById : "",
+    }).subscribe((response) => {
       console.log(response);
       this.reports = response.data;
     });
   }
 
   handleFilters() {
-    this.loadEquipments();
-    this.handleFilterModal();
+    this.loadReport();
   }
 
   handleFilterModal() {

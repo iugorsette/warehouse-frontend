@@ -41,8 +41,6 @@ export class DepartmentModalComponent implements OnInit {
 
   submit() {
     const departmentEditted: any = {};
-    console.log(this.data?.department?.id);
-    console.log(this.form.value.name);
     departmentEditted.id = this.data?.department?.id;
     departmentEditted.name = this.form.value.name;
 

@@ -16,7 +16,6 @@ export class LoginService {
     private configService: ConfigService
     ) {
     this.token = localStorage.getItem('token')!
-
   }
 
   public login(user: User): Observable<any> {

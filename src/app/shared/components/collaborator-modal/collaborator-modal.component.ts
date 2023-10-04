@@ -53,7 +53,6 @@ export class CollaboratorModalComponent implements OnInit {
 
 
 
-    console.log(collaboratorEditted);
     if (collaboratorEditted.id) {
       this.collaboratorService.editCollaborator(collaboratorEditted).subscribe(() => {
         this.dialogRef.close(true);

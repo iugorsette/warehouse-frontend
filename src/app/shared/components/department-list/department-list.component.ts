@@ -84,7 +84,6 @@ export class DepartmentListComponent {
     });
   }
   handleRemoveDeparment(department: IDepartment) {
-    console.log(department);
     const dialogRef = this.dialog.open(DepartmentRemoveModalComponent, {
       data: {
         department,

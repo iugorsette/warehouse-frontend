@@ -108,7 +108,6 @@ export class EquipmentModalComponent implements OnInit {
 
   submit() {
     const equipment: any = {};
-    console.log(this.form.value);
     equipment.id = this.data.equipment?.id;
     equipment.title = this.form.value.title;
     equipment.description = this.form.value.description;

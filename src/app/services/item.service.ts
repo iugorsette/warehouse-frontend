@@ -46,7 +46,6 @@ export class ItemService {
   }
 
   deleteItem(itemId: string) {
-    console.log(itemId)
     const httpOptions = {
       headers: this.headers,
       params: new HttpParams({ fromObject: { id: itemId } }),

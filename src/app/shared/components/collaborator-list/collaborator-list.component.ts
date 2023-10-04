@@ -114,7 +114,6 @@ export class CollaboratorListComponent {
         limit: event.pageSize,
       })
       .subscribe((response) => {
-        console.log(response);
         this.collaborators = response.data;
         this.totalItens = response.total;
         this.pageIndex = event.pageIndex;
