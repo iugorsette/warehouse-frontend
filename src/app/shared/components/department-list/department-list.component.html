@@ -28,10 +28,14 @@
       <mat-icon>edit</mat-icon>
     </button>
 
-    <button mat-mini-fab color="warn">
+    <button
+      mat-mini-fab
+      color="warn"
+      (click)="handleRemoveDeparment(department)"
+    >
       <mat-icon>delete</mat-icon>
     </button>
   </div>
 </mat-list>
 
-<app-paginator />
+<app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />

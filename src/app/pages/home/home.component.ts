@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CollaboratorService } from "src/app/services/collaborator.service";
-import { DeparmentService } from "src/app/services/department.service";
+import { DepartmentService } from "src/app/services/department.service";
 import { ItemService } from "src/app/services/item.service";
 import { LoginService } from "src/app/services/login.service";
 @Component({
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
     protected loginService: LoginService,
     private itemService: ItemService,
     private collaboratorService: CollaboratorService,
-    private deparmentService: DeparmentService
+    private DepartmentService: DepartmentService
   ) {}
 
   ngOnInit(): void {
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
     this.collaboratorService.getCollaborator().subscribe(({ total }) => {
       this.collaboratorsQuantity = total;
     });
-    this.deparmentService.getDepartment().subscribe(({ total }) => {
+    this.DepartmentService.getDepartment().subscribe(({ total }) => {
       this.departmentsQuantity = total;
     });
   }

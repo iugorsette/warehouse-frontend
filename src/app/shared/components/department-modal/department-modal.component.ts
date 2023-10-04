@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { IDepartment } from "src/app/interfaces/department";
-import { DeparmentService } from "src/app/services/department.service";
+import { DepartmentService } from "src/app/services/department.service";
 import { LoginService } from "src/app/services/login.service";
 
 interface DialogData {
@@ -22,7 +22,7 @@ export class DepartmentModalComponent implements OnInit {
   public departments: IDepartment[] = [];
   constructor(
     private fb: FormBuilder,
-    private departmentService: DeparmentService, 
+    private departmentService: DepartmentService, 
     protected loginService: LoginService,
     private dialogRef: MatDialogRef<DepartmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
@@ -40,18 +40,21 @@ export class DepartmentModalComponent implements OnInit {
   }
 
   submit() {
-    const collaboratorEditted: any = {};
-    collaboratorEditted.id = this.data.department?.id;
+    const departmentEditted: any = {};
+    console.log(this.data?.department?.id);
+    console.log(this.form.value.name);
+    departmentEditted.id = this.data?.department?.id;
+    departmentEditted.name = this.form.value.name;
 
 
-    if (collaboratorEditted.id) {
-      this.departmentService.editDepartment(collaboratorEditted).subscribe(() => {
+    if (departmentEditted.id) {
+      this.departmentService.editDepartment(departmentEditted).subscribe(() => {
         this.dialogRef.close(true);
       });
       return;
     }
 
-    this.departmentService.addDepartment(collaboratorEditted).subscribe(() => {
+    this.departmentService.addDepartment(departmentEditted).subscribe(() => {
       this.dialogRef.close(true);
     });
 

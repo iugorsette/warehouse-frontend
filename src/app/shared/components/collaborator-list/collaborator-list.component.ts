@@ -6,7 +6,8 @@ import { CollaboratorModalComponent } from "../collaborator-modal/collaborator-m
 import { FormBuilder, FormControl } from "@angular/forms";
 import { IDepartment } from "src/app/interfaces/department";
 import { ReplaySubject, Subject, takeUntil } from "rxjs";
-import { DeparmentService } from "src/app/services/department.service";
+import { DepartmentService } from "src/app/services/department.service";
+import { CollaboratorRemoveModalComponent } from "../collaborator-remove-modal/collaborator-remove-modal.component";
 @Component({
   selector: "app-collaborator-list",
   templateUrl: "./collaborator-list.component.html",
@@ -31,24 +32,23 @@ export class CollaboratorListComponent {
   public createError: boolean = false;
   public createMessage: string = "";
 
-
   protected departments: IDepartment[] = [];
 
   public departmentCtrl: FormControl = new FormControl();
 
   public departmentFilterCtrl: FormControl = new FormControl("");
 
-  public filteredDepartments: ReplaySubject<IDepartment[]> =
-    new ReplaySubject<IDepartment[]>(1);
+  public filteredDepartments: ReplaySubject<IDepartment[]> = new ReplaySubject<
+    IDepartment[]
+  >(1);
 
   protected _onDestroy = new Subject<void>();
 
-
   constructor(
     private collaboratorService: CollaboratorService,
-    private departmentService: DeparmentService,
+    private departmentService: DepartmentService,
     private dialog: MatDialog,
-    private fb : FormBuilder
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -66,8 +66,6 @@ export class CollaboratorListComponent {
       .subscribe(() => {
         this.filterDepartments();
       });
-
-
   }
 
   filterDepartments() {
@@ -88,7 +86,6 @@ export class CollaboratorListComponent {
     );
   }
 
-  
   loadCollaborator() {
     this.collaboratorService.getCollaborator().subscribe((response) => {
       this.collaborators = response.data;
@@ -130,8 +127,9 @@ export class CollaboratorListComponent {
       .getCollaborator({
         name: this.filters.value.name ? this.filters.value.name : "",
         role: this.filters.value.role ? this.filters.value.role : "",
-        department: this.filters.value.department ? this.filters.value.department : "",
-        
+        department: this.filters.value.department
+          ? this.filters.value.department
+          : "",
       })
       .subscribe((response) => {
         this.collaborators = response.data;
@@ -141,6 +139,19 @@ export class CollaboratorListComponent {
 
   handleFilterModal() {
     this.filterModal = !this.filterModal;
+  }
+
+  handleRemoveCollaborator(collaborator: ICollaborator) {
+    const dialogRef = this.dialog.open(CollaboratorRemoveModalComponent, {
+      data: {
+        collaborator,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result)
+        this.pageChange({ pageIndex: this.pageIndex, pageSize: this.pageSize });
+    });
   }
 
   handleClearFilters() {

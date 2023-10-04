@@ -28,7 +28,6 @@ import { HandleRemoveDialogComponent } from './components/handle-remove-dialog/h
 import { ErrorMessageComponent } from './components/error-message/error-message.component'
 import { SuccessMessageComponent } from './components/success-message/success-message.component';
 import { CreateMovementComponent } from './components/create-movement/create-movement.component';
-import { CreateModalComponent } from './components/create-modal/create-modal.component';
 import { CollaboratorModalComponent } from './components/collaborator-modal/collaborator-modal.component';
 import { DepartmentModalComponent } from './components/department-modal/department-modal.component';
 import { DepartmentListComponent } from './components/department-list/department-list.component';
@@ -37,6 +36,8 @@ import { EquipmentModalComponent } from './components/equipment-modal/equipment-
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search'
 
 import { MAT_SELECTSEARCH_DEFAULT_OPTIONS, MatSelectSearchOptions } from 'ngx-mat-select-search';
+import { CollaboratorRemoveModalComponent } from './components/collaborator-remove-modal/collaborator-remove-modal.component';
+import { DepartmentRemoveModalComponent } from './components/department-remove-modal/department-remove-modal.component';
 
 
 @NgModule({
@@ -53,12 +54,13 @@ import { MAT_SELECTSEARCH_DEFAULT_OPTIONS, MatSelectSearchOptions } from 'ngx-ma
     ErrorMessageComponent,
     SuccessMessageComponent,
     CreateMovementComponent,
-    CreateModalComponent,
     CollaboratorModalComponent,
     DepartmentModalComponent,
     DepartmentListComponent,
     EquipmentListComponent,
     EquipmentModalComponent,
+    CollaboratorRemoveModalComponent,
+    DepartmentRemoveModalComponent,
   ],
   imports: [
     CommonModule,

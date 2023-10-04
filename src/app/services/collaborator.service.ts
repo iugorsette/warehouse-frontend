@@ -56,7 +56,7 @@ export class CollaboratorService {
     return this.http.put(this.url, collaborator, httpOptions);
   }
 
-  deleteCollaboratorm(collaboratorId: string): Observable<any> {
+  deleteCollaborator(collaboratorId: string): Observable<any> {
     const httpOptions = {
       headers: this.headers,
       params: { id: collaboratorId },

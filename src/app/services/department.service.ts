@@ -1,15 +1,14 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
-import { LoginService } from './login.service';
-import { ConfigService } from '../shared/providers/config';
-import { IDepartment } from '../interfaces/department';
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { LoginService } from "./login.service";
+import { ConfigService } from "../shared/providers/config";
+import { IDepartment } from "../interfaces/department";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
-
-export class DeparmentService {
+export class DepartmentService {
   public token = this.loginService.token;
   public url = this.configService.getApiUrl("department");
   public headers = new HttpHeaders({
@@ -20,38 +19,41 @@ export class DeparmentService {
   constructor(
     private http: HttpClient,
     private loginService: LoginService,
-    private configService: ConfigService,){}
+    private configService: ConfigService
+  ) {}
 
-  getDepartment(): Observable<any> {
+  getDepartment(query?:any): Observable<any> {
     const httpOptions = {
       headers: this.headers,
-    }
+      params: new HttpParams({ fromObject: query }),
+    };
 
-    return this.http.get(this.url, httpOptions)
+    return this.http.get(this.url, httpOptions);
   }
 
   addDepartment(deparment: IDepartment): Observable<any | IDepartment> {
     const httpOptions = {
       headers: this.headers,
-    }
+    };
 
-    return this.http.post(this.url, deparment, httpOptions)
+    return this.http.post(this.url, deparment, httpOptions);
   }
 
-  editDepartment( deparment: IDepartment): Observable<any | IDepartment> {
+  editDepartment(deparment: IDepartment): Observable<any | IDepartment> {
     const httpOptions = {
       headers: this.headers,
-    }
+      params: new HttpParams({ fromObject: { id: deparment.id } }),
+    };
 
-    return this.http.put(this.url, deparment, httpOptions)
+    return this.http.put(this.url, deparment, httpOptions);
   }
-  
-  deleteDepartment(deparmentId: string): Observable<any> {
+
+  deleteDepartment(id: string): Observable<any> {
     const httpOptions = {
       headers: this.headers,
-      params: { id: deparmentId },
-    }
+      params: new HttpParams({ fromObject: { id } }),
+    };
 
-    return this.http.delete(this.url, httpOptions)
+    return this.http.delete(this.url, httpOptions);
   }
 }
