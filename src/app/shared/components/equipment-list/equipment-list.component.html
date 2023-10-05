@@ -18,7 +18,7 @@
     </mat-checkbox>
     <mat-form-field class="item-full-width">
       <mat-label>Buscar por ID</mat-label>
-      <input matInput  formControlName="id" />
+      <input matInput formControlName="id" />
     </mat-form-field>
     <mat-form-field class="item-full-width">
       <mat-label>Filtrar por título</mat-label>
@@ -45,11 +45,7 @@
       </mat-select>
     </mat-form-field>
     <div class="flex-end">
-      <button
-        mat-raised-button
-        color="warn"
-        (click)="handleClearFilters()"
-      >
+      <button mat-raised-button color="warn" (click)="handleClearFilters()">
         Limpar
       </button>
       <button
@@ -89,13 +85,27 @@
         </button>
       </div>
     </div>
-    <mat-card-content *ngIf="itemModal[i]">
-      {{ equipment | json }}
-      <ul *ngFor="let collaborator of equipment.collaborators; let i = index">
-        <li>{{ collaborator.name }}</li>
-        <li>{{ collaborator.role }}</li>
-        <li>{{ collaborator.department }}</li>
-      </ul>
+    <mat-card-content class="flex-between" *ngIf="itemModal[i]">
+      <div>
+        <h2>Colaborador(s)</h2>
+        <p *ngFor="let collaborator of equipment.collaborators; let i = index">
+          {{ collaborator.name }} - {{ collaborator.role }}
+        </p>
+      </div>
+      <div>
+        <h2>Item(s)</h2>
+        <p *ngFor="let item of equipment.items">
+          {{ item.property }} - {{ item.value }}
+        </p>
+      </div>
+      <div>
+        <p>ID: {{ equipment.id }}</p>
+        <p>
+          Ultima atualização em :
+          {{ equipment.updatedAt | date : "medium" }}
+        </p>
+        <p>Criado em : {{ equipment.createdAt | date : "short" }}</p>
+      </div>
     </mat-card-content>
     <mat-divider />
   </mat-card-content>

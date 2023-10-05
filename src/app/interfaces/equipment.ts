@@ -7,5 +7,6 @@ export interface IEquipment {
   description: string;
   collaborators: ICollaborator[];
   items: IItem[];
-  created_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
