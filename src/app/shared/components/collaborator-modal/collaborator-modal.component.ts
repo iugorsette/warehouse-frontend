@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { ICollaborator } from "src/app/interfaces/collaborator";
 import { IDepartment } from "src/app/interfaces/department";
@@ -32,7 +32,7 @@ export class CollaboratorModalComponent implements OnInit {
     this.form = this.fb.group({
       name: [data?.collaborator?.name],
       role: [data?.collaborator?.role],
-      department: [data?.collaborator?.department],
+      department: [data?.collaborator?.department?.id],
     });
   }
 
@@ -48,12 +48,12 @@ export class CollaboratorModalComponent implements OnInit {
     collaboratorEditted.id = this.data.collaborator?.id;
     collaboratorEditted.name = this.form.get("name")?.value ? this.form.get("name")?.value : "";
     collaboratorEditted.role = this.form.get("role")?.value ? this.form.get("role")?.value : "";
-    collaboratorEditted.departmentId = this.form.get("department")?.value.id ? this.form.get("department")?.value.id : "";
+    collaboratorEditted.departmentId = this.form.get("department")?.value ? this.form.get("department")?.value : null;
 
 
 
 
-    if (collaboratorEditted.id) {
+    if (collaboratorEditted?.id) {
       this.collaboratorService.editCollaborator(collaboratorEditted).subscribe(() => {
         this.dialogRef.close(true);
       });
