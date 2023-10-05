@@ -26,6 +26,8 @@ export class CreateMovementComponent implements OnInit {
   protected collaborators: ICollaborator[] = [];
   protected equipments: IEquipment[] = [];
 
+  protected collaboratorState: string = "";
+
   public collaboratorFilterCtrl: FormControl = new FormControl("");
   public equipmentFilterCtrl: FormControl = new FormControl("");
 
@@ -102,11 +104,6 @@ export class CreateMovementComponent implements OnInit {
     desvinculate.equipmentId = this.movementForm.value.equipmentId;
     desvinculate.collaboratorId = this.movementForm.value.byCollaboratorId;
 
-
-    console.log(this.movementForm.value);
-    console.log('vinculate: ',vinculate);
-    console.log('desvinculate: ',desvinculate);
-
     if (this.movement === "Transferência") {
       this.desvinculate(desvinculate);
       this.vinculate(vinculate);
@@ -164,6 +161,7 @@ export class CreateMovementComponent implements OnInit {
     );
 
     this.loadCollaborators(title);
+    this.collaboratorState = title
   }
 
   handleGetEquipments() {
@@ -171,20 +169,29 @@ export class CreateMovementComponent implements OnInit {
       return;
     }
 
+    let collaborator = this.collaboratorState;
     let title = this.equipmentFilterCtrl.value;
-    if (!title) {
-      this.filteredEquipments.next(this.equipments.slice());
+    
+    if (collaborator) {
+      this.filteredEquipments.next(
+        this.equipments.filter((equipment) => {
+          let found = equipment.collaborators.find((collab) =>
+            collab.name.toLowerCase().includes(collaborator)
+          );
+          if (found) {
+            return equipment.title.toLowerCase().includes(title.toLowerCase());
+          }
+          return 
+        })
+      );
       return;
-    } else {
-      title = title.toLowerCase();
     }
 
     this.filteredEquipments.next(
       this.equipments.filter(
-        (equipment) => equipment.title.toLowerCase().indexOf(title) > -1
+        (equipment) => equipment.title.toLowerCase().includes(title.toLowerCase())
       )
     );
-
-    this.loadEquipments(title);
+        
   }
 }
