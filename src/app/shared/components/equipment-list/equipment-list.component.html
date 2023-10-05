@@ -102,9 +102,9 @@
         <p>ID: {{ equipment.id }}</p>
         <p>
           Ultima atualização em :
-          {{ equipment.updatedAt | date : "medium" }}
+          {{ equipment.updatedAt | date: 'dd/MM/yyyy HH:mm' }}
         </p>
-        <p>Criado em : {{ equipment.createdAt | date : "short" }}</p>
+        <p>Criado em : {{ equipment.createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
       </div>
     </mat-card-content>
     <mat-divider />
