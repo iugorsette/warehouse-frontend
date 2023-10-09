@@ -1,23 +1,8 @@
 <app-success-message *ngIf="createSuccess" [successMessage]="createMessage" />
 <app-error-message *ngIf="createError" [errorMessage]="createMessage" />
 
-<mat-toolbar class="flex-between">
-  <div>
-    <button (click)="handleAddItem()" mat-icon-button color="accent">
-      <mat-icon>add</mat-icon>
-    </button>
-    <span>Transferir Equipamento</span>
-  </div>
-
-  <button (click)="handleFilterModal()" mat-icon-button color="primary">
-    <mat-icon>filter_list</mat-icon>
-  </button>
-</mat-toolbar>
-
-<app-modal />
-
-<mat-card *ngIf="filterModal">
-  <form [formGroup]="filters">
+<mat-card class="filter-container">
+  <form [formGroup]="filters" class="filter-container">
     <mat-form-field class="item-full-width">
       <mat-label>Filtrar por tipo</mat-label>
       <input matInput placeholder="Ex. Laptop" formControlName="type" />
@@ -26,7 +11,7 @@
     <mat-form-field class="item-full-width">
       <mat-label>Filtrar por Colaborador</mat-label>
       <mat-select
-        placeholder="collaborator"
+        placeholder="Colaborador"
         #singleSelect
         formControlName="collaboratorId"
       >
@@ -47,7 +32,7 @@
     <mat-form-field class="item-full-width">
       <mat-label>Filtrar por Equipamento</mat-label>
       <mat-select
-        placeholder="equipment"
+        placeholder="Equipamento"
         #singleSelect
         formControlName="equipmentId"
       >
@@ -66,49 +51,64 @@
     </mat-form-field>
 
     <div class="flex-end">
-      <button mat-raised-button color="warn" (click)="handleClearFilters()">
-        Limpar
+      <button
+        mat-mini-fab
+        color="warn"
+        (click)="handleClearFilters()"
+        matTooltip="Limpar Filtros"
+      >
+        <mat-icon>filter_alt_off</mat-icon>
       </button>
       <button
-        mat-raised-button
+        mat-mini-fab
         color="primary"
         (click)="handleFilters()"
         [disabled]="!filters.valid"
+        matTooltip="Filtrar"
       >
-        Filtrar
+        <mat-icon>search</mat-icon>
+      </button>
+      <button
+        (click)="handleAddItem()"
+        color="accent"
+        mat-mini-fab
+        matTooltip="Criar Transferência"
+      >
+        <mat-icon>add</mat-icon>
       </button>
     </div>
   </form>
 </mat-card>
 
-<mat-card class="item" *ngFor="let report of reports; let i = index">
-  <mat-card-content class="item-full-width">
-    <div class="flex-between">
-      <mat-card-header class="webkit">
-        <div class="report">
-          <div>
-            <p class="item-title">Item: {{ report.equipment.title }}</p>
-            <p class="date">Em: {{ report.createdAt | date : "dd/MM/yyyy" }}</p>
-          </div>
-          <div>
-            <p class="collaborator">
-              tipo: {{ report.type }} Colaborador:
-              {{
-                report?.collaborator?.name
-                  ? report.collaborator.name
-                  : "Estoque"
-              }}
-            </p>
-            <p>
-              Modificado por :
-              {{ report?.changeBy?.name ? report.changeBy.name : "" }}
-            </p>
-          </div>
-        </div>
-      </mat-card-header>
+<mat-card *ngFor="let report of reports; let i = index">
+  <mat-card-content>
+    <div class="header">
+      <h3 matListItemTitle class="item-name">{{ report.equipment.title }}</h3>
+      <span> Em: {{ report.createdAt | date : "dd/MM/yyyy" }}</span>
     </div>
-    <mat-divider />
+    <div class="card-content">
+      <p matListItemLine class="collaborator">
+        <mat-icon
+          [ngClass]="{ accent: report.type === 'Entrada' }"
+          [ngClass]="{ warn: report.type === 'Saída' }"
+          matTooltip="{{ report.type === 'Entrada' ? 'Entrada' : 'Saída' }}"
+          >{{ report.type === "Entrada" ? "east" : "west" }}</mat-icon
+        >
+        <span matTooltip="Colaborador">
+          {{
+            report?.collaborator?.name ? report.collaborator.name : "Estoque"
+          }}
+        </span>
+      </p>
+      <p>
+        <span>
+          Modificado por :
+          {{ report?.changeBy?.name ? report.changeBy.name : "" }}
+        </span>
+      </p>
+    </div>
   </mat-card-content>
+  <mat-divider />
 </mat-card>
 
 <app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />

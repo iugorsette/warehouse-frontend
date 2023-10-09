@@ -1,26 +1,38 @@
 .nav-bar{
+    padding-top: 20px;
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
     align-items: center;
     background-color: #eeeeee;
+	overflow:hidden;
+    position: fixed;
+    top: 56px;
+    gap: 10px;
+    height: 100vh;
+    width: 20%;
     .nav-item{
-        padding: 10px 40px;
+        width: -webkit-fill-available;
         a{
-            padding: 10px 40px;
+            display: block;
+            padding: 15px 40px;
             text-decoration: none;
             color: #555;
             font-size: 16px;
         }
-        border-bottom: 2px solid transparent;
+        border-left: 4px solid transparent;
         a:hover{
-            border-radius: 10px 10px 0 0;
+            background-color: #3a660048;
+            color: #396600;
+        }
+        a:active{
             background-color: #3a660048;
             color: #396600;
         }
 
     }
     .active{
-        border-bottom: 2px solid #396600;
+        color: #396600;
+        border-left: 4px solid #396600;
     }
 
 

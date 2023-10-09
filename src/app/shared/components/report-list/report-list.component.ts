@@ -39,7 +39,7 @@ export class ReportListComponent implements OnInit {
   public filters = this.fb.group({
     type: [""],
     equipmentId: [""],
-    collaboratorId: [""]
+    collaboratorId: [""],
   });
 
   public createSuccess: boolean = false;
@@ -56,7 +56,7 @@ export class ReportListComponent implements OnInit {
 
   ngOnInit(): void {
     document.title = "Movimentações - Almoxarifado Contajá";
-    this.loadReport();
+    this.pageChange({ pageIndex: 0, pageSize: 10 });
     this.loadEquipments();
     this.loadCollaborators();
 
@@ -96,7 +96,9 @@ export class ReportListComponent implements OnInit {
           : "",
         collaboratorId: this.filters.value.collaboratorId
           ? this.filters.value.collaboratorId
-          : ""
+          : "",
+        offset: this.pageIndex,
+        limit: this.pageSize,
       })
       .subscribe((response) => {
         console.log(response);
@@ -108,7 +110,7 @@ export class ReportListComponent implements OnInit {
     this.filters.reset();
     this.handleFilters();
   }
-  
+
   handleFilters() {
     console.log(this.filters.value);
     this.loadReport();
@@ -123,7 +125,7 @@ export class ReportListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadReport();
+        this.pageChange({ pageIndex: this.pageIndex, pageSize: this.pageSize });
       }
     });
   }
@@ -135,6 +137,7 @@ export class ReportListComponent implements OnInit {
         limit: event.pageSize,
       })
       .subscribe((response) => {
+        console.log(response);
         this.reports = response.data;
         this.totalItens = response.total;
         this.pageIndex = event.pageIndex;

@@ -1,41 +1,74 @@
 <app-success-message *ngIf="createSuccess" [successMessage]="createMessage" />
 <app-error-message *ngIf="createError" [errorMessage]="createMessage" />
 
-<mat-toolbar>
-  <div>
-    <button (click)="handleAddDeparment()" mat-icon-button color="accent">
-      <mat-icon>add</mat-icon>
-    </button>
-    <span>Adicionar Departamento</span>
-  </div>
-</mat-toolbar>
+<mat-card class="filter-container">
+  <form [formGroup]="filters" class="filter-container">
+    <mat-form-field class="item-full-width">
+      <mat-label>Departamento</mat-label>
+      <input matInput placeholder="Ex. Informática" formControlName="title" />
+    </mat-form-field>
 
-<mat-list class="item" *ngFor="let department of departments; let i = index">
-  <mat-list-item>
-    <h3 matListItemTitle class="item-name">{{ department.name }}</h3>
-    <p matListItemLine>
-      <span> {{ department.created_at }}</span>
-    </p>
-    <mat-icon matListItemIcon>group</mat-icon>
-  </mat-list-item>
-  <mat-divider />
-  <div class="list-button">
-    <button
-      mat-mini-fab
-      color="primary"
-      (click)="handleAddDeparment(department)"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
+    <div class="flex-end">
+      <button
+        mat-mini-fab
+        color="warn"
+        (click)="handleClearFilters()"
+        matTooltip="Limpar Filtros"
+      >
+        <mat-icon>filter_alt_off</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
+        color="primary"
+        (click)="handleFilters()"
+        [disabled]="!filters.valid"
+        matTooltip="Filtrar"
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+      <button
+        (click)="handleAddDeparment()"
+        color="accent"
+        mat-mini-fab
+        matTooltip="Criar Transferência"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </form>
+</mat-card>
 
-    <button
-      mat-mini-fab
-      color="warn"
-      (click)="handleRemoveDeparment(department)"
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
-  </div>
-</mat-list>
+<mat-card *ngFor="let department of departments; let i = index">
+  <mat-card-content class="card">
+    <div class="row-card">
+      <mat-icon matListItemIcon>person</mat-icon>
+      <div>
+        <h3 class="item-name">{{ department.name }}</h3>
+        <p>
+          {{ department.created_at }}
+        </p>
+      </div>
+    </div>
+    <div class="list-button">
+      <button
+        mat-mini-fab
+        color="primary"
+        (click)="handleAddDeparment(department)"
+        matTooltip="Editar Departamento"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button
+        mat-mini-fab
+        color="warn"
+        (click)="handleRemoveDeparment(department)"
+        matTooltip="Remover Departamento"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>
 
 <app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />

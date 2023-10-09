@@ -17,21 +17,52 @@
   align-items: baseline;
 }
 
-.list-button{
+.list-button {
   display: flex;
   gap: 10px;
+  padding-right: 30px;
 }
 
-.flex-between{
+.flex-between {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-
-.flex-end{
+.flex-end {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 20px;
+}
+.card {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.row-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  h3 {
+    margin: 0;
+    font-size: medium;
+  }
+  p {
+    margin: 0;
+    font-size: small;
+  }
+}
+
+
+.filter-container {
+  background-color:  #EEEEEE;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px ;
+  width: 100%;
+  gap: 10px;
 }

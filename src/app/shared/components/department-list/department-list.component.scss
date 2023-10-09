@@ -1,23 +1,62 @@
 .item-form {
-    min-width: 150px;
-    width: 100%;
-  }
-  .item-full-width {
-    width: 100%;
-  }
-  .buttons {
-    display: flex;
-    justify-content: space-around;
-    padding-bottom: 10px;
-  }
-  .item {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 10px;
-    align-items: baseline;
-  }
+  min-width: 150px;
+  width: 100%;
+}
+.item-full-width {
+  width: 100%;
+}
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 10px;
+}
+.item {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+  align-items: baseline;
+}
 
-.list-button{
-    display: flex;
-    gap: 10px;
+.list-button {
+  display: flex;
+  gap: 10px;
+  padding-right: 30px;
+}
+
+.card {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.row-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  h3 {
+    margin: 0;
+    font-size: medium;
   }
+  p {
+    margin: 0;
+    font-size: small;
+  }
+}
+
+.filter-container {
+  background-color: #eeeeee;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px 10px 0 10px;
+  width: 100%;
+  gap: 10px;
+  .flex-end {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+
+  }
+}

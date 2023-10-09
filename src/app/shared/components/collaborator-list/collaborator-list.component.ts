@@ -18,7 +18,6 @@ export class CollaboratorListComponent {
   public pageSize: number = 10;
   public pageIndex: number = 0;
 
-  public filterModal: boolean = false;
   public filters = this.fb.group({
     id: [""],
     name: [""],
@@ -53,7 +52,7 @@ export class CollaboratorListComponent {
 
   ngOnInit(): void {
     document.title = "Colaboradores - Almoxarifado Contajá";
-    this.loadCollaborator();
+    this.pageChange({ pageIndex: 0, pageSize: 10 });
 
     this.departmentService.getDepartment().subscribe((response) => {
       this.departments = response.data;
@@ -102,7 +101,7 @@ export class CollaboratorListComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadCollaborator();
+        this.pageChange({ pageIndex: this.pageIndex, pageSize: this.pageSize });
       }
     });
   }
@@ -136,9 +135,6 @@ export class CollaboratorListComponent {
       });
   }
 
-  handleFilterModal() {
-    this.filterModal = !this.filterModal;
-  }
 
   handleRemoveCollaborator(collaborator: ICollaborator) {
     const dialogRef = this.dialog.open(CollaboratorRemoveModalComponent, {

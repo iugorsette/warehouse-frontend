@@ -21,7 +21,6 @@ export class ItemListComponent implements OnInit {
 
   public items: IItem[] = [];
   public collaborators: ICollaborator[] = [];
-  public filterModal: boolean = false;
   public itemModal: boolean[] = [];
   public form: any = {};
 
@@ -93,9 +92,6 @@ export class ItemListComponent implements OnInit {
   handleItemModal(i: number) {
     this.itemModal[i] = !this.itemModal[i];
   }
-  handleFilterModal() {
-    this.filterModal = !this.filterModal;
-  }
 
 
   handleFilters() {
@@ -108,8 +104,8 @@ export class ItemListComponent implements OnInit {
         this.totalItens = response.total;
       });
   }
-
-  handleModal() {
-    this.filterModal = !this.filterModal;
+  handleClearFilters() {
+    this.filters.reset();
+    this.handleFilters();
   }
 }

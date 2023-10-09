@@ -24,6 +24,10 @@ export class DepartmentListComponent {
     title: [""],
   });
 
+  public filters = this.fb.group({
+    id: [""],
+    title: [""],
+  });
   public createSuccess: boolean = false;
   public createError: boolean = false;
   public createMessage: string = "";
@@ -35,21 +39,28 @@ export class DepartmentListComponent {
   ) {}
   ngOnInit(): void {
     document.title = "Departamentos - Almoxarifado Contajá";
-    this.loadDepartment();
+
+    this.pageChange({ pageIndex: 0, pageSize: 10 });
   }
 
-  loadDepartment() {
-    this.departmentService.getDepartment().subscribe({
-      next: (response) => {
-        this.departments = response.data;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
   handleModal() {
     this.modal = !this.modal;
+  }
+
+  handleFilters() {
+    this.departmentService
+      .getDepartment({
+        name: this.filters.value.title ? this.filters.value.title : "",
+      })
+      .subscribe((response) => {
+        this.departmentForm = response.data;
+        this.totalItens = response.total;
+      });
+  }
+
+  handleClearFilters() {
+    this.filters.reset();
+    this.handleFilters();
   }
 
   addDeparment() {
@@ -57,7 +68,7 @@ export class DepartmentListComponent {
     newDepartment.name = this.departmentForm.value.title;
     this.departmentService.addDepartment(newDepartment).subscribe({
       next: (response) => {
-        this.loadDepartment();
+        this.pageChange({ pageIndex: this.pageIndex, pageSize: this.pageSize });
         this.handleModal();
         this.createSuccess = true;
         this.createMessage = response.message;
@@ -79,7 +90,7 @@ export class DepartmentListComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadDepartment();
+        this.pageChange({ pageIndex: this.pageIndex, pageSize: this.pageSize });
       }
     });
   }

@@ -1,105 +1,100 @@
-<app-success-message *ngIf="createSuccess" [successMessage]="createMessage"/>
-<app-error-message *ngIf="createError" [errorMessage]="createMessage"/>
+<app-success-message *ngIf="createSuccess" [successMessage]="createMessage" />
+<app-error-message *ngIf="createError" [errorMessage]="createMessage" />
 
-<mat-toolbar class="flex-between">
-  <div>
-    <button (click)="handleAddCollaborator()" mat-icon-button color="accent">
-      <mat-icon>add</mat-icon>
-    </button>
-    <span>Adicionar Colaborador</span>
-  </div>
-
-  <button (click)="handleFilterModal()" mat-icon-button color="primary">
-    <mat-icon>filter_list</mat-icon>
-  </button>
-  
-</mat-toolbar>
-
-
-<mat-card *ngIf="filterModal">
-  <form [formGroup]="filters">
+<mat-card class="filter-container">
+  <form [formGroup]="filters" class="filter-container">
     <mat-form-field class="item-full-width">
-      <mat-label>Buscar por ID</mat-label>
-      <input matInput  formControlName="id" />
-    </mat-form-field>
-    <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por nome do colaborador</mat-label>
+      <mat-label>Colaborador</mat-label>
       <input matInput placeholder="Ex. John Doe" formControlName="name" />
     </mat-form-field>
     <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por cargo</mat-label>
+      <mat-label>Posição</mat-label>
       <input matInput placeholder="Ex. Desenvolvedor" formControlName="role" />
     </mat-form-field>
-    
 
-      <mat-form-field class="item-full-width">
-        <mat-label>Filtrar por departamento</mat-label>
-        <mat-select
-          placeholder="departamento"
-          #singleSelect
-          formControlName="department"
+    <mat-form-field class="item-full-width">
+      <mat-label>Departamento</mat-label>
+      <mat-select
+        placeholder="Departamento"
+        #singleSelect
+        formControlName="department"
+      >
+        <mat-option>
+          <ngx-mat-select-search
+            [formControl]="departmentFilterCtrl"
+          ></ngx-mat-select-search>
+        </mat-option>
+        <mat-option
+          *ngFor="let department of filteredDepartments | async"
+          [value]="department.id"
         >
-          <mat-option>
-            <ngx-mat-select-search
-              [formControl]="departmentFilterCtrl"
-            ></ngx-mat-select-search>
-          </mat-option>
-          <mat-option
-            *ngFor="let department of filteredDepartments | async"
-            [value]="department.id"
-          >
-            {{ department.name }}
-          </mat-option>
-        </mat-select>
+          {{ department.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="item-full-width">
+      <mat-label>Buscar por ID</mat-label>
+      <input matInput formControlName="id" />
     </mat-form-field>
     <div class="flex-end">
       <button
-        mat-raised-button
+        mat-mini-fab
         color="warn"
         (click)="handleClearFilters()"
+        matTooltip="Limpar Filtros"
       >
-        Limpar
+        <mat-icon>filter_alt_off</mat-icon>
       </button>
       <button
-        mat-flat-button
-        mat-raised-button
-        class="item-button"
+        mat-mini-fab
         color="primary"
-        type="submit"
         (click)="handleFilters()"
+        [disabled]="!filters.valid"
+        matTooltip="Filtrar"
       >
-        Filtrar
+        <mat-icon>search</mat-icon>
+      </button>
+      <button
+        (click)="handleAddCollaborator()"
+        color="accent"
+        mat-mini-fab
+        matTooltip="Criar Transferência"
+      >
+        <mat-icon>add</mat-icon>
       </button>
     </div>
   </form>
 </mat-card>
 
+<mat-card *ngFor="let collaborator of collaborators; let i = index">
+  <mat-card-content class="card">
+    <div class="row-card">
+      <mat-icon matListItemIcon>person</mat-icon>
+      <div>
+        <h3>{{ collaborator.name }}</h3>
+        <p>{{ collaborator.role }}</p>
+      </div>
+    </div>
+    <div class="list-button">
+      <button
+        mat-mini-fab
+        color="primary"
+        (click)="handleAddCollaborator(collaborator)"
+        matTooltip="Editar item"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
 
-<mat-list class="item" *ngFor="let collaborator of collaborators; let i = index">
-  <mat-list-item>
-  
-    <h3 matListItemTitle class="item-name">{{ collaborator.name }}</h3>
-    <p matListItemLine>
-      <span> {{collaborator.role}} </span>
-    </p>
-    <mat-icon matListItemIcon>person</mat-icon>
-  </mat-list-item>
-  <mat-divider />
-
-  <div class="list-button">
-    <button
-      mat-mini-fab
-      color="primary"
-      (click)="handleAddCollaborator(collaborator)"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
-
-    <button mat-mini-fab color="warn" (click)="handleRemoveCollaborator(collaborator)">
-      <mat-icon>delete</mat-icon>
-    </button>
-  </div>
-</mat-list>
+      <button
+        mat-mini-fab
+        color="warn"
+        (click)="handleRemoveCollaborator(collaborator)"
+        matTooltip="Remover item"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>
 
 <app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
-

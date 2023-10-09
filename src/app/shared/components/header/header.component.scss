@@ -1,12 +1,16 @@
 .mat-toolbar {
+  background-color: #EEEEEE;;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 25px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.header {
-  padding: 5px 0;
-}
 
 img {
   cursor: pointer;

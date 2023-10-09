@@ -23,7 +23,7 @@ export class EquipmentListComponent implements OnInit {
   public pageIndex: number = 0;
 
   public equipments: IEquipment[] = [];
-  public filterModal: boolean = false;
+  public filterModal: boolean = true;//false
   public itemModal: boolean[] = [];
   public form: any = {};
   public filteredItens: IEquipment[] = [];

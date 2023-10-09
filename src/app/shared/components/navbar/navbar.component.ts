@@ -9,11 +9,11 @@ import { Router } from '@angular/router'
 export class NavbarComponent {
   public links = [
     { name: 'Home', path: '/' },
-    { name: 'Equipamentos', path: '/Equipamentos' },
-    { name: 'Movimentação', path: '/Relatório' },
-    { name: 'Colaborador', path: '/Colaborador' },
-    { name: 'Departamento', path: '/Departamento' },
-    { name: 'Itens', path: '/Itens'}
+    { name: 'Equipamentos', path: '/equipamentos' },
+    { name: 'Movimentação', path: '/movimentacao' },
+    { name: 'Colaborador', path: '/colaborador' },
+    { name: 'Departamento', path: '/departamento' },
+    { name: 'Itens', path: '/itens'}
   ]
 
   constructor(protected router: Router) {}
