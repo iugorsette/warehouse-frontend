@@ -1,44 +1,42 @@
 .panel {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    width: 70%;
-    height: 400px;
-    margin: 20px auto;
-    background-color: #fff;
-  
-    .header {
-      text-align: center;
-      margin-bottom: 15px;
-      
-      h1 {
-        font-size: 24px;
-        color: #396600
-      }
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  width: 70%;
+  height: 400px;
+  margin: 20px auto 100%;
+  background-color: #fff;
+  .header {
+    text-align: center;
+    margin-bottom: 15px;
+
+    h1 {
+      font-size: 24px;
+      color: #396600;
     }
-  
-    .content {
-      p {
-        text-align: center;
-        margin-bottom: 10px;
-        font-size: 16px;
-        color: #555;
+  }
+
+  .content {
+    p {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #555;
+    }
+
+    table {
+      width: 100%;
+      th,
+      td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
       }
-  
-      table {
-        width: 100%;
-  
-        th, td {
-          padding: 8px;
-          border-bottom: 1px solid #ddd;
-        }
-  
-        th {
-          text-align: left;
-          font-weight: bold;
-          color: #555;
-        }
+
+      th {
+        text-align: left;
+        font-weight: bold;
+        color: #555;
       }
     }
   }
-  
+}

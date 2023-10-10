@@ -1,115 +1,84 @@
-<mat-card class="filter-container">
-  <form [formGroup]="filters" class="filter-container">
-    <mat-checkbox class="example-margin" formControlName="stock">
-      Em estoque
-    </mat-checkbox>
-    <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por propriedade</mat-label>
-      <input
-        matInput
-        placeholder="Ex. processador"
-        formControlName="property"
-      />
-    </mat-form-field>
-    <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por valor</mat-label>
-      <input matInput placeholder="Ex. core i5" formControlName="value" />
-    </mat-form-field>
-    <div class="flex-end">
-      <button
-        mat-mini-fab
-        color="warn"
-        (click)="handleClearFilters()"
-        matTooltip="Limpar Filtros"
-      >
-        <mat-icon>filter_alt_off</mat-icon>
-      </button>
-      <button
-        mat-mini-fab
-        color="primary"
-        (click)="handleFilters()"
-        [disabled]="!filters.valid"
-        matTooltip="Filtrar"
-      >
-        <mat-icon>search</mat-icon>
-      </button>
-      <button
-        (click)="handleAddItem()"
-        mat-mini-fab
-        color="accent"
-        matTooltip="Adicionar item"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-  </form>
-</mat-card>
-<!-- 
-<mat-card *ngFor="let item of items; let i = index">
-  <mat-card-content class="card">
-    <div class="row-card">
+<div class="container">
+  <mat-card class="filter-container">
+    <form [formGroup]="filters" class="filter-container">
+      <mat-checkbox class="example-margin" formControlName="stock">
+        Em estoque
+      </mat-checkbox>
+      <mat-form-field class="item-full-width">
+        <mat-label>Filtrar por propriedade</mat-label>
+        <input
+          matInput
+          placeholder="Ex. processador"
+          formControlName="property"
+        />
+      </mat-form-field>
+      <mat-form-field class="item-full-width">
+        <mat-label>Filtrar por valor</mat-label>
+        <input matInput placeholder="Ex. core i5" formControlName="value" />
+      </mat-form-field>
+      <div class="flex-end">
+        <button
+          mat-mini-fab
+          color="warn"
+          (click)="handleClearFilters()"
+          matTooltip="Limpar Filtros"
+        >
+          <mat-icon>filter_alt_off</mat-icon>
+        </button>
+        <button
+          mat-mini-fab
+          color="primary"
+          (click)="handleFilters()"
+          [disabled]="!filters.valid"
+          matTooltip="Filtrar"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+        <button
+          (click)="handleAddItem()"
+          mat-mini-fab
+          color="accent"
+          matTooltip="Adicionar item"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+
+  <mat-card *ngFor="let item of items; let i = index">
+    <mat-card-content class="card">
+      <div class="row-card">
+        <!-- <mat-icon matListItemIcon>item</mat-icon> -->
         <div>
           <h3>{{ item.property }} - {{ item.value }}</h3>
           <p>
             {{ item.equipment?.title ? item.equipment?.title : "em estoque" }}
           </p>
         </div>
-    </div>
-    <div class="list-button">
-      <button
-        mat-mini-fab
-        color="primary"
-        (click)="handleAddItem(item)"
-        matTooltip="Editar item"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-
-      <button
-        mat-mini-fab
-        color="warn"
-        (click)="handleRemoveItem(item)"
-        matTooltip="Remover item"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
-  </mat-card-content>
-</mat-card> -->
-
-
-<mat-card *ngFor="let item of items; let i = index">
-  <mat-card-content class="card">
-    <div class="row-card">
-      <mat-icon matListItemIcon>item</mat-icon>
-      <div>
-        <h3 >{{ item.property }} - {{ item.value }}</h3>
-          <p>
-            {{ item.equipment?.title ? item.equipment?.title : "em estoque" }}
-          </p>
       </div>
-    </div>
 
-    <div class="list-button">
-      <button
-        mat-mini-fab
-        color="primary"
-        (click)="handleAddItem(item)"
-        matTooltip="Editar item"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
+      <div class="list-button">
+        <button
+          mat-mini-fab
+          color="primary"
+          (click)="handleAddItem(item)"
+          matTooltip="Editar item"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
 
-      <button
-        mat-mini-fab
-        color="warn"
-        (click)="handleRemoveItem(item)"
-        matTooltip="Remover item"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
-  </mat-card-content>
-</mat-card>
+        <button
+          mat-mini-fab
+          color="warn"
+          (click)="handleRemoveItem(item)"
+          matTooltip="Remover item"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
-<app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
+  <app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
+</div>

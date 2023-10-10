@@ -19,7 +19,6 @@ export class CollaboratorListComponent {
   public pageIndex: number = 0;
 
   public filters = this.fb.group({
-    id: [""],
     name: [""],
     role: [""],
     department: [""],

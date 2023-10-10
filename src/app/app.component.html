@@ -1,7 +1,7 @@
-<app-header />
-<div class="container">
+<app-header *ngIf="loginService.isLogged" />
+<div class="container" *ngIf="loginService.isLogged">
   <app-navbar />
   <div></div>
   <router-outlet/>
 </div>
-
+<router-outlet *ngIf="!loginService.isLogged"/>

@@ -20,12 +20,8 @@ export class DepartmentListComponent {
   public modal: boolean = false;
   public form: any = {};
 
-  public departmentForm = this.fb.group({
-    title: [""],
-  });
 
   public filters = this.fb.group({
-    id: [""],
     title: [""],
   });
   public createSuccess: boolean = false;
@@ -39,12 +35,7 @@ export class DepartmentListComponent {
   ) {}
   ngOnInit(): void {
     document.title = "Departamentos - Almoxarifado Contajá";
-
     this.pageChange({ pageIndex: 0, pageSize: 10 });
-  }
-
-  handleModal() {
-    this.modal = !this.modal;
   }
 
   handleFilters() {
@@ -53,7 +44,7 @@ export class DepartmentListComponent {
         name: this.filters.value.title ? this.filters.value.title : "",
       })
       .subscribe((response) => {
-        this.departmentForm = response.data;
+        this.departments = response.data;
         this.totalItens = response.total;
       });
   }
@@ -63,23 +54,6 @@ export class DepartmentListComponent {
     this.handleFilters();
   }
 
-  addDeparment() {
-    const newDepartment: any = {};
-    newDepartment.name = this.departmentForm.value.title;
-    this.departmentService.addDepartment(newDepartment).subscribe({
-      next: (response) => {
-        this.pageChange({ pageIndex: this.pageIndex, pageSize: this.pageSize });
-        this.handleModal();
-        this.createSuccess = true;
-        this.createMessage = response.message;
-      },
-      error: (error) => {
-        this.createSuccess = false;
-        this.createError = true;
-        this.createMessage = error.error.message;
-      },
-    });
-  }
 
   handleAddDeparment(department?: IDepartment) {
     const dialogRef = this.dialog.open(DepartmentModalComponent, {
@@ -94,6 +68,7 @@ export class DepartmentListComponent {
       }
     });
   }
+  
   handleRemoveDeparment(department: IDepartment) {
     const dialogRef = this.dialog.open(DepartmentRemoveModalComponent, {
       data: {

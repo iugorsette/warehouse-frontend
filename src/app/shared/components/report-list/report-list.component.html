@@ -1,114 +1,123 @@
 <app-success-message *ngIf="createSuccess" [successMessage]="createMessage" />
 <app-error-message *ngIf="createError" [errorMessage]="createMessage" />
 
-<mat-card class="filter-container">
-  <form [formGroup]="filters" class="filter-container">
-    <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por tipo</mat-label>
-      <input matInput placeholder="Ex. Laptop" formControlName="type" />
-    </mat-form-field>
+<div class="container">
+  <mat-card class="filter-container">
+    <form [formGroup]="filters" class="filter-container">
+      <mat-form-field class="item-full-width">
+        <mat-label> Filtrar por tipo</mat-label>
+        <mat-select formControlName="type">
+          <mat-option
+            *ngFor="let movementType of allMovementTypes"
+            [value]="movementType"
+          >
+            {{ movementType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por Colaborador</mat-label>
-      <mat-select
-        placeholder="Colaborador"
-        #singleSelect
-        formControlName="collaboratorId"
-      >
-        <mat-option>
-          <ngx-mat-select-search
-            [formControl]="collaboratorFilterCtrl"
-          ></ngx-mat-select-search>
-        </mat-option>
-        <mat-option
-          *ngFor="let collaborator of filteredCollaborators | async"
-          [value]="collaborator.id"
+      <mat-form-field class="item-full-width">
+        <mat-label>Filtrar por Colaborador</mat-label>
+        <mat-select
+          placeholder="Colaborador"
+          #singleSelect
+          formControlName="collaboratorId"
         >
-          {{ collaborator.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="collaboratorFilterCtrl"
+            ></ngx-mat-select-search>
+          </mat-option>
+          <mat-option
+            *ngFor="let collaborator of filteredCollaborators | async"
+            [value]="collaborator.id"
+          >
+            {{ collaborator.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field class="item-full-width">
-      <mat-label>Filtrar por Equipamento</mat-label>
-      <mat-select
-        placeholder="Equipamento"
-        #singleSelect
-        formControlName="equipmentId"
-      >
-        <mat-option>
-          <ngx-mat-select-search
-            [formControl]="equipmentFilterCtrl"
-          ></ngx-mat-select-search>
-        </mat-option>
-        <mat-option
-          *ngFor="let equipment of filteredEquipments | async"
-          [value]="equipment.id"
+      <mat-form-field class="item-full-width">
+        <mat-label>Filtrar por Equipamento</mat-label>
+        <mat-select
+          placeholder="Equipamento"
+          #singleSelect
+          formControlName="equipmentId"
         >
-          {{ equipment.title }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="equipmentFilterCtrl"
+            ></ngx-mat-select-search>
+          </mat-option>
+          <mat-option
+            *ngFor="let equipment of filteredEquipments | async"
+            [value]="equipment.id"
+          >
+            {{ equipment.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <div class="flex-end">
-      <button
-        mat-mini-fab
-        color="warn"
-        (click)="handleClearFilters()"
-        matTooltip="Limpar Filtros"
-      >
-        <mat-icon>filter_alt_off</mat-icon>
-      </button>
-      <button
-        mat-mini-fab
-        color="primary"
-        (click)="handleFilters()"
-        [disabled]="!filters.valid"
-        matTooltip="Filtrar"
-      >
-        <mat-icon>search</mat-icon>
-      </button>
-      <button
-        (click)="handleAddItem()"
-        color="accent"
-        mat-mini-fab
-        matTooltip="Criar Transferência"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-  </form>
-</mat-card>
-
-<mat-card *ngFor="let report of reports; let i = index">
-  <mat-card-content>
-    <div class="header">
-      <h3 matListItemTitle class="item-name">{{ report.equipment.title }}</h3>
-      <span> Em: {{ report.createdAt | date : "dd/MM/yyyy" }}</span>
-    </div>
-    <div class="card-content">
-      <p matListItemLine class="collaborator">
-        <mat-icon
-          [ngClass]="{ accent: report.type === 'Entrada' }"
-          [ngClass]="{ warn: report.type === 'Saída' }"
-          matTooltip="{{ report.type === 'Entrada' ? 'Entrada' : 'Saída' }}"
-          >{{ report.type === "Entrada" ? "east" : "west" }}</mat-icon
+      <div class="flex-end">
+        <button
+          mat-mini-fab
+          color="warn"
+          (click)="handleClearFilters()"
+          matTooltip="Limpar Filtros"
         >
-        <span matTooltip="Colaborador">
-          {{
-            report?.collaborator?.name ? report.collaborator.name : "Estoque"
-          }}
-        </span>
-      </p>
-      <p>
-        <span>
-          Modificado por :
-          {{ report?.changeBy?.name ? report.changeBy.name : "" }}
-        </span>
-      </p>
-    </div>
-  </mat-card-content>
-  <mat-divider />
-</mat-card>
+          <mat-icon>filter_alt_off</mat-icon>
+        </button>
+        <button
+          mat-mini-fab
+          color="primary"
+          (click)="handleFilters()"
+          [disabled]="!filters.valid"
+          matTooltip="Filtrar"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+        <button
+          (click)="handleAddItem()"
+          color="accent"
+          mat-mini-fab
+          matTooltip="Criar Transferência"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-card>
 
-<app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
+  <mat-card *ngFor="let report of reports; let i = index">
+    <mat-card-content>
+      <div class="header">
+        <h3 matListItemTitle class="item-name">{{ report.equipment.title }}</h3>
+        <span> Em: {{ report.createdAt | date : "dd/MM/yyyy" }}</span>
+      </div>
+      <div class="card-content">
+        <p matListItemLine class="collaborator">
+          <mat-icon
+            [ngClass]="{ accent: report.type === 'Entrada' }"
+            [ngClass]="{ warn: report.type === 'Saída' }"
+            matTooltip="{{ report.type === 'Entrada' ? 'Entrada' : 'Saída' }}"
+            >{{ report.type === "Entrada" ? "east" : "west" }}</mat-icon
+          >
+          <span matTooltip="Colaborador">
+            {{
+              report?.collaborator?.name ? report.collaborator.name : "Estoque"
+            }}
+          </span>
+        </p>
+        <p>
+          <span>
+            Modificado por :
+            {{ report?.changeBy?.name ? report.changeBy.name : "" }}
+          </span>
+        </p>
+      </div>
+    </mat-card-content>
+    <mat-divider />
+  </mat-card>
+
+  <app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
+</div>

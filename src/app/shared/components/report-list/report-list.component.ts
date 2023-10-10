@@ -19,6 +19,7 @@ export class ReportListComponent implements OnInit {
   public totalItens: number = 0;
   public pageSize: number = 10;
   public pageIndex: number = 0;
+  protected allMovementTypes: string[] = ["Entrada", "Saída"];
 
   protected collaborators: ICollaborator[] = [];
   public collaboratorFilterCtrl: FormControl = new FormControl("");

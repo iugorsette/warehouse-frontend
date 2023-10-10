@@ -1,28 +1,29 @@
 <app-success-message *ngIf="createSuccess" [successMessage]="createMessage" />
 <app-error-message *ngIf="createError" [errorMessage]="createMessage" />
 
-<mat-card class="filter-container">
-  <form [formGroup]="filters" class="filter-container">
+<div class="container">
+
+  <mat-card class="filter-container">
+    <form [formGroup]="filters" class="filter-container">
     <mat-form-field class="item-full-width">
       <mat-label>Departamento</mat-label>
       <input matInput placeholder="Ex. Informática" formControlName="title" />
     </mat-form-field>
-
+    
     <div class="flex-end">
       <button
-        mat-mini-fab
-        color="warn"
-        (click)="handleClearFilters()"
-        matTooltip="Limpar Filtros"
+      mat-mini-fab
+      color="warn"
+      (click)="handleClearFilters()"
+      matTooltip="Limpar Filtros"
       >
-        <mat-icon>filter_alt_off</mat-icon>
-      </button>
+      <mat-icon>filter_alt_off</mat-icon>
+    </button>
       <button
-        mat-mini-fab
-        color="primary"
-        (click)="handleFilters()"
-        [disabled]="!filters.valid"
-        matTooltip="Filtrar"
+      mat-mini-fab
+      color="primary"
+      (click)="handleFilters()"
+      matTooltip="Filtrar"
       >
         <mat-icon>search</mat-icon>
       </button>
@@ -30,8 +31,8 @@
         (click)="handleAddDeparment()"
         color="accent"
         mat-mini-fab
-        matTooltip="Criar Transferência"
-      >
+        matTooltip="Adicionar Departamento"
+        >
         <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -51,13 +52,13 @@
     </div>
     <div class="list-button">
       <button
-        mat-mini-fab
-        color="primary"
-        (click)="handleAddDeparment(department)"
-        matTooltip="Editar Departamento"
+      mat-mini-fab
+      color="primary"
+      (click)="handleAddDeparment(department)"
+      matTooltip="Editar Departamento"
       >
-        <mat-icon>edit</mat-icon>
-      </button>
+      <mat-icon>edit</mat-icon>
+    </button>
 
       <button
         mat-mini-fab
@@ -65,10 +66,12 @@
         (click)="handleRemoveDeparment(department)"
         matTooltip="Remover Departamento"
       >
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
-  </mat-card-content>
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</mat-card-content>
 </mat-card>
 
 <app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
+
+</div>

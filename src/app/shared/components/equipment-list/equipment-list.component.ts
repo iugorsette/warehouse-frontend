@@ -172,8 +172,9 @@ export class EquipmentListComponent implements OnInit {
   handleFilters() {
     this.equipmentService
       .getEquipments({
+        id: this.filters.value.id ? this.filters.value.id : "",
         title: this.filters.value.title ? this.filters.value.title : "",
-        collaboratorId: this.filters.value.collaborator ? this.filters.value.collaborator.id : "",
+        collaboratorId: this.filters.value.collaborator ? this.filters.value.collaborator : "",
         showStock: this.filters.value.stock ? this.filters.value.stock : false,
         
       })
