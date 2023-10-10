@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content >
+  <form class="item-form" [formGroup]="form">
+    <mat-form-field class="item-full-width">
+      <mat-label>Propiedade</mat-label>
+      <input matInput placeholder="Processador" formControlName="property" required />
+    </mat-form-field>
+
+    <mat-form-field class="item-full-width">
+      <mat-label>Especificações</mat-label>
+      <input matInput placeholder="core i5" formControlName="value" required />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close color="warn">Cancel</button>
+  <button
+    mat-dialog-close
+    type="submit"
+    class="item-button"
+    mat-flat-button
+    color="accent"
+    (click)="submit()"
+    [disabled]="form.invalid"
+  >
+    Confirmar
+  </button>
+</mat-dialog-actions>

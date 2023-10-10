@@ -29,7 +29,6 @@
           mat-mini-fab
           color="primary"
           (click)="handleFilters()"
-          [disabled]="!filters.valid"
           matTooltip="Filtrar"
         >
           <mat-icon>search</mat-icon>
@@ -49,7 +48,6 @@
   <mat-card *ngFor="let item of items; let i = index">
     <mat-card-content class="card">
       <div class="row-card">
-        <!-- <mat-icon matListItemIcon>item</mat-icon> -->
         <div>
           <h3>{{ item.property }} - {{ item.value }}</h3>
           <p>

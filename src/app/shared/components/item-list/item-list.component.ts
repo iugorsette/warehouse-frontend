@@ -1,13 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { CollaboratorService } from "src/app/services/collaborator.service";
-import { AddItemComponent } from "../add-item/add-item.component";
-import { HandleRemoveDialogComponent } from "../handle-remove-dialog/handle-remove-dialog.component";
 import { LoginService } from "src/app/services/login.service";
 import { FormBuilder } from "@angular/forms";
 import { ICollaborator } from "src/app/interfaces/collaborator";
 import { ItemService } from "src/app/services/item.service";
 import { IItem } from "src/app/interfaces/item";
+import { ItemRemoveModalComponent } from "../item-remove-modal/item-remove-modal.component";
+import { ItemModalComponent } from "../item-modal/item-modal.component";
 
 @Component({
   selector: "app-item-list",
@@ -64,7 +64,7 @@ export class ItemListComponent implements OnInit {
   }
 
   handleAddItem(item?: IItem) {
-    const dialogRef = this.dialog.open(AddItemComponent, {
+    const dialogRef = this.dialog.open(ItemModalComponent, {
       data: {
         item,
       },
@@ -77,7 +77,7 @@ export class ItemListComponent implements OnInit {
   }
 
   handleRemoveItem(item: IItem) {
-    const dialogRef = this.dialog.open(HandleRemoveDialogComponent, {
+    const dialogRef = this.dialog.open(ItemRemoveModalComponent, {
       data: {
         item,
       },
@@ -96,8 +96,9 @@ export class ItemListComponent implements OnInit {
 
   handleFilters() {
     this.itemService.getItens({
-        property: this.filters.value.property ,
-        value: this.filters.value.value 
+        property: this.filters.value.property ? this.filters.value.property : "",
+        value: this.filters.value.value ? this.filters.value.value : "",
+        showStock: this.filters.value.stock ? this.filters.value.stock : "",
       })
       .subscribe((response) => {
         this.items = response.data;

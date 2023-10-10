@@ -42,6 +42,8 @@ import {
 import { CollaboratorRemoveModalComponent } from "./components/collaborator-remove-modal/collaborator-remove-modal.component";
 import { DepartmentRemoveModalComponent } from "./components/department-remove-modal/department-remove-modal.component";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { ItemModalComponent } from './components/item-modal/item-modal.component';
+import { ItemRemoveModalComponent } from './components/item-remove-modal/item-remove-modal.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     EquipmentModalComponent,
     CollaboratorRemoveModalComponent,
     DepartmentRemoveModalComponent,
+    ItemModalComponent,
+    ItemRemoveModalComponent,
   ],
   imports: [
     CommonModule,
