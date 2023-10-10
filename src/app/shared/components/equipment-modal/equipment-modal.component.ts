@@ -42,6 +42,7 @@ export class EquipmentModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
     this.form = this.fb.group({
+      register: [data.equipment?.register],
       title: [data.equipment?.title],
       description: [data.equipment?.description],
       collaborators: [data.equipment?.collaborators],
@@ -109,6 +110,7 @@ export class EquipmentModalComponent implements OnInit {
   submit() {
     const equipment: any = {};
     equipment.id = this.data.equipment?.id;
+    equipment.register = this.form.value?.register;
     equipment.title = this.form.value.title;
     equipment.description = this.form.value.description;
 

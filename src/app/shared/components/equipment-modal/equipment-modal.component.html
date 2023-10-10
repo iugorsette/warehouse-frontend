@@ -2,6 +2,14 @@
 <mat-dialog-content>
   <form [formGroup]="form" class="item-form">
     <mat-form-field class="item-full-width">
+      <mat-label>Código de registro</mat-label>
+      <input
+        matInput
+        placeholder="Numero de série"
+        formControlName="register"
+      />
+    </mat-form-field>
+    <mat-form-field class="item-full-width">
       <mat-label>Nome do equipamento</mat-label>
       <input
         matInput

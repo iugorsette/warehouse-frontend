@@ -1,117 +1,119 @@
-<mat-card *ngIf="filterModal" class="filter-container">
-  <form [formGroup]="filters" class="filter-container">
-    <mat-form-field class="item-full-width form-field">
-      <mat-label>Filtrar por título</mat-label>
-      <input matInput placeholder="Ex. Laptop" formControlName="title" />
-    </mat-form-field>
-    <mat-form-field class="item-full-width form-field">
-      <mat-label>Colaborador</mat-label>
-      <mat-select
-        placeholder="collaborator"
-        #singleSelect
-        formControlName="collaborator"
-      >
-        <mat-option>
-          <ngx-mat-select-search
-            [formControl]="collaboratorFilterCtrl"
-          ></ngx-mat-select-search>
-        </mat-option>
-        <mat-option
-          *ngFor="let collaborator of filteredCollaborators | async"
-          [value]="collaborator.id"
+<div class="container">
+  <mat-card *ngIf="filterModal" class="filter-container">
+    <form [formGroup]="filters" class="filter-container">
+      <mat-form-field class="item-full-width form-field">
+        <mat-label>Filtrar por título</mat-label>
+        <input matInput placeholder="Ex. Laptop" formControlName="title" />
+      </mat-form-field>
+      <mat-form-field class="item-full-width form-field">
+        <mat-label>Colaborador</mat-label>
+        <mat-select
+          placeholder="collaborator"
+          #singleSelect
+          formControlName="collaborator"
         >
-          {{ collaborator.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="item-full-width">
-      <mat-label>Buscar por ID</mat-label>
-      <input matInput formControlName="id" />
-    </mat-form-field>
-    <mat-checkbox class="example-margin" formControlName="stock">
-      Em Estoque
-    </mat-checkbox>
-    <div class="flex-end">
-      <button
-        mat-mini-fab
-        color="warn"
-        (click)="handleClearFilters()"
-        matTooltip="Limpar Filtros"
-      >
-        <mat-icon>filter_alt_off</mat-icon>
-      </button>
-      <button
-        mat-mini-fab
-        class="item-button"
-        color="primary"
-        type="submit"
-        (click)="handleFilters()"
-        matTooltip="Filtrar"
-      >
-        <mat-icon>search</mat-icon>
-      </button>
-      <button
-        mat-mini-fab
-        class="item-button"
-        color="accent"
-        (click)="handleAddEquipment()"
-        matTooltip="Adicionar Equipamento"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-  </form>
-</mat-card>
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="collaboratorFilterCtrl"
+            ></ngx-mat-select-search>
+          </mat-option>
+          <mat-option
+            *ngFor="let collaborator of filteredCollaborators | async"
+            [value]="collaborator.id"
+          >
+            {{ collaborator.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="item-full-width">
+        <mat-label>Buscar por registro</mat-label>
+        <input matInput formControlName="register" />
+      </mat-form-field>
+      <mat-checkbox class="example-margin" formControlName="stock">
+        Em Estoque
+      </mat-checkbox>
+      <div class="flex-end">
+        <button
+          mat-mini-fab
+          color="warn"
+          (click)="handleClearFilters()"
+          matTooltip="Limpar Filtros"
+        >
+          <mat-icon>filter_alt_off</mat-icon>
+        </button>
+        <button
+          mat-mini-fab
+          class="item-button"
+          color="primary"
+          type="submit"
+          (click)="handleFilters()"
+          matTooltip="Filtrar"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+        <button
+          mat-mini-fab
+          class="item-button"
+          color="accent"
+          (click)="handleAddEquipment()"
+          matTooltip="Adicionar Equipamento"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-card>
 
-<mat-card *ngFor="let equipment of equipments; let i = index">
-  <div class="showed" (click)="handleItemModal(i)">
-    <mat-card-header>
-      <mat-card-title>{{ equipment.title }}</mat-card-title>
-      <mat-card-subtitle>{{ equipment.description }}</mat-card-subtitle>
-    </mat-card-header>
-    <div class="list-button">
-      <button
-        mat-mini-fab
-        color="primary"
-        (click)="handleAddEquipment(equipment)"
-        matTooltip="Editar Equipamento"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
+  <mat-card *ngFor="let equipment of equipments; let i = index">
+    <div class="showed" (click)="handleItemModal(i)">
+      <mat-card-header>
+        <mat-card-title>{{ equipment.title }}</mat-card-title>
+        <mat-card-subtitle>{{ equipment.description }}</mat-card-subtitle>
+      </mat-card-header>
+      <div class="list-button">
+        <button
+          mat-mini-fab
+          color="primary"
+          (click)="handleAddEquipment(equipment)"
+          matTooltip="Editar Equipamento"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
 
-      <button
-        mat-mini-fab
-        color="warn"
-        (click)="handleRemoveItem(equipment)"
-        matTooltip="Remover Equipamento"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
+        <button
+          mat-mini-fab
+          color="warn"
+          (click)="handleRemoveItem(equipment)"
+          matTooltip="Remover Equipamento"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
     </div>
-  </div>
-  <mat-card-content class="flex-between" *ngIf="itemModal[i]">
-    <div>
-      <h2>Colaborador(s)</h2>
-      <p *ngFor="let collaborator of equipment.collaborators; let i = index">
-        {{ collaborator.name }} - {{ collaborator.role }}
-      </p>
-    </div>
-    <div>
-      <h2>Item(s)</h2>
-      <p *ngFor="let item of equipment.items">
-        {{ item.property }} - {{ item.value }}
-      </p>
-    </div>
-    <div>
-      <p>ID: {{ equipment.id }}</p>
-      <p>
-        Ultima atualização em :
-        {{ equipment.updatedAt | date : "dd/MM/yyyy HH:mm" }}
-      </p>
-      <p>Criado em : {{ equipment.createdAt | date : "dd/MM/yyyy HH:mm" }}</p>
-    </div>
-  </mat-card-content>
-  <mat-divider />
-</mat-card>
+    <mat-card-content class="flex-between" *ngIf="itemModal[i]">
+      <div>
+        <h2>Colaborador(s)</h2>
+        <p *ngFor="let collaborator of equipment.collaborators; let i = index">
+          {{ collaborator.name }} - {{ collaborator.role }}
+        </p>
+      </div>
+      <div>
+        <h2>Item(s)</h2>
+        <p *ngFor="let item of equipment.items">
+          {{ item.property }} - {{ item.value }}
+        </p>
+      </div>
+      <div>
+        <p>Registro: {{ equipment.register }}</p>
+        <p>
+          Ultima atualização em :
+          {{ equipment.updatedAt | date : "dd/MM/yyyy HH:mm" }}
+        </p>
+        <p>Criado em : {{ equipment.createdAt | date : "dd/MM/yyyy HH:mm" }}</p>
+      </div>
+    </mat-card-content>
+    <mat-divider />
+  </mat-card>
 
-<app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
+  <app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
+</div>

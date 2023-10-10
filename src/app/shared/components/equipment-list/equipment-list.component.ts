@@ -23,12 +23,12 @@ export class EquipmentListComponent implements OnInit {
   public pageIndex: number = 0;
 
   public equipments: IEquipment[] = [];
-  public filterModal: boolean = true;//false
+  public filterModal: boolean = true; //false
   public itemModal: boolean[] = [];
   public form: any = {};
   public filteredItens: IEquipment[] = [];
   public filters: FormGroup = this.fb.group({
-    id: [""],
+    register: [""],
     title: [""],
     collaborator: [""],
     stock: [false],
@@ -130,9 +130,8 @@ export class EquipmentListComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result)
-        this.pageChange({ pageIndex: this.pageIndex, pageSize: this.pageSize });
+    dialogRef.afterClosed().subscribe(() => {
+      this.pageChange({ pageIndex: this.pageIndex, pageSize: this.pageSize });
     });
   }
 
@@ -172,11 +171,14 @@ export class EquipmentListComponent implements OnInit {
   handleFilters() {
     this.equipmentService
       .getEquipments({
-        id: this.filters.value.id ? this.filters.value.id : "",
+        register: this.filters.value.register
+          ? this.filters.value.register
+          : "",
         title: this.filters.value.title ? this.filters.value.title : "",
-        collaboratorId: this.filters.value.collaborator ? this.filters.value.collaborator : "",
+        collaboratorId: this.filters.value.collaborator
+          ? this.filters.value.collaborator
+          : "",
         showStock: this.filters.value.stock ? this.filters.value.stock : false,
-        
       })
       .subscribe((response) => {
         this.equipments = response.data;
