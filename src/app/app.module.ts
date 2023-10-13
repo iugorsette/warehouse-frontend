@@ -23,6 +23,7 @@ import { MatCardModule } from '@angular/material/card'
 import { LoginService } from './services/login.service';
 import { DepartmentComponent } from './pages/department/department.component';
 import { EquipmentComponent } from './pages/equipment/equipment.component'
+import { ToastrModule } from 'ngx-toastr'
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { EquipmentComponent } from './pages/equipment/equipment.component'
     SharedModule,
     MatButtonModule,
     MatCardModule,
+    ToastrModule.forRoot(),
   ],
   providers: [LoginService],
   bootstrap: [AppComponent],

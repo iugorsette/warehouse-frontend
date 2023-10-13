@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/interfaces/user";
 import { LoginService } from "src/app/services/login.service";
 
@@ -9,10 +10,12 @@ import { LoginService } from "src/app/services/login.service";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent {
-  public loginError: boolean = false;
-  public loginErrorMessage: string = "";
   public isLogged: boolean = false;
-  constructor(private router: Router, private loginService: LoginService) {}
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private toastr: ToastrService
+  ) {}
   showPassword: boolean = false;
 
   type: "text" | "password" = "password";
@@ -32,6 +35,7 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
     this.type = this.showPassword ? "text" : "password";
   }
+
   submitButton(user: User) {
     this.loginService.login(user).subscribe({
       next: () => {
@@ -39,9 +43,17 @@ export class LoginComponent {
       },
       error: (error) => {
         console.log(error);
-        this.loginError = true;
-        this.loginErrorMessage = error.error.message;
-      }
+        this.showSuccess(error);
+      },
     });
+  }
+
+  showSuccess(error:any) {
+    const { message } = error.error.message;
+
+    if (message === "Unauthorized") {
+      this.toastr.error("Usuário ou senha inválidos");
+    }
+    this.toastr.error("Erro ao fazer login");
   }
 }
