@@ -1,11 +1,10 @@
-.mat-toolbar {
-  background-color: #EEEEEE;;
+.header {
+  background-color: #eeeeee;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 2;
-  padding: 25px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -13,7 +12,13 @@
 
 
 img {
+  width: 40px;
+  height: 40px;
   cursor: pointer;
+}
+.image{
+  padding: 10px 5px;
+  background-color: #95B71B;
 }
 
 .logout {

@@ -54,7 +54,7 @@
                 *ngFor="let equipment of filteredEquipments | async"
                 [value]="equipment.id"
               >
-                {{ equipment.title }}
+                {{ equipment.title }} - {{ equipment.register }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -140,7 +140,7 @@
                 *ngFor="let equipment of filteredEquipments | async"
                 [value]="equipment.id"
               >
-                {{ equipment.title }}
+              {{ equipment.title }} - {{ equipment.register }}
               </mat-option>
             </mat-select>
           </mat-form-field>

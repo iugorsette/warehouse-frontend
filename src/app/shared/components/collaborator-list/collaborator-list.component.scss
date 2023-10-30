@@ -1,5 +1,5 @@
 .container {
-  height: 100vh;
+  height: 100%;
   background-color: #eeeeee;
 }
 
@@ -39,17 +39,25 @@
   align-items: center;
   gap: 20px;
 }
+.card:hover{
+  background-color: #ffffff;
+  transition: 1s;
+}
 .card {
-  width: 95%;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  padding:2px 20px;
+  border-bottom: 0.2px solid #717171;
 }
 .row-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  .width-50 {
+    width: 150px;
+  }
   h3 {
     margin: 0;
     font-size: medium;

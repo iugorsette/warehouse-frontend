@@ -1,5 +1,7 @@
-<mat-toolbar>
-  <img src="../../../assets/logo_contaja.svg" alt="" (click)="goHome()" />
+<div class="header">
+  <div class="image">
+    <img src="../../../assets/logo_icone_admin.png" alt="" (click)="goHome()" />
+  </div>
   <div
     class="logout"
     *ngIf="loginService.isLogged"
@@ -7,4 +9,4 @@
   >
     <mat-icon>logout</mat-icon>
   </div>
-</mat-toolbar>
+</div>

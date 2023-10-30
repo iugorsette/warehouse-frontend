@@ -116,6 +116,7 @@ export class EquipmentListComponent implements OnInit {
       })
       .subscribe((response) => {
         this.equipments = response.data;
+        console.log(this.equipments);
         this.filteredItens = this.equipments;
         this.totalItens = response.total;
         this.pageIndex = event.pageIndex;

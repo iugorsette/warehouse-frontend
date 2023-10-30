@@ -1,5 +1,13 @@
-<div class="nav-bar">
+<div
+  class="nav-bar"
+  (mouseover)="showName($event)"
+  (mouseleave)="hideName($event)"
+  style="transition: all 0.2s ease-out 0.2s"
+>
   <div class="nav-item" *ngFor="let link of links">
-    <a [ngClass]="{'active': router.url === link.path}" [href]="link.path">{{ link.name }}</a>
+    <a [href]="link.path">
+      <mat-icon>{{ link.icon }} </mat-icon>
+      <p *ngIf="showNameActive">{{ link.name }}</p>
+    </a>
   </div>
 </div>

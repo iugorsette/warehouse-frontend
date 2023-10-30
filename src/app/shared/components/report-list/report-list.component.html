@@ -91,7 +91,7 @@
   <mat-card *ngFor="let report of reports; let i = index">
     <mat-card-content>
       <div class="header">
-        <h3 matListItemTitle class="item-name">{{ report.equipment.title }}</h3>
+        <h3 matListItemTitle class="item-name">{{ report.equipment.title }} <span>{{ report.equipment.register }}</span></h3>
         <span> Em: {{ report.createdAt | date : "dd/MM/yyyy" }}</span>
       </div>
       <div class="card-content">

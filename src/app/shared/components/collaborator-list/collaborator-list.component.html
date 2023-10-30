@@ -58,7 +58,7 @@
           (click)="handleAddCollaborator()"
           color="accent"
           mat-mini-fab
-          matTooltip="Criar Transferência"
+          matTooltip="Criar Colaborador"
         >
           <mat-icon>add</mat-icon>
         </button>
@@ -66,36 +66,42 @@
     </form>
   </mat-card>
 
-  <mat-card *ngFor="let collaborator of collaborators; let i = index">
-    <mat-card-content class="card">
-      <div class="row-card">
-        <mat-icon matListItemIcon>person</mat-icon>
-        <div>
-          <h3>{{ collaborator.name }}</h3>
-          <p>{{ collaborator.role }}</p>
-        </div>
-      </div>
-      <div class="list-button">
-        <button
-          mat-mini-fab
-          color="primary"
-          (click)="handleAddCollaborator(collaborator)"
-          matTooltip="Editar item"
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
+  <div *ngFor="let collaborator of collaborators; let i = index" class="card">
+    <div class="row-card">
+      <mat-icon matListItemIcon>person</mat-icon>
 
-        <button
-          mat-mini-fab
-          color="warn"
-          (click)="handleRemoveCollaborator(collaborator)"
-          matTooltip="Remover item"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
+      <div>
+
+        <h3>{{ collaborator.name }}</h3>
+        
+        <p>
+          {{ collaborator?.department ? collaborator?.department?.name : "" }}
+          -
+          {{ collaborator.role }}
+        </p>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
+    <div class="list-button">
+      <button
+        mat-icon-button
+        color="primary"
+        (click)="handleAddCollaborator(collaborator)"
+        matTooltip="Editar item"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        color="warn"
+        (click)="handleRemoveCollaborator(collaborator)"
+        matTooltip="Remover item"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
 
   <app-paginator [totalItems]="totalItens" (pageChange)="pageChange($event)" />
 </div>

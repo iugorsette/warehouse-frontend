@@ -161,7 +161,7 @@ export class CreateMovementComponent implements OnInit {
     );
 
     this.loadCollaborators(title);
-    this.collaboratorState = title
+    this.collaboratorState = title;
   }
 
   handleGetEquipments() {
@@ -171,7 +171,7 @@ export class CreateMovementComponent implements OnInit {
 
     let collaborator = this.collaboratorState;
     let title = this.equipmentFilterCtrl.value;
-    
+
     if (collaborator) {
       this.filteredEquipments.next(
         this.equipments.filter((equipment) => {
@@ -179,19 +179,24 @@ export class CreateMovementComponent implements OnInit {
             collab.name.toLowerCase().includes(collaborator)
           );
           if (found) {
-            return equipment.title.toLowerCase().includes(title.toLowerCase());
+            return (
+              equipment.title.toLowerCase().includes(title.toLowerCase()) ||
+              equipment.register.toLowerCase().includes(title.toLowerCase())
+            );
           }
-          return 
+          return;
         })
       );
       return;
     }
 
     this.filteredEquipments.next(
-      this.equipments.filter(
-        (equipment) => equipment.title.toLowerCase().includes(title.toLowerCase())
-      )
+      this.equipments.filter((equipment) => {
+        return (
+          equipment.title.toLowerCase().includes(title.toLowerCase()) ||
+          equipment.register.toLowerCase().includes(title.toLowerCase())
+        );
+      })
     );
-        
   }
 }

@@ -1,5 +1,5 @@
 .container {
-  height: 100vh;
+  height: 100%;
   background-color: #eeeeee;
   .item-form {
     min-width: 150px;
@@ -19,6 +19,10 @@
     justify-content: space-between;
     align-items: baseline;
   }
+  span{
+    font-size: 14px;
+    font-weight: bold;
+  }
   .showed {
     background-color: #eeeeee;
     display: flex;
@@ -36,7 +40,15 @@
     display: flex;
     gap: 10px;
   }
-
+  
+  mat-card-title{
+    span{
+      color: #eeeeee;
+      background-color: #396600;
+      padding: 0px 5px ;
+      border-radius: 5px;
+    }
+  }
   .flex-between {
     display: flex;
     justify-content: space-between;
@@ -49,6 +61,16 @@
     align-items: center;
     gap: 20px;
   }
+  .fields{
+    padding: 8px;
+    text-align: center;
+    font-size: 16px;
+  }
+  .grid50{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
 
   .filter-container {
     background-color: #eeeeee;
@@ -58,5 +80,14 @@
     padding: 5px 10px 0 10px;
     width: 100%;
     gap: 10px;
+  }
+  .side{
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    p{
+      margin: 0;
+      color:  #95b71b;
+    }
   }
 }

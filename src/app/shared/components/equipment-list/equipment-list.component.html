@@ -67,7 +67,7 @@
   <mat-card *ngFor="let equipment of equipments; let i = index">
     <div class="showed" (click)="handleItemModal(i)">
       <mat-card-header>
-        <mat-card-title>{{ equipment.title }}</mat-card-title>
+        <mat-card-title>{{ equipment.title }} <span>{{ equipment.register }}</span></mat-card-title>
         <mat-card-subtitle>{{ equipment.description }}</mat-card-subtitle>
       </mat-card-header>
       <div class="list-button">
@@ -90,26 +90,43 @@
         </button>
       </div>
     </div>
-    <mat-card-content class="flex-between" *ngIf="itemModal[i]">
-      <div>
-        <h2>Colaborador(s)</h2>
-        <p *ngFor="let collaborator of equipment.collaborators; let i = index">
-          {{ collaborator.name }} - {{ collaborator.role }}
+    <mat-card-content *ngIf="itemModal[i]">
+      <div class="flex-between">
+        <p class="fields">
+          Registro: <span>{{ equipment.register }}</span>
         </p>
+        <div class="side">
+          <p
+            [matTooltip]="'Última atualização em: '+
+              (equipment.updatedAt | date : 'dd/MM/yyyy HH:mm')!.toString()
+            "
+          >
+          <mat-icon>update</mat-icon>
+          </p>
+          <p
+            [matTooltip]="'Criado em: '+
+              (equipment.createdAt | date : 'dd/MM/yyyy HH:mm')!.toString()
+            "
+          >
+          <mat-icon>calendar_today</mat-icon>
+          </p>
+        </div>
       </div>
-      <div>
-        <h2>Item(s)</h2>
-        <p *ngFor="let item of equipment.items">
-          {{ item.property }} - {{ item.value }}
-        </p>
-      </div>
-      <div>
-        <p>Registro: {{ equipment.register }}</p>
-        <p>
-          Ultima atualização em :
-          {{ equipment.updatedAt | date : "dd/MM/yyyy HH:mm" }}
-        </p>
-        <p>Criado em : {{ equipment.createdAt | date : "dd/MM/yyyy HH:mm" }}</p>
+      <div class="grid50">
+        <div>
+          <p *ngFor="let item of equipment.items">
+            <span>{{ item.property }} : </span>{{ item.value }}
+          </p>
+        </div>
+        <div class="fields">
+          Atribuído a
+          <div
+            *ngFor="let collaborator of equipment.collaborators; let i = index"
+            [matTooltip]="collaborator.department.name"
+          >
+            {{ collaborator.name }} - {{ collaborator.role }}
+          </div>
+        </div>
       </div>
     </mat-card-content>
     <mat-divider />

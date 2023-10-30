@@ -21,6 +21,9 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (!this.loginService.isLogged) {
+      window.location.href = "/login";
+    }
     this.itemService.getItens().subscribe(({ total }) => {
       this.itensQuantity = total;
     });
