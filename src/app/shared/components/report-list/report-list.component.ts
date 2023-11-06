@@ -56,7 +56,7 @@ export class ReportListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    document.title = "Movimentações - Almoxarifado Contajá";
+    document.title = "Movimentações - Almoxarifado Sette";
     this.pageChange({ pageIndex: 0, pageSize: 10 });
     this.loadEquipments();
     this.loadCollaborators();

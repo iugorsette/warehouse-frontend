@@ -21,7 +21,7 @@ export class LoginComponent {
   type: "text" | "password" = "password";
 
   ngOnInit(): void {
-    document.title = "Almoxarifado Contajá";
+    document.title = "Almoxarifado Sette";
     this.checkLogged();
     if (this.isLogged) {
       this.router.navigate([""]);

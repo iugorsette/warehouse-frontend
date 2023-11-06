@@ -34,7 +34,7 @@ export class DepartmentListComponent {
     private dialog: MatDialog
   ) {}
   ngOnInit(): void {
-    document.title = "Departamentos - Almoxarifado Contajá";
+    document.title = "Departamentos - Almoxarifado Sette";
     this.pageChange({ pageIndex: 0, pageSize: 10 });
   }
 

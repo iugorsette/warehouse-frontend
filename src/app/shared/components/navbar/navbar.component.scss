@@ -1,3 +1,4 @@
+@import 'src/my-pallete.scss';
 .nav-bar:hover  {
   z-index: 2;
   padding-top: 20px;
@@ -25,8 +26,8 @@
       font-size: 16px;
     }
     a:hover {
-      background-color: #95b71b;
-      color: #396600;
+      background-color: map-get($my-pallete, 800);
+      color: map-get($my-pallete, 900);
     }
   }
 
@@ -57,8 +58,8 @@
       //   margin: 0;
       // }
       a:hover {
-        background-color: #95b71b;
-        color: #396600;
+        background-color:map-get($my-pallete, 800);
+        color: map-get($my-pallete, 900);
       }
     }
   

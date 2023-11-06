@@ -1,6 +1,7 @@
+@import 'src/my-pallete.scss';
 .container {
   height: 100%;
-  background-color: #eeeeee;
+  background-color: map-get(map-get($my-pallete, 'contrast'), 300);
   .item-full-width {
     width: 100%;
     padding: 0px;
@@ -12,7 +13,7 @@
   }
 
   .filter-container {
-    background-color: #eeeeee;
+    background-color: map-get(map-get($my-pallete, 'contrast'), 300);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -32,7 +33,7 @@
     align-items: center;
   }
   .card:hover {
-    background-color: #ffffff;
+    background-color: map-get(map-get($my-pallete, 'contrast'),400);
     transition: 1s;
   }
   .card {
@@ -40,7 +41,7 @@
     justify-content: space-between;
     align-items: baseline;
     padding: 2px 20px;
-    border-bottom: 0.2px solid #717171;
+    border-bottom: 0.2px solid map-get(map-get($my-pallete, 'contrast'),600);
     .row-card {
       display: flex;
       justify-content: space-between;

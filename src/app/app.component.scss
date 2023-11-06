@@ -1,6 +1,9 @@
+@import 'src/my-pallete.scss';
+
 .container {
   display: grid;
   grid-template-columns: 1fr 30fr;
   margin: 64px 0;
-  background-color: #eeeeee;
+  background-color:  map-get(map-get($my-pallete, 'contrast'), 300);
+
 }

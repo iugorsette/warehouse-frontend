@@ -1,18 +1,19 @@
+@import 'src/my-pallete.scss';
 .panel {
-  border: 1px solid #ccc;
+  border: 1px solid map-get(map-get($my-pallete, 'contrast'),300);
   border-radius: 8px;
   padding: 20px;
   width: 70%;
   height: 400px;
   margin: 20px auto 100%;
-  background-color: #fff;
+  background-color: map-get(map-get($my-pallete, 'contrast'),400);
   .header {
     text-align: center;
     margin-bottom: 15px;
 
     h1 {
       font-size: 24px;
-      color: #396600;
+      color: map-get($my-pallete, 800);;
     }
   }
 
@@ -21,7 +22,7 @@
       text-align: center;
       margin-bottom: 10px;
       font-size: 16px;
-      color: #555;
+      color: map-get(map-get($my-pallete, 'contrast'),500);
     }
 
     table {
@@ -29,13 +30,13 @@
       th,
       td {
         padding: 8px;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid map-get(map-get($my-pallete, 'contrast'),300);
       }
 
       th {
         text-align: left;
         font-weight: bold;
-        color: #555;
+        color:map-get(map-get($my-pallete, 'contrast'),500);
       }
     }
   }

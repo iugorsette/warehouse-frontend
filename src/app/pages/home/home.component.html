@@ -3,7 +3,7 @@
     <h1>Seja bem vindo!</h1>
   </div>
   <div class="content" *ngIf="loginService.isLogged">
-    <p>Este é o sistema de controle de estoque da empresa Contajá.</p>
+    <p>Este é o sistema de controle de estoque da empresa Sette.</p>
     <p>Para começar, selecione uma das opções no menu acima.</p>
     <table>
       <tr>
@@ -21,7 +21,7 @@
     </table>
   </div>
   <div class="content" *ngIf="!loginService.isLogged">
-    <p>Este é o sistema de controle de estoque da empresa Contajá.</p>
+    <p>Este é o sistema de controle de estoque da empresa Sette.</p>
     <p>
       Para acessar o sistema,<a routerLink="/login"> faça login</a> no sistema.
     </p>

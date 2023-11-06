@@ -5,7 +5,7 @@
 // regular style toast
 @import 'ngx-toastr/toastr';
 // Plus imports for other components in your app.
-@import   './contaja-pallete.scss';
+@import   './my-pallete.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -18,7 +18,7 @@
 // hue. Available color palettes: https://material.io/design/color/
 
 $login-primary: mat.define-palette(mat.$blue-palette, 800, A400, A700);
-$login-accent: mat.define-palette($contaja-pallete, 800, A400, A700);
+$login-accent: mat.define-palette($my-pallete, 800, A400, A700);
 
 // The warn palette is optional (defaults to red).
 $login-warn: mat.define-palette(mat.$red-palette);

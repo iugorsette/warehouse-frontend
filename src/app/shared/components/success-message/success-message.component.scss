@@ -1,7 +1,8 @@
+@import 'src/my-pallete.scss';
 .success-message{
-    border: solid 1px #396600;
+    border: solid 1px map-get($my-pallete, 900);
     background-color: rgba(255, 255, 255, 0.966);
-    color: #396600;
+    color: map-get($my-pallete, 900);
     
     border-radius: 10px;
     font-size: 12px;

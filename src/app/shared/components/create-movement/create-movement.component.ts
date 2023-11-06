@@ -64,7 +64,7 @@ export class CreateMovementComponent implements OnInit {
   public movement: MovementTypes = this.allMovementTypes[0];
 
   ngOnInit() {
-    document.title = "Movimentações - Almoxarifado Contajá";
+    document.title = "Movimentações - Almoxarifado Sette";
     this.loadEquipments();
     this.loadCollaborators();
 

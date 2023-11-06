@@ -41,7 +41,7 @@ export class ItemListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    document.title = "Equipamentos - Almoxarifado Contajá";
+    document.title = "Equipamentos - Almoxarifado Sette";
     this.pageChange({ pageIndex: 0, pageSize: 10 });
     this.collaboratorService
       .getCollaborator()

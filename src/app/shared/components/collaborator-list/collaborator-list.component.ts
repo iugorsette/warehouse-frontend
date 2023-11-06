@@ -50,7 +50,7 @@ export class CollaboratorListComponent {
   ) {}
 
   ngOnInit(): void {
-    document.title = "Colaboradores - Almoxarifado Contajá";
+    document.title = "Colaboradores - Almoxarifado Sette";
     this.pageChange({ pageIndex: 0, pageSize: 10 });
 
     this.departmentService.getDepartment().subscribe((response) => {

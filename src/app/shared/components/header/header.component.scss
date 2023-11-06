@@ -1,5 +1,7 @@
+@import 'src/my-pallete.scss';
+
 .header {
-  background-color: #eeeeee;
+  background-color: map-get(map-get($my-pallete, 'contrast'), 300);
   position: fixed;
   top: 0;
   left: 0;
@@ -18,7 +20,7 @@ img {
 }
 .image{
   padding: 10px 5px;
-  background-color: #95B71B;
+  background-color: map-get($my-pallete, 800);//#95B71B;
 }
 
 .logout {
