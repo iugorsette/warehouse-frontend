@@ -1,0 +1,1 @@
+This is a (WMV) Warehouse Management Visualizer. It is a web application that you can management itens, products and collaborators. 
